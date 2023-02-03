@@ -1,0 +1,71 @@
+@media (max-width: 1150px) {
+  #header {
+    flex-wrap: wrap; /* allow the elements to wrap to the next line */
+    align-items: flex-start; /* align the elements to the start of the header */
+  }
+
+  .logo {
+    display: none; /* hide the logo */
+  }
+
+  h1 {
+    flex: 0 0 100%; /* make the "FORUM" take up the full width of the screen */
+    text-align: center; /* center the text */
+  }
+}
+
+#header {
+  font-family: "Medori Sans Regular";
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 6%;
+  width: 100%;
+  background-color: #333;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  height: 100%;
+  /* width: 100%; */
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 10%;
+}
+
+h1 {
+  color: #fff;
+  font-size: 3em;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  /* flex: 1; */
+  text-align: center;
+}
+
+header nav {
+  font-size: 1.3em;
+  margin-right: 10px;
+  flex: 0 0 20%;
+  text-align: right;
+}
+
+header nav ul {
+  list-style: none; /* removes the default bullet points */
+  margin: 0; /* removes the default margin */
+  padding: 0; /* removes the default padding */
+  display: inline-flex; /* makes the list items display in a row */
+}
+
+header nav ul li {
+  margin-right: 10px; /* adds space between the list items */
+}
+
+header nav a {
+  color: #fff; /* adjust the link color as needed */
+  text-decoration: none; /* removes the default underline */
+}
