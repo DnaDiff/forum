@@ -1,0 +1,2 @@
+Orange text and coc : #ffcc00
+White text : #ffffff
