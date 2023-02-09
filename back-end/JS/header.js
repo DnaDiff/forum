@@ -5,13 +5,21 @@ function loadHeader() {
     .then((header) => {
       // insert the header code into the header placeholder
       document.querySelector("#header-placeholder").innerHTML = header;
+      // load the signup script
+      loadSignUp();
     });
 }
 
-const hamburger = document.querySelector(".hamburger");
-const dropdown = document.querySelector(".dropdown");
+function loadSignUp() {
+  const signupBtn = document.querySelector("#signup-btn");
+  const signupFormModal = document.querySelector("#signup-form-modal");
+  const closeBtn = document.querySelector(".close-btn");
 
-hamburger.addEventListener("click", () => {
-  dropdown.style.display =
-    dropdown.style.display === "block" ? "none" : "block";
-});
+  signupBtn.addEventListener("click", function () {
+    signupFormModal.style.display = "block";
+  });
+
+  closeBtn.addEventListener("click", function () {
+    signupFormModal.style.display = "none";
+  });
+}

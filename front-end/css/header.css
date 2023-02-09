@@ -69,3 +69,26 @@ header nav a {
   color: #fff; /* adjust the link color as needed */
   text-decoration: none; /* removes the default underline */
 }
+
+.modal {
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: none;
+}
+.modal ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
