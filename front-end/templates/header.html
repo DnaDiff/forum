@@ -1,28 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="../css/header.css" />
-    <style>
-      @font-face {
-        font-family: "Medori Sans Regular";
-        src: url("../../back-end/assets/font/Meedori\ Sans\ Regular.ttf")
-          format("truetype");
-      }
-    </style>
-  </head>
-  <body>
-    <header id="header">
-      <img src="../../back-end/assets/images/text.png" alt="logo" class="logo" />
-      <h1>FORUM</h1>
-      <nav>
-        <ul>
-          <li><a href="#registration">Register/Login</a></li>
-          <li><a href="#forum">Forum</a></li>
-          <li><a href="#info">Info</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </header>
-  </body>
+
+<head>
+  <link rel="stylesheet" href="../css/header.css" />
+  <style>
+    @font-face {
+      font-family: "Medori Sans Regular";
+      src: url("../../back-end/assets/font/Meedori\ Sans\ Regular.ttf") format("truetype");
+    }
+  </style>
+</head>
+
+<body>
+  <header id="header">
+    <img src="../../back-end/assets/images/text.png" alt="logo" class="logo" />
+    <h1>FORUM</h1>
+    <nav>
+      <ul>
+        <li><button id="signup-btn">Sign Up</button></li>
+        <li><a href="#forum">Forum</a></li>
+        <li><a href="#info">Info</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <!-- Sign up button -->
+    <div id="signup-form-modal" class="modal">
+      <ul>
+        <form id="signup-form">
+          <h3>Create an account</h3>
+          <li><input type="text" placeholder="Username"></li>
+          <li>
+            <input type="email" placeholder="Email">
+          </li>
+          <li>
+            <input type="password" placeholder="Password">
+          </li>
+          <li>
+            <button type="submit">Sign Up</button>
+          </li>
+          <li>
+            <button type="button" class="close-btn">x
+    </div></button></li>
+    </form>
+    </ul>
+    </div>
+  </header>
+</body>
+
 </html>
