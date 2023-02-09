@@ -65,6 +65,8 @@ header nav ul li {
   margin-right: 10px; /* adds space between the list items */
 }
 
+
+
 header nav a {
   color: #fff; /* adjust the link color as needed */
   text-decoration: none; /* removes the default underline */
@@ -78,7 +80,7 @@ header nav a {
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
   display: none;
 }
 .modal ul {
@@ -86,9 +88,20 @@ header nav a {
   margin: 0px;
   padding: 0px;
 }
+.form-input {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid gray;
+}
 
 .close-btn {
   position: absolute;
   top: 10px;
   right: 10px;
+  cursor: pointer;
+  background-color: #333;
+  color: #fff;
+  border: none;
 }
