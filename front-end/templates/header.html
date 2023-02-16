@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/header.css" />
   <style>
     @font-face {
@@ -10,45 +12,70 @@
     }
   </style>
 </head>
-
-<body>
-  <header id="header">
+<header id="header">
+  <a href="https://discord.gg/v26C5zTedP" class="logo">
     <img src="../../back-end/assets/images/text.png" alt="logo" class="logo" />
+  </a>
+  <a href="#forum">
     <h1>FORUM</h1>
-    <nav>
-      <ul>
-        <li><button id="signup-btn" style="background-color: transparent; border: none; cursor: pointer;">Sign
-            Up</button></li>
-        <li><a href="#forum">Forum</a></li>
-        <li><a href="#info">Info</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-    <!-- Sign up button -->
-    <div id="signup-form-modal" class="modal">
-      <ul>
-        <form id="signup-form">
-          <h3>Create an account</h3>
-          <li><input type="text" placeholder="Username" class="form-input"></li>
-          <li>
-            <input type="email" placeholder="Email" class="form-input">
-          </li>
-          <li>
-            <input type="password" placeholder="Password" class="form-input">
-          </li>
-          <li>
-            <input type="password" placeholder="Confirm Password" class="form-input">
-          <li>
-            <button type="submit">Sign Up</button>
-          </li>
-          <li>
-            <button type="button" class="close-btn">x
-    </div></button></li>
-    </form>
+  </a>
+  <nav>
+    <ul>
+      <!-- <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li> -->
+      <li>
+        <a id="signin-btn" style="cursor: pointer;">Login</a>
+      </li>
+      <li>
+        <a id="signup-btn" style="cursor: pointer;">Register</a>
+      </li>
     </ul>
-    </div>
-  </header>
-</body>
+  </nav>
+  <!-- Sign up button -->
+  <div class="dim" id="dim"></div>
+  <div id="signup-form-modal" class="modal">
+    <ul>
+      <form id="signup-form">
+        <!-- <img src="../../back-end/assets/images/text.png" alt="DNADIFF logo" width="200px"> -->
+        <h3>Create an account</h3>
+        <li><input type="text" placeholder="Username" class="form-input"></li>
+        <li>
+          <input type="email" placeholder="Email" class="form-input">
+        </li>
+        <li>
+          <input type="password" placeholder="Password" class="form-input">
+        </li>
+        <li>
+          <input type="password" placeholder="Confirm Password" class="form-input">
+        <li>
+          <button type="submit" class="submit-btn">Sign Up</button>
+        </li>
+        <li>
+          <button type="button" class="close-btn">x
+          </button>
+        </li>
+      </form>
+    </ul>
+  </div>
+
+  <div id="signin-form-modal" class="modal">
+    <ul>
+      <form id="signin-form">
+        <h3>Welcome back!</h3>
+        <li><input type="text" placeholder="Username" class="form-input"></li>
+        <li>
+          <input type="password" placeholder="Password" class="form-input">
+        </li>
+        <li>
+          <button type="submit" class="submit-btn">Sign In</button>
+        </li>
+        <li>
+          <button type="button" class="close-btn1">x
+          </button>
+        </li>
+      </form>
+    </ul>
+  </div>
+</header>
 
 </html>
