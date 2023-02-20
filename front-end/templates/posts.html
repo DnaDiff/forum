@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
+  <script src="https://kit.fontawesome.com/c9126be53f.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
@@ -33,6 +34,14 @@
       min-height: 200px;
       width: 100%;
       margin: 10px;
+      position: relative;
+    }
+
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin: 10px;
     }
 
     ul {
@@ -56,6 +65,7 @@
 </head>
 
 <body>
+
   <div class="post">
     <div class="user">
       <ul>
@@ -78,13 +88,15 @@
         <li>
           <p>{{.content}}</p>
         </li>
-        <div class="buttons">
-          <button>Like</button>
-          <button>Dislike</button>
-          <button>Donate</button>
-          <button>Comment</button>
-        </div>
+
       </ul>
+      <div class="buttons">
+        <button> <i class="fa-regular fa-thumbs-up"></i></button>
+        {{.likes}}
+        <button> <i class="fa-regular fa-thumbs-down"></i></button>
+        {{.dislikes}}
+        <button><i class="fa-regular fa-comment"></i></button>
+      </div>
     </div>
   </div>
 </body>
