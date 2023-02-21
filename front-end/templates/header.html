@@ -40,7 +40,7 @@
         <form id="signup-form">
           <!-- <img src="../../back-end/assets/images/text.png" alt="DNADIFF logo" width="200px"> -->
           <h3>Create an account</h3>
-          <li><input type="text" placeholder="Username" class="form-input"></li>
+          <li><input maxlength="12" type="text" placeholder="Username" class="form-input"></li>
           <li>
             <input type="email" placeholder="Email" class="form-input">
           </li>
@@ -53,8 +53,8 @@
             <button type="submit" class="submit-btn">Sign Up</button>
           </li>
           <li>
-            <button type="button" class="close-btn">x
-            </button>
+            <span type="button" class="close-btn">&times;
+            </span>
           </li>
         </form>
       </ul>
@@ -64,7 +64,7 @@
       <ul>
         <form id="signin-form">
           <h3>Welcome back!</h3>
-          <li><input type="text" placeholder="Username" class="form-input"></li>
+          <li><input maxlength="12" type="text" placeholder="Username" class="form-input"></li>
           <li>
             <input type="password" placeholder="Password" class="form-input">
           </li>
@@ -72,8 +72,53 @@
             <button type="submit" class="submit-btn">Sign In</button>
           </li>
           <li>
-            <button type="button" class="close-btn1">x
-            </button>
+            <span type="button" class="close-btn1">&times;
+            </span>
+          </li>
+        </form>
+      </ul>
+    </div>
+
+    <div id="post-form-modal" class="modal">
+      <ul>
+        <form id="post-form">
+          <h3>New Post</h3>
+          <li>
+            <input maxlength="21" type="text" placeholder="Title" class="form-input" id="form-input-title">
+          </li>
+          <li>
+            <textarea maxlength="2000" name="post" id="post" cols="50" rows="30" ></textarea>
+          </li>
+          <div class="counter">
+            <span id="charsLeft"></span> characters left
+          </div>
+          <li>
+            <button type="submit" class="submit-btn">Submit New Post</button>
+          </li>
+          <li>
+            <span type="button" class="close-btn2">&times;
+            </span>
+          </li>
+        </form>
+      </ul>
+    </div>
+
+    <div id="comment-form-modal" class="modal">
+      <ul>
+        <form id="comment-form">
+          <h3>New Comment</h3>
+          <li>
+            <textarea maxlength="2000" name="comment" id="comment" cols="50" rows="30" ></textarea>
+          </li>
+          <div class="counter">
+            <span id="charsLeft"></span> characters left
+          </div>
+          <li>
+            <button type="submit" class="submit-btn">Submit New Comment</button>
+          </li>
+          <li>
+            <span type="button" class="close-btn3">&times;
+            </span>
           </li>
         </form>
       </ul>
