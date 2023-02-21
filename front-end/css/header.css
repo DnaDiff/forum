@@ -88,7 +88,6 @@ header nav ul button {
   margin: 0px;
   padding: 0px;
 }
-
 .form-input {
   padding-top: 8px;
   padding-bottom: 8px;
@@ -96,23 +95,66 @@ header nav ul button {
   border: none;
   border-bottom: 2px solid gray;
   outline: none;
+  text-align: center;
 }
 
+.form-input:focus {
+  border-bottom: 2px solid #000000;
+}
+
+/* #form-input-title {
+  text-align: center;
+} */
+.close-btn3,
+.close-btn2,
 .close-btn1,
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 15px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
   cursor: pointer;
-  border: none;
+}
+.close-btn:hover,
+.close-btn:focus,
+.close-btn1:hover,
+.close-btn1:focus,
+.close-btn2:hover,
+.close-btn2:focus,
+.close-btn3:hover,
+.close-btn3:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
 }
 
 .submit-btn {
-  background-color: none;
-  border: none;
+  background-color: #ffffff;
+  border: 1px solid grey;
   padding: 8px;
   margin-top: 15px;
   cursor: pointer;
+  border-radius: 8px;
+}
+.submit-btn:hover {
+  background-color: grey;
+  color: #ffffff;
 }
 
 @media screen and (max-width: 568px) {
@@ -143,4 +185,3 @@ header nav ul button {
     margin: 5px 0;
   } */
 }
-
