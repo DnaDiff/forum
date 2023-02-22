@@ -1,6 +1,6 @@
 function loadHeader() {
   // fetch the header code
-  fetch("header.html")
+  fetch("../../templates/header.html")
     .then((response) => response.text())
     .then((header) => {
       // insert the header code into the header placeholder
