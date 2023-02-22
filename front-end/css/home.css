@@ -1,9 +1,8 @@
 body {
-  background: linear-gradient(45deg,#464646, #353535);
+  background: linear-gradient(45deg, #464646, #353535);
 }
 
 p {
   font-size: 2.5em;
   font-weight: bold;
 }
-
