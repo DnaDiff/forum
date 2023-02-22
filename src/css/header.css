@@ -1,12 +1,12 @@
 body {
-  margin-top: 60px;
+  margin-top: 80px;
 }
 #header {
   font-family: "Medori Sans Regular";
   position: fixed;
   top: 0;
   left: 0;
-  height: 6%;
+  height: 40px;
   width: 100%;
   background-color: #333;
   padding: 10px;
@@ -15,7 +15,7 @@ body {
   align-items: center;
 }
 
-.logo {
+#header .logo {
   height: 100%;
   display: inline-block;
   justify-content: center;
@@ -23,7 +23,7 @@ body {
   flex: 0 0 10%;
 }
 
-h1 {
+#header h1 {
   color: #fff;
   /* font-size: 3em; */
   margin: 0;
@@ -58,11 +58,11 @@ header nav ul button {
   color: #fff; /* adjust the link color as needed */
   text-decoration: none; /* removes the default underline */
 }
-.signbtns {
+#header .signbtns {
   display: inline-block;
 }
 
-.dim {
+#header .dim {
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
@@ -72,7 +72,7 @@ header nav ul button {
   display: none;
 }
 
-.modal {
+#header .modal {
   text-align: center;
   position: fixed;
   top: 50%;
@@ -83,12 +83,12 @@ header nav ul button {
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
   display: none;
 }
-.modal ul {
+#header .modal ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
 }
-.form-input {
+#header .form-input {
   padding-top: 8px;
   padding-bottom: 8px;
   font-size: 16px;
@@ -98,17 +98,17 @@ header nav ul button {
   text-align: center;
 }
 
-.form-input:focus {
+#header .form-input:focus {
   border-bottom: 2px solid #000000;
 }
 
 /* #form-input-title {
   text-align: center;
 } */
-.close-btn3,
-.close-btn2,
-.close-btn1,
-.close-btn {
+#header .close-btn3,
+#header .close-btn2,
+#header .close-btn1,
+#header .close-btn {
   position: absolute;
   top: 5px;
   right: 15px;
@@ -117,20 +117,20 @@ header nav ul button {
   font-weight: bold;
   cursor: pointer;
 }
-.close-btn:hover,
-.close-btn:focus,
-.close-btn1:hover,
-.close-btn1:focus,
-.close-btn2:hover,
-.close-btn2:focus,
-.close-btn3:hover,
-.close-btn3:focus {
+#header .close-btn:hover,
+#header .close-btn:focus,
+#header .close-btn1:hover,
+#header .close-btn1:focus,
+#header .close-btn2:hover,
+#header .close-btn2:focus,
+#header .close-btn3:hover,
+#header .close-btn3:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
 
-textarea {
+#header textarea {
   width: 100%;
   height: 100px;
   margin-top: 10px;
@@ -144,7 +144,7 @@ textarea {
   resize: none;
 }
 
-.submit-btn {
+#header .submit-btn {
   background-color: #ffffff;
   border: 1px solid grey;
   padding: 8px;
@@ -152,7 +152,7 @@ textarea {
   cursor: pointer;
   border-radius: 8px;
 }
-.submit-btn:hover {
+#header .submit-btn:hover {
   background-color: grey;
   color: #ffffff;
 }
@@ -164,14 +164,14 @@ textarea {
     flex-direction: column;
   } */
 
-  .logo {
+  #header .logo {
     /* flex: 0 0 auto;
     margin-bottom: 10px; */
     width: 200px;
     display: none;
   }
 
-  h1 {
+  #header h1 {
     font-size: 2em;
     margin-bottom: 10px;
     display: inline-block;
