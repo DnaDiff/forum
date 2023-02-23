@@ -1,7 +1,7 @@
 package main
 
 import (
-	"forum/back-end/server"
+	"forum/src/server"
 )
 
 func main() {
