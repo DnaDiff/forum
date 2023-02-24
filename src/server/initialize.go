@@ -10,12 +10,12 @@ const PORT = "8080"
 
 func StartServer() {
 	// Serve static files in optimal order
+	http.Handle("/", indexHandler())
 	serveDir("./public/assets/fonts")
 	serveDir("./public/css")
 	serveDir("./public/js")
 	serveDir("./public/assets/img")
 	serveDir("./templates")
-	http.Handle("/", indexHandler())
 
 	fmt.Println("Listening on port :" + PORT)
 	err := http.ListenAndServe(":"+PORT, nil)
