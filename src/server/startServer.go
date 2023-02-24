@@ -1,20 +1,38 @@
 package server
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+	"path"
+)
 
-var port = "8080"
+const PORT = "8080"
 
 func StartServer() {
-	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
-	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js"))))
-	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("img"))))
-	http.HandleFunc("/", indexHandler)
-	err := http.ListenAndServe(":"+port, nil)
+	// Serve static files in optimal order
+	serveDir("./public/assets/fonts")
+	serveDir("./public/css")
+	serveDir("./public/js")
+	serveDir("./public/assets/img")
+	serveDir("./templates")
+	http.Handle("/", indexHandler())
+
+	fmt.Println("Listening on port :" + PORT)
+	err := http.ListenAndServe(":"+PORT, nil)
 	if err != nil {
 		panic(err)
 	}
+
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "index.html")
+func indexHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./public/index.html")
+	})
+}
+
+func serveDir(dirPath string) {
+	dir := path.Base(dirPath)
+	stripped := http.StripPrefix("/"+dir+"/", http.FileServer(http.Dir(dirPath)))
+	http.Handle("/"+dir+"/", stripped)
 }
