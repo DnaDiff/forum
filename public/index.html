@@ -1,3 +1,4 @@
+{{ template "header" . }}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,15 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/index.css" />
-    <script src="js/header.js"></script>
+    <!-- <script type="module" src="js/header.js" async></script> -->
     <title>DNA DIFF</title>
   </head>
   <body>
-    <div id="header-placeholder"></div>
+    <forum-header></forum-header>
+    <script type="module" src="js/header.js" defer></script>
   </body>
   <button id="post-btn">New post</button>
   <button id="comment-btn">Comment</button>
-  <script>
-    loadHeader();
-  </script>
 </html>

@@ -1,48 +1,52 @@
-function loadHeader() {
-  // fetch the header code
-  fetch("templates/header.html")
-    .then((response) => response.text())
-    .then((header) => {
-      // insert the header code into the header placeholder
-      document.querySelector("#header-placeholder").innerHTML = header;
-      // load the signup script
-      loadSignUp();
-      loadSignIn();
-      loadPost();
-      loadComment();
-    });
+class Header extends HTMLElement {
+  connectedCallback() {
+    // fetch the header code
+    fetch("templates/header.html")
+      .then((response) => response.text())
+      .then((header) => {
+        // insert the header at the top
+        this.innerHTML = header;
+      });
+    // load the register script
+    loadregister();
+    loadlogin();
+    loadPost();
+    loadComment();
+  }
 }
 
-function loadSignUp() {
+customElements.define("forum-header", Header);
+
+function loadregister() {
   const dimmer = document.querySelector("#dim");
-  const signupBtn = document.querySelector("#signup-btn");
-  const signupFormModal = document.querySelector("#signup-form-modal");
+  const registerBtn = document.querySelector("#register-btn");
+  const registerFormModal = document.querySelector("#register-form-modal");
   const closeBtn = document.querySelector(".close-btn");
 
-  signupBtn.addEventListener("click", function () {
-    signupFormModal.style.display = "block";
+  registerBtn.addEventListener("click", function () {
+    registerFormModal.style.display = "block";
     dimmer.style.display = "block";
   });
 
   closeBtn.addEventListener("click", function () {
-    signupFormModal.style.display = "none";
+    registerFormModal.style.display = "none";
     dimmer.style.display = "none";
   });
 }
 // Reusing the same code for the sign up modal because of problems with the sign in modal not working properly when the code is not separated
-function loadSignIn() {
+function loadlogin() {
   const dimmer = document.querySelector("#dim");
-  const signinBtn = document.querySelector("#signin-btn");
-  const signinFormModal = document.querySelector("#signin-form-modal");
+  const loginBtn = document.querySelector("#login-btn");
+  const loginFormModal = document.querySelector("#login-form-modal");
   const closeBtn = document.querySelector(".close-btn1");
 
-  signinBtn.addEventListener("click", function () {
-    signinFormModal.style.display = "block";
+  loginBtn.addEventListener("click", function () {
+    loginFormModal.style.display = "block";
     dimmer.style.display = "block";
   });
 
   closeBtn.addEventListener("click", function () {
-    signinFormModal.style.display = "none";
+    loginFormModal.style.display = "none";
     dimmer.style.display = "none";
   });
 }
