@@ -1,23 +1,11 @@
-class Header extends HTMLElement {
-  connectedCallback() {
-    // fetch the header code
-    fetch("templates/header.html")
-      .then((response) => response.text())
-      .then((header) => {
-        // insert the header at the top
-        this.innerHTML = header;
-      });
-    // load the register script
-    loadregister();
-    loadlogin();
+function HeaderFunctions() {
+    loadRegister();
+    loadLogin();
     loadPost();
     loadComment();
-  }
 }
 
-customElements.define("forum-header", Header);
-
-function loadregister() {
+function loadRegister() {
   const dimmer = document.querySelector("#dim");
   const registerBtn = document.querySelector("#register-btn");
   const registerFormModal = document.querySelector("#register-form-modal");
@@ -34,7 +22,7 @@ function loadregister() {
   });
 }
 // Reusing the same code for the sign up modal because of problems with the sign in modal not working properly when the code is not separated
-function loadlogin() {
+function loadLogin() {
   const dimmer = document.querySelector("#dim");
   const loginBtn = document.querySelector("#login-btn");
   const loginFormModal = document.querySelector("#login-form-modal");
@@ -94,3 +82,5 @@ function updateCharCount() {
   var remainingChars = maxChars - content.value.length;
   charsLeft.innerHTML = remainingChars;
 }
+
+HeaderFunctions();

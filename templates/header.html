@@ -3,14 +3,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/index.css" />
     <style>
       @font-face {
         font-family: "Medori Sans Regular";
         src: url(fonts/Meedori\ Sans\ Regular.ttf);
       }
     </style>
+    <title>DNA DIFF</title>
   </head>
 
   <body>
@@ -33,6 +36,9 @@
           </li>
         </ul>
       </nav>
+
+      <div class="dim" id="dim"></div>
+      {{ template "login" . }} {{ template "register" . }}
 
       <div id="post-form-modal" class="modal">
         <ul>
@@ -97,6 +103,7 @@
         </ul>
       </div>
     </header>
+    <script src="js/header.js" defer></script>
   </body>
 </html>
 {{end}}
