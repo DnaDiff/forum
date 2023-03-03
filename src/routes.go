@@ -11,6 +11,9 @@ func RouteHandler(db *sql.DB) *http.ServeMux {
 	// mux.HandleFunc("/login", createHandlerFunc(HandleLogin, db))
 	// mux.HandleFunc("/logout", createHandlerFunc(HandleLogout, db))
 	// mux.HandleFunc("/register", createHandlerFunc(HandleRegister, db))
+	mux.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./public/assets/img/coc.png")
+	})
 	return mux
 }
 
