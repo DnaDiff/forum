@@ -5,16 +5,16 @@ import (
 	"path"
 )
 
-func ServeFiles() {
-	serveDir("../public/assets/fonts")
-	serveDir("../public/css")
-	serveDir("../public/js")
-	serveDir("../public/assets/img")
-	serveDir("../templates")
+func ServeFiles(mux *http.ServeMux) {
+	serveDir(mux, "./public/assets/fonts")
+	serveDir(mux, "./public/css")
+	serveDir(mux, "./public/js")
+	serveDir(mux, "./public/assets/img")
+	serveDir(mux, "./templates")
 }
 
-func serveDir(dirPath string) {
+func serveDir(mux *http.ServeMux, dirPath string) {
 	dir := "/" + path.Base(dirPath) + "/"
 	fs := http.FileServer(http.Dir(dirPath))
-	http.Handle(dir, (http.StripPrefix(dir, fs)))
+	mux.Handle(dir, (http.StripPrefix(dir, fs)))
 }

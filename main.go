@@ -16,16 +16,19 @@ var db *sql.DB
 func main() {
 	// Connect to database
 
+	// Create the multiplexer to handle the routes
+	mux := RouteHandler(db)
+
 	// Create the server
 	server := http.Server{
 		Addr:         ":" + PORT,
-		Handler:      RouteHandler(db),
+		Handler:      mux,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  120 * time.Second,
 	}
 
-	ServeFiles()
+	ServeFiles(mux)
 	fmt.Println("Listening on port :" + PORT)
 	fmt.Println(server.ListenAndServe())
 }
