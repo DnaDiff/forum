@@ -15,7 +15,7 @@ var db *sql.DB
 
 func main() {
 	// Connect to database
-
+	db = handlers.ConnectDB()
 	// Create the mux to handle the routes
 	mux := handlers.RouteHandler(db)
 
