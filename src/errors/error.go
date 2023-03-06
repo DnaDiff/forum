@@ -22,7 +22,7 @@ func HttpError(w http.ResponseWriter, err Error) {
 	}
 
 	// Print the error to the console and send the error to the client
-	fmt.Fprintln(os.Stderr, err.Original)
+	fmt.Fprintln(os.Stderr, err.Code, err.Original)
 	handleError(w, &err)
 }
 
