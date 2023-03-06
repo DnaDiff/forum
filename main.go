@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/DnaDiff/forum/src/database"
 	"github.com/DnaDiff/forum/src/handlers"
 )
 
@@ -15,7 +16,7 @@ var db *sql.DB
 
 func main() {
 	// Connect to database
-	db = handlers.ConnectDB()
+	db = database.ConnectDB()
 	// Create the mux to handle the routes
 	mux := handlers.RouteHandler(db)
 
