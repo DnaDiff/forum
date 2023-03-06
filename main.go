@@ -1,11 +1,13 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 
-	"github.com/DnaDiff/forum/src/database"
 	"github.com/DnaDiff/forum/src/handlers"
 )
 
@@ -13,7 +15,22 @@ const PORT = "8080"
 
 func main() {
 	// Establish connection to the database
-	var db = database.ConnectDB()
+	db, err := sql.Open("sqlite3", "./database/database.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	// Execute the contents of the init.sql file
+	sqlScript, err := ioutil.ReadFile("./database/init.sql")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = db.Exec(string(sqlScript))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Create the mux to handle the routes
 	mux := handlers.RouteHandler(db)
