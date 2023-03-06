@@ -1,8 +1,8 @@
-package forum
+package handlers
 
 import (
 	"database/sql"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/DnaDiff/forum/src/errors"
@@ -10,16 +10,18 @@ import (
 
 func HandleIndex(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	if r.URL.Path != "/" {
-		fmt.Println("Wrong path: " + r.URL.Path)
+		log.Printf("Wrong path: %s\n", r.URL.Path)
 		errors.HttpError(w, errors.Error{Code: http.StatusNotFound})
 		return
 	}
 
-	if r.Method == "GET" {
+	switch r.Method {
+	case http.MethodGet:
 		ExecuteTemplate(w, "index.html", nil)
-	} else {
-		fmt.Println("Wrong method")
+	default:
+		log.Println("Wrong method")
 		errors.HttpError(w, errors.Error{Code: http.StatusMethodNotAllowed})
 		return
 	}
+
 }

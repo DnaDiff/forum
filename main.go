@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	. "github.com/DnaDiff/forum/src"
+	"github.com/DnaDiff/forum/src/handlers"
 )
 
 const PORT = "8080"
@@ -16,8 +16,8 @@ var db *sql.DB
 func main() {
 	// Connect to database
 
-	// Create the multiplexer to handle the routes
-	mux := RouteHandler(db)
+	// Create the mux to handle the routes
+	mux := handlers.RouteHandler(db)
 
 	// Create the server
 	server := http.Server{
@@ -28,7 +28,7 @@ func main() {
 		IdleTimeout:  120 * time.Second,
 	}
 
-	ServeFiles(mux)
+	handlers.ServeFiles(mux)
 	fmt.Println("Listening on port :" + PORT)
 	fmt.Println(server.ListenAndServe())
 }
