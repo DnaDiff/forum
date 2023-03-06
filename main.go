@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"net/http"
 	"time"
@@ -12,11 +11,10 @@ import (
 
 const PORT = "8080"
 
-var db *sql.DB
-
 func main() {
-	// Connect to database
-	db = database.ConnectDB()
+	// Establish connection to the database
+	var db = database.ConnectDB()
+
 	// Create the mux to handle the routes
 	mux := handlers.RouteHandler(db)
 
