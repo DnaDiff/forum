@@ -1,6 +1,7 @@
 package errors
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -18,11 +19,12 @@ func HttpError(w http.ResponseWriter, err Error) {
 	}
 	// If the original error is not set, set it to the error message
 	if err.Original == nil {
-		err.Original = fmt.Errorf(err.Message)
+		err.Original = errors.New(err.Message)
 	}
 
 	// Print the error to the console and send the error to the client
 	fmt.Fprintln(os.Stderr, err.Code, err.Original)
+	// http.Error(w, err.Message, err.Code)
 	handleError(w, &err)
 }
 
