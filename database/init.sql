@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR (320) NOT NULL,
     joined DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     post_count INTEGER DEFAULT 0,
-    comment_count INTEGER DEFAULT 0
+    comment_count INTEGER DEFAULT 0,
+    like_count INTEGER DEFAULT 0,
+    dislike_count INTEGER DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS posts (
     id INTEGER NOT NULL PRIMARY KEY,
@@ -14,8 +16,8 @@ CREATE TABLE IF NOT EXISTS posts (
     content TEXT NOT NULL,
     category VARCHAR(255) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    likes INTEGER DEFAULT 0,
-    dislikes INTEGER DEFAULT 0,
+    like_count INTEGER DEFAULT 0,
+    dislike_count INTEGER DEFAULT 0,
     comment_count INTEGER DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -25,8 +27,8 @@ CREATE TABLE IF NOT EXISTS comments (
     post_id INTEGER NOT NULL,
     content TEXT NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    likes INTEGER DEFAULT 0,
-    dislikes INTEGER DEFAULT 0,
+    like_count INTEGER DEFAULT 0,
+    dislike_count INTEGER DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (post_id) REFERENCES posts(id)
 );
