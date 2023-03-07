@@ -2,15 +2,14 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
-	"net/http"
-	"time"
+
+	// "net/http"
+	// "time"
 
 	"github.com/DnaDiff/forum/src/database"
 	_ "github.com/mattn/go-sqlite3"
-
-	"github.com/DnaDiff/forum/src/handlers"
+	// "github.com/DnaDiff/forum/src/handlers"
 )
 
 const PORT = "8080"
@@ -25,51 +24,32 @@ func main() {
 
 	database.InitDatabase(db)
 
-	
+	// make a new user using the CreateUser function
+	// make a new post using the CreatePost function
+	// make a new comment using the CreateComment function
+	// get all posts using the GetAllPosts function
+	// get all posts by category using the GetAllPostsByCategory function
+	// get all comments by post using the GetAllCommentsByPost function
 
-	// database.CreatePost(db, 1, "Title testing 2", "Test content niceasdman")
+	// // Create a new user
+	// database.CreateUser(db, "mone", "tesdasasd", "dsfsdf@fgd.cesd")
 
-	// Execute the contents of the init.sql file
-	// sqlScript, err := ioutil.ReadFile("./database/init.sql")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	database.CreateComment(db, 1, 1, "first comment")
+	database.CreateComment(db, 1, 1, "second comment")
+	database.CreateComment(db, 1, 1, "third comment")
 
-	// _, err = db.Exec(string(sqlScript))
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	// // Create a new post
+	// database.CreatePost(db, 1, "Nicetest1", "asdasd", "general")
+	// database.CreatePost(db, 1, "Nicetest2", "asdasd", "general")
+	// database.CreatePost(db, 1, "Nicetest3", "asdasd", "general")
 
-	// Add a user to the database
-	// database.CreateUser(db, "nicebasddasro", "test", " asdsad@cocc.go")
-
-	// Get a user number 1 from the database
-	// user, err := database.GetUserByID(db, 1)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(user)
-
-	// Get a user by name
-	// user, err := database.GetUserByName(db, "nicebro")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(user)
-
-	// Create the mux to handle the routes
-	mux := handlers.RouteHandler(db)
-
-	// Create the server
-	server := http.Server{
-		Addr:         ":" + PORT,
-		Handler:      mux,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  120 * time.Second,
+	posts, err := database.GetAllPostsByCategory(db, "general")
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	handlers.ServeFiles(mux)
-	fmt.Println("Listening on port :" + PORT)
-	fmt.Println(server.ListenAndServe())
+	for _, post := range posts {
+		log.Println(post)
+	}
+
 }
