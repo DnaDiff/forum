@@ -24,6 +24,11 @@ func main() {
 	defer db.Close()
 
 	database.InitDatabase(db)
+
+	
+
+	// database.CreatePost(db, 1, "Title testing 2", "Test content niceasdman")
+
 	// Execute the contents of the init.sql file
 	// sqlScript, err := ioutil.ReadFile("./database/init.sql")
 	// if err != nil {
@@ -36,22 +41,21 @@ func main() {
 	// }
 
 	// Add a user to the database
-	// database.AddUser(db)
+	// database.CreateUser(db, "nicebasddasro", "test", " asdsad@cocc.go")
 
-	// Get a user from the database
-	// user, err := database.GetUser(db)
+	// Get a user number 1 from the database
+	// user, err := database.GetUserByID(db, 1)
 	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
+	// 	log.Fatal(err)
 	// }
+	// fmt.Println(user)
 
-	// userInfo, err := json.Marshal(user)
+	// Get a user by name
+	// user, err := database.GetUserByName(db, "nicebro")
 	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
+	// 	log.Fatal(err)
 	// }
-
-	// fmt.Println(string(userInfo) + "\n" + "User read successfully.")
+	// fmt.Println(user)
 
 	// Create the mux to handle the routes
 	mux := handlers.RouteHandler(db)
