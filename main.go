@@ -24,6 +24,8 @@ func main() {
 
 	database.InitDatabase(db)
 
+	// database.RemovePost(db, 1)
+
 	// make a new user using the CreateUser function
 	// make a new post using the CreatePost function
 	// make a new comment using the CreateComment function
@@ -34,7 +36,7 @@ func main() {
 	// // Create a new user
 	// database.CreateUser(db, "Muhammed", "tesdasasd", "dsfsdf@fgd.cesd")
 
-	// // // Create a new post
+	// // // // Create a new post
 	// database.CreatePost(db, 1, "Nicetest1", "asdasd", "general")
 	// database.CreatePost(db, 1, "Nicetest2", "asdasd", "general")
 	// database.CreatePost(db, 1, "Nicetest3", "asdasd", "general")
@@ -43,14 +45,17 @@ func main() {
 	// database.CreateComment(db, 1, 1, "second comment")
 	// database.CreateComment(db, 1, 1, "third comment")
 
-	// posts, err := database.GetAllPostsByCategory(db, "general")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	// database.LikePost(db, 2)
+	// database.DislikePost(db, 2)
 
-	// for _, post := range posts {
-	// 	log.Println(post)
-	// }
+	posts, err := database.GetAllPostsByCategory(db, "general")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, post := range posts {
+		log.Println(post)
+	}
 
 	// post, err := database.GetPostByID(db, 1)
 	// if err != nil {
@@ -58,5 +63,14 @@ func main() {
 	// }
 
 	// log.Println(post)
+
+	// comments, err := database.GetAllCommentsByPost(db, 1)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// for _, comment := range comments {
+	// 	log.Println(comment)
+	// }
 
 }
