@@ -32,4 +32,4 @@ To get started, fork the repository and create a new branch for your changes. Th
 
 ## **License**
 
-By contributing to **forum**, you agree that your contributions will be licensed under the [MIT License](https://opensource.org/licenses/MIT).
+By contributing to **forum**, you agree that your contributions will be licensed under the [MIT License](https://github.com/DnaDiff/forum/blob/main/LICENSE.md).
