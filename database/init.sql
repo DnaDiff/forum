@@ -12,9 +12,11 @@ CREATE TABLE IF NOT EXISTS posts (
     user_id INTEGER NOT NULL,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
+    category VARCHAR(255) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     likes INTEGER DEFAULT 0,
     dislikes INTEGER DEFAULT 0,
+    comments INTEGER DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 CREATE TABLE IF NOT EXISTS comments (
