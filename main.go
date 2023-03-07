@@ -32,24 +32,31 @@ func main() {
 	// get all comments by post using the GetAllCommentsByPost function
 
 	// // Create a new user
-	// database.CreateUser(db, "mone", "tesdasasd", "dsfsdf@fgd.cesd")
+	// database.CreateUser(db, "Muhammed", "tesdasasd", "dsfsdf@fgd.cesd")
 
-	database.CreateComment(db, 1, 1, "first comment")
-	database.CreateComment(db, 1, 1, "second comment")
-	database.CreateComment(db, 1, 1, "third comment")
-
-	// // Create a new post
+	// // // Create a new post
 	// database.CreatePost(db, 1, "Nicetest1", "asdasd", "general")
 	// database.CreatePost(db, 1, "Nicetest2", "asdasd", "general")
 	// database.CreatePost(db, 1, "Nicetest3", "asdasd", "general")
 
-	posts, err := database.GetAllPostsByCategory(db, "general")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// database.CreateComment(db, 1, 1, "first comment")
+	// database.CreateComment(db, 1, 1, "second comment")
+	// database.CreateComment(db, 1, 1, "third comment")
 
-	for _, post := range posts {
-		log.Println(post)
-	}
+	// posts, err := database.GetAllPostsByCategory(db, "general")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// for _, post := range posts {
+	// 	log.Println(post)
+	// }
+
+	// post, err := database.GetPostByID(db, 1)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// log.Println(post)
 
 }
