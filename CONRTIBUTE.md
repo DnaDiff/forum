@@ -22,7 +22,6 @@ Before submitting your contributions, please make sure to follow these good prac
 - Use PascalCase for Golang and JavaScript struct, interface, class, and constructor names.
 - Use UPPER_CASE for Golang and JavaScript constants.
 
-
 ## **Code organization**
 
 All Golang code should be located in the `./src` directory, following the standard Go project structure. The `./public` directory contains all HTML, CSS, and JavaScript files.
