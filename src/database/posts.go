@@ -11,7 +11,7 @@ type Post struct {
 	Title     string    `json:"title"`
 	Content   string    `json:"content"`
 	Category  string    `json:"category"`
-	Comments  int       `json:"comments"`
+	Comments  int       `json:"comment_count"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -28,7 +28,7 @@ type Comment struct {
 func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 	var posts []*Post
 
-	rows, err := db.Query("SELECT id, user_id, title, content, created FROM posts WHERE category = ?", category)
+	rows, err := db.Query("SELECT id, user_id, title, content, comment_count, created FROM posts WHERE category = ?", category)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 
 	for rows.Next() {
 		var post Post
-		err := rows.Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.CreatedAt)
+		err := rows.Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.Comments, &post.CreatedAt)
 		if err != nil {
 			return nil, err
 		}
@@ -50,55 +50,6 @@ func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 	return posts, nil
 }
 
-func GetAllCommentsByPostID(db *sql.DB, postID int) ([]*Comment, error) {
-	var comments []*Comment
-
-	rows, err := db.Query("SELECT id, user_id, post_id, content, created FROM comments WHERE post_id = ?", postID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var comment Comment
-		err := rows.Scan(&comment.ID, &comment.UserID, &comment.PostID, &comment.Content, &comment.CreatedAt)
-		if err != nil {
-			return nil, err
-		}
-		comments = append(comments, &comment)
-	}
-
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return comments, nil
-}
-
-func GetAllPosts(db *sql.DB) ([]*Post, error) {
-	var posts []*Post
-
-	rows, err := db.Query("SELECT id, user_id, title, content, created FROM posts")
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var post Post
-		err := rows.Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.CreatedAt)
-		if err != nil {
-			return nil, err
-		}
-		posts = append(posts, &post)
-	}
-
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return posts, nil
-}
 
 func CreatePost(db *sql.DB, userID int, title string, content string, category string) error {
 	_, err := db.Exec("INSERT INTO posts (user_id, title, content, category) VALUES (?, ?, ?, ?)", userID, title, content, category)
@@ -113,17 +64,6 @@ func CreatePost(db *sql.DB, userID int, title string, content string, category s
 	}
 
 	return nil
-}
-
-func GetPostByID(db *sql.DB, postID int) (*Post, error) {
-	var post Post
-
-	err := db.QueryRow("SELECT id, user_id, title, content, created_at FROM posts WHERE id = ?", postID).Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.CreatedAt)
-	if err != nil {
-		return nil, err
-	}
-
-	return &post, nil
 }
 
 func CreateComment(db *sql.DB, userID int, postID int, content string) error {
@@ -145,15 +85,4 @@ func CreateComment(db *sql.DB, userID int, postID int, content string) error {
 	}
 
 	return nil
-}
-
-func GetCommentByID(db *sql.DB, commentID int) (*Comment, error) {
-	var comment Comment
-
-	err := db.QueryRow("SELECT id, user_id, post_id, content, created_at FROM comments WHERE id = ?", commentID).Scan(&comment.ID, &comment.UserID, &comment.PostID, &comment.Content, &comment.CreatedAt)
-	if err != nil {
-		return nil, err
-	}
-
-	return &comment, nil
 }
