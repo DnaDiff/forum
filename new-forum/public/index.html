@@ -4,7 +4,131 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @font-face {
+        font-family: "Meedori Sans Regular";
+        src: url(../fonts/Meedori\ Sans\ Regular.ttf);
+      }
+    </style>
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="icon" href="images/coc.png" />
     <title>DNA DIFF</title>
   </head>
-  <body></body>
+  <body>
+    <!-- Header section -->
+    <header id="header">
+      <a href="https://discord.gg/v26C5zTedP" class="logo">
+        <img src="images/logo.png" alt="logo" class="logo" />
+      </a>
+      <a href="/">
+        <h1>FORUM</h1>
+      </a>
+      <nav>
+        <ul>
+          <li>
+            <a id="login-btn" style="cursor: pointer">Login</a>
+          </li>
+          <li>
+            <a id="register-btn" style="cursor: pointer">Register</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="dim" id="dim"></div>
+
+      <!-- Login section -->
+      <div id="login-form-modal" class="modal">
+        <ul>
+          <form id="login-form">
+            <h3>Welcome back!</h3>
+            <li>
+              <input
+                maxlength="12"
+                type="text"
+                placeholder="Username"
+                class="form-input"
+              />
+            </li>
+            <li>
+              <input
+                type="password"
+                placeholder="Password"
+                class="form-input"
+              />
+            </li>
+            <li>
+              <button type="submit" class="submit-btn">Login</button>
+            </li>
+            <li>
+              <span type="button" class="close-btn1">&times; </span>
+            </li>
+          </form>
+        </ul>
+      </div>
+      <!-- End of login section -->
+
+      <!-- Register section -->
+      <div id="register-form-modal" class="modal">
+        <ul>
+          <form id="register-form">
+            <h3>Create an account</h3>
+            <li>
+              <input
+                maxlength="12"
+                type="text"
+                placeholder="Username"
+                class="form-input"
+              />
+            </li>
+            <li>
+              <input type="email" placeholder="Email" class="form-input" />
+            </li>
+            <li>
+              <input
+                type="password"
+                placeholder="Password"
+                class="form-input"
+              />
+            </li>
+            <li>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                class="form-input"
+              />
+            </li>
+
+            <li>
+              <button type="submit" class="submit-btn">Sign Up</button>
+            </li>
+            <li>
+              <span type="button" class="close-btn">&times; </span>
+            </li>
+          </form>
+        </ul>
+      </div>
+      <!-- End of register section -->
+    </header>
+    <!-- End of header section -->
+
+    <!-- Main section -->
+    <main id="main">
+      <div class="container">
+        <h1>WELCOME, [username]!</h1>
+        <p>
+          This is a forum where you can discuss your DNA and share your
+          experiences with other people.
+        </p>
+      </div>
+    </main>
+
+    <!-- End of main section -->
+
+    <!-- Footer section -->
+    <!-- End of footer section -->
+
+    <!-- Scripts -->
+    <script src="js/header.js" defer></script>
+  </body>
 </html>
