@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/DnaDiff/forum/src/errors"
+	"github.com/DnaDiff/forum/old-forum/src/errors"
 )
 
 func HandleIndex(w http.ResponseWriter, r *http.Request, db *sql.DB) {

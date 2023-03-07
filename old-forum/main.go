@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/DnaDiff/forum/src/database"
-	"github.com/DnaDiff/forum/src/handlers"
+	"github.com/DnaDiff/forum/old-forum/src/database"
+	"github.com/DnaDiff/forum/old-forum/src/handlers"
 )
 
 const PORT = "8080"

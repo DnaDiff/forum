@@ -29,7 +29,13 @@ func HttpError(w http.ResponseWriter, err Error) {
 }
 
 func handleError(w http.ResponseWriter, err *Error) {
-	tmpl := template.Must(template.ParseFiles("templates/error.html"))
+	tmpl := template.Must(template.ParseGlob("templates/*.html"))
+
+	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(err.Code)
-	tmpl.ExecuteTemplate(w, "error.html", err)
+
+	if err := tmpl.ExecuteTemplate(w, "error.html", err); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
