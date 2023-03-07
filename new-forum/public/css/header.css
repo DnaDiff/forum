@@ -106,9 +106,9 @@ header nav ul button {
 /* #form-input-title {
   text-align: center;
 } */
-#header .close-btn3,
+/* #header .close-btn3,
 #header .close-btn2,
-#header .close-btn1,
+#header .close-login-btn, */
 #header .close-btn {
   position: absolute;
   top: 5px;
@@ -119,13 +119,13 @@ header nav ul button {
   cursor: pointer;
 }
 #header .close-btn:hover,
-#header .close-btn:focus,
-#header .close-btn1:hover,
+#header .close-btn:focus
+/* #header .close-btn1:hover,
 #header .close-btn1:focus,
 #header .close-btn2:hover,
 #header .close-btn2:focus,
 #header .close-btn3:hover,
-#header .close-btn3:focus {
+#header .close-btn3:focus  */ {
   color: black;
   text-decoration: none;
   cursor: pointer;
