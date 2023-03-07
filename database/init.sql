@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS posts (
     created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     likes INTEGER DEFAULT 0,
     dislikes INTEGER DEFAULT 0,
-    comments INTEGER DEFAULT 0,
+    comment_count INTEGER DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 CREATE TABLE IF NOT EXISTS comments (
