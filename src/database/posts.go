@@ -17,7 +17,7 @@ type Post struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// --------------------------------------------Post functions--------------------------------------------
+// --------------------------------------------Getting data from Posts--------------------------------------------
 
 // GetAllPostsByCategory returns all posts in a category
 func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
@@ -45,6 +45,9 @@ func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 	return posts, nil
 }
 
+
+// --------------------------------------------Creating Posts--------------------------------------------
+
 // CreatePost creates a post and updates the post count for the user who created the post
 func CreatePost(db *sql.DB, userID int, title string, content string, category string) error {
 	_, err := db.Exec("INSERT INTO posts (user_id, title, content, category) VALUES (?, ?, ?, ?)", userID, title, content, category)
@@ -60,6 +63,8 @@ func CreatePost(db *sql.DB, userID int, title string, content string, category s
 
 	return nil
 }
+
+// --------------------------------------------Removing Posts--------------------------------------------
 
 // RemovePost removes a post and all of its comments
 func RemovePost(db *sql.DB, postID int) error {
@@ -85,6 +90,8 @@ func RemovePost(db *sql.DB, postID int) error {
 	return nil
 }
 
+// --------------------------------------------Like and Dislike Posts--------------------------------------------
+
 // LikePost increments the like count for a post
 func LikePost(db *sql.DB, postID int) error {
 
@@ -95,23 +102,6 @@ func LikePost(db *sql.DB, postID int) error {
 
 	// Update the like count for the user who created the post
 	_, err = db.Exec("UPDATE users SET like_count = like_count + 1 WHERE id = (SELECT user_id FROM posts WHERE id = ?)", postID)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// RemoveLike removes a like from a post
-func RemoveLike(db *sql.DB, postID int) error {
-
-	_, err := db.Exec("UPDATE posts SET like_count = like_count - 1 WHERE id = ?", postID)
-	if err != nil {
-		return err
-	}
-
-	// Update the like count for the user who created the post
-	_, err = db.Exec("UPDATE users SET like_count = like_count - 1 WHERE id = (SELECT user_id FROM posts WHERE id = ?)", postID)
 	if err != nil {
 		return err
 	}
@@ -136,8 +126,27 @@ func DislikePost(db *sql.DB, postID int) error {
 	return nil
 }
 
+// --------------------------------------------Removing Likes and Dislikes--------------------------------------------
+
+// RemoveLike removes a like from a post
+func RemoveLikePost(db *sql.DB, postID int) error {
+
+	_, err := db.Exec("UPDATE posts SET like_count = like_count - 1 WHERE id = ?", postID)
+	if err != nil {
+		return err
+	}
+
+	// Update the like count for the user who created the post
+	_, err = db.Exec("UPDATE users SET like_count = like_count - 1 WHERE id = (SELECT user_id FROM posts WHERE id = ?)", postID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // RemoveDislike removes a dislike from a post
-func RemoveDislike(db *sql.DB, postID int) error {
+func RemoveDislikePost(db *sql.DB, postID int) error {
 
 	_, err := db.Exec("UPDATE posts SET dislike_count = dislike_count - 1 WHERE id = ?", postID)
 	if err != nil {
