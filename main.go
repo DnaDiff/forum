@@ -36,6 +36,8 @@ func main() {
 	// // Create a new user
 	// database.CreateUser(db, "Ahmed", "fdssdf", "dhewf@fgd.cesd")
 
+	// database.LikeComment(db, 1)
+
 	// // // // Create a new post
 	// database.CreatePost(db, 1, "Nicetest1", "asdasd", "general")
 	// database.CreatePost(db, 1, "Nicetest2", "asdasd", "general")
