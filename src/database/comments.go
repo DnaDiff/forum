@@ -84,3 +84,75 @@ func RemoveComment(db *sql.DB, commentID int) error {
 	return nil
 
 }
+
+// --------------------------------------------Like and dislike comment--------------------------------------------
+
+// LikeComment likes a comment
+func LikeComment(db *sql.DB, postID int) error {
+
+	_, err := db.Exec("UPDATE comments SET like_count = like_count + 1 WHERE id = ?", postID)
+	if err != nil {
+		return err
+	}
+
+	// Update the like count for the user who created the post
+	_, err = db.Exec("UPDATE users SET like_count = like_count + 1 WHERE id = (SELECT user_id FROM posts WHERE id = ?)", postID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DislikeComment dislikes a comment
+func DislikeComment(db *sql.DB, postID int) error {
+
+	_, err := db.Exec("UPDATE comments SET dislike_count = dislike_count + 1 WHERE id = ?", postID)
+	if err != nil {
+		return err
+	}
+
+	// Update the dislike count for the user who created the post
+	_, err = db.Exec("UPDATE users SET dislike_count = dislike_count + 1 WHERE id = (SELECT user_id FROM posts WHERE id = ?)", postID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// --------------------------------------------Remove like and dislike--------------------------------------------
+
+// RemoveLikeComment removes a like from a comment
+func RemoveLikeComment(db *sql.DB, postID int) error {
+
+	_, err := db.Exec("UPDATE comments SET like_count = like_count - 1 WHERE id = ?", postID)
+	if err != nil {
+		return err
+	}
+
+	// Update the like count for the user who created the post
+	_, err = db.Exec("UPDATE users SET like_count = like_count - 1 WHERE id = (SELECT user_id FROM posts WHERE id = ?)", postID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// RemoveDislikeComment removes a dislike from a comment
+func RemoveDislikeComment(db *sql.DB, postID int) error {
+
+	_, err := db.Exec("UPDATE comments SET dislike_count = dislike_count - 1 WHERE id = ?", postID)
+	if err != nil {
+		return err
+	}
+
+	// Update the dislike count for the user who created the post
+	_, err = db.Exec("UPDATE users SET dislike_count = dislike_count - 1 WHERE id = (SELECT user_id FROM posts WHERE id = ?)", postID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
