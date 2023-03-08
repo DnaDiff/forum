@@ -34,14 +34,14 @@ func main() {
 	// get all comments by post using the GetAllCommentsByPost function
 
 	// // Create a new user
-	// database.CreateUser(db, "Muhammed", "tesdasasd", "dsfsdf@fgd.cesd")
+	// database.CreateUser(db, "Ahmed", "fdssdf", "dhewf@fgd.cesd")
 
 	// // // // Create a new post
 	// database.CreatePost(db, 1, "Nicetest1", "asdasd", "general")
 	// database.CreatePost(db, 1, "Nicetest2", "asdasd", "general")
 	// database.CreatePost(db, 1, "Nicetest3", "asdasd", "general")
 
-	// database.CreateComment(db, 1, 1, "first comment")
+	// database.CreateComment(db, 2, 1, "Ahmed first comment")
 	// database.CreateComment(db, 1, 1, "second comment")
 	// database.CreateComment(db, 1, 1, "third comment")
 
