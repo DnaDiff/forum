@@ -5,55 +5,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function loadButtons() {
   const MODAL_BUTTONS = document.querySelectorAll(".modal-btn");
-  const CLOSE_BUTTONS = document.querySelectorAll(".close-btn");
   const DIM = document.querySelector("#dim");
 
-  function toggleModal() {
-    const isShown = this.classList.contains("show");
-    this.classList.toggle("show", !isShown);
-    DIM.classList.toggle("show", !isShown);
-  }
-
   MODAL_BUTTONS.forEach((button) => {
+    const MODAL = document.querySelector(`#${button.dataset.modal}`);
+    const CLOSE_BUTTON = MODAL.querySelector(".close-btn");
+
+    function toggleModal(event) {
+      if (event.target === DIM || event.target === CLOSE_BUTTON) {
+        MODAL.style.display = "none";
+        DIM.style.display = "none";
+      } else {
+        MODAL.style.display = "block";
+        DIM.style.display = "block";
+      }
+    }
+
     button.addEventListener("click", toggleModal);
-  });
-
-  CLOSE_BUTTONS.forEach((button) => {
-    button.addEventListener("click", toggleModal);
-  });
-}
-
-function loadRegister() {
-  const dimmer = document.querySelector("#dim");
-  const registerBtn = document.querySelector("#register-btn");
-  const registerFormModal = document.querySelector("#register-form-modal");
-  const closeBtn = document.querySelector(".close-btn");
-
-  registerBtn.addEventListener("click", function () {
-    registerFormModal.style.display = "block";
-    dimmer.style.display = "block";
-  });
-
-  closeBtn.addEventListener("click", function () {
-    registerFormModal.style.display = "none";
-    dimmer.style.display = "none";
-  });
-}
-// Reusing the same code for the sign up modal because of problems with the sign in modal not working properly when the code is not separated
-function loadLogin() {
-  const dimmer = document.querySelector("#dim");
-  const loginBtn = document.querySelector("#login-btn");
-  const loginFormModal = document.querySelector("#login-form-modal");
-  const closeBtn = document.querySelector(".close-btn");
-
-  loginBtn.addEventListener("click", function () {
-    loginFormModal.style.display = "block";
-    dimmer.style.display = "block";
-  });
-
-  closeBtn.addEventListener("click", function () {
-    loginFormModal.style.display = "none";
-    dimmer.style.display = "none";
+    CLOSE_BUTTON.addEventListener("click", toggleModal);
+    DIM.addEventListener("click", toggleModal);
   });
 }
 
@@ -72,23 +42,6 @@ function loadPost() {
 
   closeBtn.addEventListener("click", function () {
     postFormModal.style.display = "none";
-    dimmer.style.display = "none";
-  });
-}
-
-function loadComment() {
-  const dimmer = document.querySelector("#dim");
-  const commentBtn = document.querySelector("#comment-btn");
-  const commentFormModal = document.querySelector("#comment-form-modal");
-  const closeBtn = document.querySelector(".close-btn");
-
-  commentBtn.addEventListener("click", function () {
-    commentFormModal.style.display = "block";
-    dimmer.style.display = "block";
-  });
-
-  closeBtn.addEventListener("click", function () {
-    commentFormModal.style.display = "none";
     dimmer.style.display = "none";
   });
 }
