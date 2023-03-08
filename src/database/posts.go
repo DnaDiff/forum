@@ -17,8 +17,6 @@ type Post struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-
-
 // --------------------------------------------Post functions--------------------------------------------
 
 // GetAllPostsByCategory returns all posts in a category
@@ -47,8 +45,6 @@ func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 	return posts, nil
 }
 
-
-
 // CreatePost creates a post and updates the post count for the user who created the post
 func CreatePost(db *sql.DB, userID int, title string, content string, category string) error {
 	_, err := db.Exec("INSERT INTO posts (user_id, title, content, category) VALUES (?, ?, ?, ?)", userID, title, content, category)
@@ -65,8 +61,6 @@ func CreatePost(db *sql.DB, userID int, title string, content string, category s
 	return nil
 }
 
-
-
 // RemovePost removes a post and all of its comments
 func RemovePost(db *sql.DB, postID int) error {
 
@@ -81,11 +75,15 @@ func RemovePost(db *sql.DB, postID int) error {
 		return err1
 	}
 
+	// Update the post count for the user who created the post
+
+	_, err2 := db.Exec("UPDATE users SET post_count = post_count - 1 WHERE id = (SELECT user_id FROM posts WHERE id = ?)", postID)
+	if err2 != nil {
+		return err2
+	}
+
 	return nil
 }
-
-
-
 
 // LikePost increments the like count for a post
 func LikePost(db *sql.DB, postID int) error {
