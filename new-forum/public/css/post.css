@@ -1,0 +1,21 @@
+#post-container * {
+  /* Move to center and border */
+  margin: 0 auto;
+  border: 1px solid #4e4e4e;
+  padding: 10px;
+  width: 80%;
+  background-color: #383838;
+}
+
+.post-avatar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-right: 16px;
+}
+
+.post-avatar img {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+}
