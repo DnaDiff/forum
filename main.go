@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
 	// "net/http"
@@ -24,27 +23,30 @@ func main() {
 	defer db.Close()
 
 	database.InitDatabase(db)
+	u := &database.User{
+		ProfilePicture: "mssdasa",
+		Username:       "johnsasdasd",
+		Age:            25,
+		Gender:         "male",
+		FirstName:      "Jo",
+		LastName:       "Smi",
+		Password:       "password456",
+		Email:          "JohnSmdashe@example.com",
+	}
+	if !database.CheckDuplicateUsername(db, u.Username) {
 
-	// u := &database.User{
-	// 	ProfilePicture: "https://example.com/profile.jpg",
-	// 	Username:       "johns",
-	// 	Age:            25,
-	// 	Gender:         "male",
-	// 	FirstName:      "Jo",
-	// 	LastName:       "Smi",
-	// 	Password:       "password456",
-	// 	Email:          "JohnSmhe@example.com",
-	// }
+		if err := database.CreateUser(db, u); err != nil {
+			log.Fatal(err)
+		}
+	}
 
-	// if err := database.CreateUser(db, u); err != nil {
+	// u, err := database.GetUserByUsername(db, "johnsads")
+	// if err != nil {
 	// 	log.Fatal(err)
 	// }
 
-	u, err := database.GetUserByUsername(db, "johns")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// fmt.Printf("User: %+v \n", u)
 
-	fmt.Printf("User: %+v \n", u)
+	// database.DeleteUserByUsername(db, "johns")
 
 }
