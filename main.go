@@ -7,7 +7,7 @@ import (
 	// "net/http"
 	// "time"
 
-	"github.com/DnaDiff/forum/src/database"
+	. "github.com/DnaDiff/forum/src/database"
 	_ "github.com/mattn/go-sqlite3"
 	// "github.com/DnaDiff/forum/src/handlers"
 )
@@ -22,23 +22,25 @@ func main() {
 	}
 	defer db.Close()
 
-	database.InitDatabase(db)
-	u := &database.User{
-		ProfilePicture: "mssdasa",
-		Username:       "johnsasdasd",
-		Age:            25,
-		Gender:         "male",
-		FirstName:      "Jo",
-		LastName:       "Smi",
-		Password:       "password456",
-		Email:          "JohnSmdashe@example.com",
-	}
-	if !database.CheckDuplicateUsername(db, u.Username) {
+	LikePost(db, 1, 1)
 
-		if err := database.CreateUser(db, u); err != nil {
-			log.Fatal(err)
-		}
-	}
+	// database.InitDatabase(db)
+	// u := &database.User{
+	// 	ProfilePicture: "mssdasa",
+	// 	Username:       "johnsasdasd",
+	// 	Age:            25,
+	// 	Gender:         "male",
+	// 	FirstName:      "Jo",
+	// 	LastName:       "Smi",
+	// 	Password:       "password456",
+	// 	Email:          "JohnSmdashe@example.com",
+	// }
+	// if !database.CheckDuplicateUsername(db, u.Username) {
+
+	// 	if err := database.CreateUser(db, u); err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// }
 
 	// u, err := database.GetUserByUsername(db, "johnsads")
 	// if err != nil {
