@@ -22,22 +22,35 @@ func main() {
 	}
 	defer db.Close()
 
-	LikePost(db, 1, 1)
+	InitDatabase(db)
 
-	// database.InitDatabase(db)
-	// u := &database.User{
+	// LikePost(db, 1, 1)
+	// DislikePost(db, 1, 2)
+	// RemoveDislikePost(db, 1, 2)
+	// RemoveLikePost(db, 1, 2)
+
+	// CreatePost(db, &Post{ // Create a post
+	// 	UserID:   1,
+	// 	Title:    "My fourth post",
+	// 	Content:  "This is my fourth post",
+	// 	Category: "General",
+	// })
+
+	// RemovePost(db, 1) // Remove a post
+
+	// u := User{
 	// 	ProfilePicture: "mssdasa",
-	// 	Username:       "johnsasdasd",
+	// 	Username:       "johnsasddsfasd",
 	// 	Age:            25,
 	// 	Gender:         "male",
 	// 	FirstName:      "Jo",
 	// 	LastName:       "Smi",
 	// 	Password:       "password456",
-	// 	Email:          "JohnSmdashe@example.com",
+	// 	Email:          "JohnsdfsSmdashe@example.com",
 	// }
-	// if !database.CheckDuplicateUsername(db, u.Username) {
+	// if !CheckDuplicateUsername(db, u.Username) {
 
-	// 	if err := database.CreateUser(db, u); err != nil {
+	// 	if err := CreateUser(db, &u); err != nil {
 	// 		log.Fatal(err)
 	// 	}
 	// }
