@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	// "net/http"
@@ -24,55 +25,26 @@ func main() {
 
 	database.InitDatabase(db)
 
-	// database.RemovePost(db, 1)
+	// u := &database.User{
+	// 	ProfilePicture: "https://example.com/profile.jpg",
+	// 	Username:       "johns",
+	// 	Age:            25,
+	// 	Gender:         "male",
+	// 	FirstName:      "Jo",
+	// 	LastName:       "Smi",
+	// 	Password:       "password456",
+	// 	Email:          "JohnSmhe@example.com",
+	// }
 
-	// make a new user using the CreateUser function
-	// make a new post using the CreatePost function
-	// make a new comment using the CreateComment function
-	// get all posts using the GetAllPosts function
-	// get all posts by category using the GetAllPostsByCategory function
-	// get all comments by post using the GetAllCommentsByPost function
+	// if err := database.CreateUser(db, u); err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	// // Create a new user
-	// database.CreateUser(db, "Ahmed", "fdssdf", "dhewf@fgd.cesd")
-
-	// database.LikeComment(db, 1)
-
-	// // // // Create a new post
-	// database.CreatePost(db, 1, "Nicetest1", "asdasd", "general")
-	// database.CreatePost(db, 1, "Nicetest2", "asdasd", "general")
-	// database.CreatePost(db, 1, "Nicetest3", "asdasd", "general")
-
-	// database.CreateComment(db, 2, 1, "Ahmed first comment")
-	// database.CreateComment(db, 1, 1, "second comment")
-	// database.CreateComment(db, 1, 1, "third comment")
-
-	// database.LikePost(db, 2)
-	// database.DislikePost(db, 2)
-
-	posts, err := database.GetAllPostsByCategory(db, "general")
+	u, err := database.GetUserByUsername(db, "johns")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, post := range posts {
-		log.Println(post)
-	}
-
-	// post, err := database.GetPostByID(db, 1)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// log.Println(post)
-
-	// comments, err := database.GetAllCommentsByPost(db, 1)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// for _, comment := range comments {
-	// 	log.Println(comment)
-	// }
+	fmt.Printf("User: %+v \n", u)
 
 }
