@@ -20,12 +20,12 @@ function appendNewPost(category, title, content, author, date, avatarUrl) {
   categoryElement.appendChild(postElement);
 }
 
-for (let i = 0; i < 10; i++) {
-  appendNewPost(
-    "post-container",
-    "New Post",
-    "This is a new post",
-    "John Doe" + i,
-    "2020-01-01"
-  );
-}
+// for (let i = 0; i < 10; i++) {
+//   appendNewPost(
+//     "post-container",
+//     "New Post",
+//     "This is a new post",
+//     "John Doe" + i,
+//     "2020-01-01"
+//   );
+// }

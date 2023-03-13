@@ -1,21 +1,63 @@
-#post-container * {
-  /* Move to center and border */
-  margin: 0 auto;
-  border: 1px solid #4e4e4e;
-  padding: 10px;
-  width: 80%;
-  background-color: #383838;
+.post {
+  display: grid;
+  height: 30vh;
+  grid-template-columns: 0.3fr 1fr 0.3fr 0.1fr 0.1fr;
+  grid-template-rows: 0.1fr 1fr;
+  grid-template-areas:
+    "post__username post__title post__date post__comments post__score"
+    "post__avatar post__content post__content post__interactions post__interactions";
+  gap: 0.1rem;
 }
 
-.post-avatar {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  margin-right: 16px;
+.post__username {
+  grid-area: post__username;
+  background: #000;
 }
 
-.post-avatar img {
-  height: 80px;
-  width: auto;
-  object-fit: contain;
+.post__title {
+  grid-area: post__title;
+  background: #000;
 }
+
+.post__date {
+  grid-area: post__date;
+  background: #000;
+}
+
+.post__comments {
+  grid-area: post__comments;
+  background: #000;
+}
+
+.post__score {
+  grid-area: post__score;
+  background: #000;
+}
+
+.post__avatar {
+  grid-area: post__avatar;
+  background: #000;
+}
+
+.post__content {
+  grid-area: post__content;
+  background: #000;
+}
+
+.post__interactions {
+  grid-area: post__interactions;
+  background: #000;
+}
+
+/* For mobile responsiveness
+@media only screen and (max-width: 600px) {
+  .post {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.1fr 0.1fr 1fr 0.1fr;
+    grid-template-areas:
+      "post__username"
+      "post__title"
+      "post__content"
+      "post__interactions";
+  }
+} */
