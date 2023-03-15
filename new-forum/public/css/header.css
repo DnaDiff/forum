@@ -99,6 +99,10 @@ header nav ul button {
   text-align: center;
 }
 
+#header .modal-btn {
+  cursor: pointer;
+}
+
 #header .form-input:focus {
   border-bottom: 2px solid #000000;
 }
