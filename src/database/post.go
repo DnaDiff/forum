@@ -14,6 +14,8 @@ type Post struct {
 	Created  time.Time
 }
 
+// Working functions
+
 // GetAllPostsByCategory gets all the posts in a category
 func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 	query := `SELECT id, user_id, title, content, category, created
