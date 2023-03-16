@@ -126,6 +126,28 @@ func GetPostLikes(db *sql.DB, postId int) (int, error) {
 	return likes, nil
 }
 
+// GetPostDislikes gets the number of dislikes for a post
+func GetPostDislikes(db *sql.DB, postId int) (int, error) {
+	query := `SELECT COUNT(*)
+			  FROM dislikes
+			  WHERE post_id = ?`
+
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return 0, err
+	}
+
+	defer stmt.Close()
+
+	var dislikes int
+	err = stmt.QueryRow(postId).Scan(&dislikes)
+	if err != nil {
+		return 0, err
+	}
+
+	return dislikes, nil
+}
+
 // CreatePost creates a post and updates the post count for the user who created the post
 func CreatePost(db *sql.DB, post *Post) error {
 	// Prepare the SQL statement
