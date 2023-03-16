@@ -70,6 +70,40 @@ func GetPost(db *sql.DB, postId int) (*Post, error) {
 	return p, nil
 }
 
+// GetPostComments gets all the comments for a post
+func GetPostComments(db *sql.DB, postId int) ([]*Comment, error) {
+	query := `SELECT id, user_id, post_id, content, created
+			  FROM comments
+			  WHERE post_id = ?`
+
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+
+	rows, err := stmt.Query(postId)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	comments := []*Comment{}
+	for rows.Next() {
+		c := &Comment{}
+		err = rows.Scan(&c.ID, &c.UserID, &c.PostID, &c.Content, &c.Created)
+		if err != nil {
+			return nil, err
+		}
+
+		comments = append(comments, c)
+	}
+
+	return comments, nil
+}
+
 // GetPostLikes gets the number of likes for a post
 func GetPostLikes(db *sql.DB, postId int) (int, error) {
 	query := `SELECT COUNT(*)
