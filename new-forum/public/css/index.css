@@ -1,5 +1,6 @@
 body {
-  background: linear-gradient(90deg, #464646, #353535);
+  /* background: linear-gradient(90deg, #464646, #353535); */
+  background: linear-gradient(180deg, #797979, #707070);
   font-family: "Arial";
   color: #fff;
 }
