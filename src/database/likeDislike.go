@@ -6,7 +6,7 @@ import (
 
 // ------------------------------------Like/Dislike Post Functions------------------------------------
 
-// LikePost adds a like to a post and updates the like count for the OP
+// LikePost adds a like to a post
 func LikePost(db *sql.DB, userID int, postID int) error {
 	tx, err := db.Begin()
 	if err != nil {
@@ -33,18 +33,6 @@ func LikePost(db *sql.DB, userID int, postID int) error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(userID, postID)
-	if err != nil {
-		return err
-	}
-
-	// Update the post's like count
-	_, err = tx.Exec("UPDATE posts SET like_count=like_count+1 WHERE id=?", postID)
-	if err != nil {
-		return err
-	}
-
-	// Update the post creator's like count
-	_, err = tx.Exec("UPDATE users SET like_count=like_count+1 WHERE id=(SELECT user_id FROM posts WHERE id=?)", postID)
 	if err != nil {
 		return err
 	}
@@ -89,18 +77,6 @@ func DislikePost(db *sql.DB, userID int, postID int) error {
 		return err
 	}
 
-	// Update the post's dislike count
-	_, err = tx.Exec("UPDATE posts SET dislike_count=dislike_count+1 WHERE id=?", postID)
-	if err != nil {
-		return err
-	}
-
-	// Update the post creator's dislike count
-	_, err = tx.Exec("UPDATE users SET dislike_count=dislike_count+1 WHERE id=(SELECT user_id FROM posts WHERE id=?)", postID)
-	if err != nil {
-		return err
-	}
-
 	// Commit the transaction
 	err = tx.Commit()
 	if err != nil {
@@ -141,18 +117,6 @@ func RemoveLikePost(db *sql.DB, userID int, postID int) error {
 		return err
 	}
 
-	// Update the post's like count
-	_, err = tx.Exec("UPDATE posts SET like_count=like_count-1 WHERE id=?", postID)
-	if err != nil {
-		return err
-	}
-
-	// Update the post creator's like count
-	_, err = tx.Exec("UPDATE users SET like_count=like_count-1 WHERE id=(SELECT user_id FROM posts WHERE id=?)", postID)
-	if err != nil {
-		return err
-	}
-
 	// Commit the transaction
 	err = tx.Commit()
 	if err != nil {
@@ -189,18 +153,6 @@ func RemoveDislikePost(db *sql.DB, userID int, postID int) error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(userID, postID)
-	if err != nil {
-		return err
-	}
-
-	// Update the post's dislike count
-	_, err = tx.Exec("UPDATE posts SET dislike_count=dislike_count-1 WHERE id=?", postID)
-	if err != nil {
-		return err
-	}
-
-	// Update the post creator's dislike count
-	_, err = tx.Exec("UPDATE users SET dislike_count=dislike_count-1 WHERE id=(SELECT user_id FROM posts WHERE id=?)", postID)
 	if err != nil {
 		return err
 	}
@@ -247,18 +199,6 @@ func LikeComment(db *sql.DB, userID int, commentID int) error {
 		return err
 	}
 
-	// Update the comment's like count
-	_, err = tx.Exec("UPDATE comments SET like_count=like_count+1 WHERE id=?", commentID)
-	if err != nil {
-		return err
-	}
-
-	// Update the comment creator's like count
-	_, err = tx.Exec("UPDATE users SET like_count=like_count+1 WHERE id=(SELECT user_id FROM comments WHERE id=?)", commentID)
-	if err != nil {
-		return err
-	}
-
 	// Commit the transaction
 	err = tx.Commit()
 	if err != nil {
@@ -294,18 +234,6 @@ func DislikeComment(db *sql.DB, userID int, commentID int) error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(userID, commentID)
-	if err != nil {
-		return err
-	}
-
-	// Update the comment's dislike count
-	_, err = tx.Exec("UPDATE comments SET dislike_count=dislike_count+1 WHERE id=?", commentID)
-	if err != nil {
-		return err
-	}
-
-	// Update the comment creator's dislike count
-	_, err = tx.Exec("UPDATE users SET dislike_count=dislike_count+1 WHERE id=(SELECT user_id FROM comments WHERE id=?)", commentID)
 	if err != nil {
 		return err
 	}
@@ -350,18 +278,6 @@ func RemoveLikeComment(db *sql.DB, userID int, commentID int) error {
 		return err
 	}
 
-	// Update the comment's like count
-	_, err = tx.Exec("UPDATE comments SET like_count=like_count-1 WHERE id=?", commentID)
-	if err != nil {
-		return err
-	}
-
-	// Update the comment creator's like count
-	_, err = tx.Exec("UPDATE users SET like_count=like_count-1 WHERE id=(SELECT user_id FROM comments WHERE id=?)", commentID)
-	if err != nil {
-		return err
-	}
-
 	// Commit the transaction
 	err = tx.Commit()
 	if err != nil {
@@ -398,18 +314,6 @@ func RemoveDislikeComment(db *sql.DB, userID int, commentID int) error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(userID, commentID)
-	if err != nil {
-		return err
-	}
-
-	// Update the comment's dislike count
-	_, err = tx.Exec("UPDATE comments SET dislike_count=dislike_count-1 WHERE id=?", commentID)
-	if err != nil {
-		return err
-	}
-
-	// Update the comment creator's dislike count
-	_, err = tx.Exec("UPDATE users SET dislike_count=dislike_count-1 WHERE id=(SELECT user_id FROM comments WHERE id=?)", commentID)
 	if err != nil {
 		return err
 	}
