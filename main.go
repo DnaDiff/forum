@@ -24,44 +24,34 @@ func main() {
 
 	InitDatabase(db)
 
-	// LikePost(db, 1, 1)
-	// DislikePost(db, 1, 2)
-	// RemoveDislikePost(db, 1, 2)
-	// RemoveLikePost(db, 1, 2)
+	// CreatePost(db, &Post{UserID: 1, Title: "Hello, world!", Content: "This is my first post!", Category: "General"})
 
-	// CreatePost(db, &Post{ // Create a post
-	// 	UserID:   1,
-	// 	Title:    "My fourth post",
-	// 	Content:  "This is my fourth post",
-	// 	Category: "General",
-	// })
+	// CreateComment(db, &Comment{PostID: 1, UserID: 1, Content: "Hello, world!"})
 
-	// RemovePost(db, 1) // Remove a post
-
-	// u := User{
-	// 	ProfilePicture: "mssdasa",
-	// 	Username:       "johnsasddsfasd",
-	// 	Age:            25,
-	// 	Gender:         "male",
-	// 	FirstName:      "Jo",
-	// 	LastName:       "Smi",
-	// 	Password:       "password456",
-	// 	Email:          "JohnsdfsSmdashe@example.com",
-	// }
-	// if !CheckDuplicateUsername(db, u.Username) {
-
-	// 	if err := CreateUser(db, &u); err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// }
-
-	// u, err := database.GetUserByUsername(db, "johnsads")
+	// post, err := GetUserPosts(db, 1)
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }
 
-	// fmt.Printf("User: %+v \n", u)
+	// for _, p := range post {
+	// 	log.Println(p)
+	// }
 
-	// database.DeleteUserByUsername(db, "johns")
+	// nice, err := GetUserComments(db, 1)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// for _, p := range nice {
+	// 	log.Println(p)
+	// }
+
+	// nice, err := GetUserLikes(db, 1)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(nice)
+
+	// RemovePost(db, 1)
 
 }
