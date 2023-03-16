@@ -14,6 +14,40 @@ type Post struct {
 	Created  time.Time
 }
 
+// GetAllPostsByCategory gets all the posts in a category
+func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
+	query := `SELECT id, user_id, title, content, category, created
+			  FROM posts	
+			  WHERE category = ?`
+
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+
+	rows, err := stmt.Query(category)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	posts := []*Post{}
+	for rows.Next() {
+		p := &Post{}
+		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Category, &p.Created)
+		if err != nil {
+			return nil, err
+		}
+
+		posts = append(posts, p)
+	}
+
+	return posts, nil
+}
+
 // CreatePost creates a post and updates the post count for the user who created the post
 func CreatePost(db *sql.DB, post *Post) error {
 	// Prepare the SQL statement
@@ -38,7 +72,6 @@ func CreatePost(db *sql.DB, post *Post) error {
 
 	return nil
 }
-
 
 // RemovePost removes a post and updates the post count for the user who created the post
 func RemovePost(db *sql.DB, postId int) error {
