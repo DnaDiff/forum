@@ -20,7 +20,6 @@ body {
   display: inline-block;
   justify-content: center;
   align-items: center;
-  flex: 0 0 10%;
 }
 
 #header h1 {
