@@ -70,6 +70,28 @@ func GetPost(db *sql.DB, postId int) (*Post, error) {
 	return p, nil
 }
 
+// GetPostLikes gets the number of likes for a post
+func GetPostLikes(db *sql.DB, postId int) (int, error) {
+	query := `SELECT COUNT(*)
+			  FROM likes
+			  WHERE post_id = ?`
+
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return 0, err
+	}
+
+	defer stmt.Close()
+
+	var likes int
+	err = stmt.QueryRow(postId).Scan(&likes)
+	if err != nil {
+		return 0, err
+	}
+
+	return likes, nil
+}
+
 // CreatePost creates a post and updates the post count for the user who created the post
 func CreatePost(db *sql.DB, post *Post) error {
 	// Prepare the SQL statement
