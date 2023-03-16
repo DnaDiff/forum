@@ -1,63 +1,82 @@
+.post-container {
+  border-radius: 24px;
+  padding: 2rem;
+  max-width: 75rem;
+  width: 80vw;
+  height: 80vh;
+  margin: 0 auto;
+  margin-bottom: 2.5rem;
+  background: #3a3a3a;
+}
+
 .post {
   display: grid;
+  margin: 0 auto;
+  max-width: 70rem;
+  width: 80vw;
   height: 30vh;
   grid-template-columns: 0.3fr 1fr 0.3fr 0.1fr 0.1fr;
-  grid-template-rows: 0.1fr 1fr;
-  grid-template-areas:
-    "post__username post__title post__date post__comments post__score"
-    "post__avatar post__content post__content post__interactions post__interactions";
-  gap: 0.1rem;
+  grid-template-rows: 0.2fr 0.6fr;
+  text-align: center;
+}
+
+.post--header {
+  display: flex;
+  font-size: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  background: #4e4e4e;
+}
+
+.post--body {
+  background: #707070;
 }
 
 .post__username {
-  grid-area: post__username;
-  background: #000;
+  grid-column: 1 / 2;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-top-left-radius: 24px;
 }
 
 .post__title {
-  grid-area: post__title;
-  background: #000;
+  grid-column: 2 / 3;
+  padding-left: 6.5rem;
+  font-size: 1.5rem;
+  text-transform: uppercase;
 }
 
 .post__date {
-  grid-area: post__date;
-  background: #000;
+  grid-column: 3 / 4;
 }
 
 .post__comments {
-  grid-area: post__comments;
-  background: #000;
+  grid-column: 4 / 5;
 }
 
 .post__score {
-  grid-area: post__score;
-  background: #000;
+  grid-column: 5 / 6;
+  border-top-right-radius: 24px;
+}
+
+.post__profile {
+  grid-column: 1 / 2;
+  padding-top: 1rem;
+  border-bottom-left-radius: 24px;
 }
 
 .post__avatar {
-  grid-area: post__avatar;
-  background: #000;
+  /* padding: 1rem; */
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 24px;
 }
 
 .post__content {
-  grid-area: post__content;
-  background: #000;
+  grid-column: 2 / 4;
 }
 
 .post__interactions {
-  grid-area: post__interactions;
-  background: #000;
+  grid-column: 4 / 6;
+  border-bottom-right-radius: 24px;
 }
-
-/* For mobile responsiveness
-@media only screen and (max-width: 600px) {
-  .post {
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.1fr 0.1fr 1fr 0.1fr;
-    grid-template-areas:
-      "post__username"
-      "post__title"
-      "post__content"
-      "post__interactions";
-  }
-} */
