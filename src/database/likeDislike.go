@@ -215,3 +215,210 @@ func RemoveDislikePost(db *sql.DB, userID int, postID int) error {
 }
 
 // ------------------------------------Like/Dislike Comment Functions------------------------------------
+
+// LikeComment adds a like to a comment and updates the like count for the OP
+func LikeComment(db *sql.DB, userID int, commentID int) error {
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	// Check if the user has already liked the comment
+	var count int
+	err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		// User has already liked the comment, so do nothing
+		return nil
+	}
+
+	// Insert a new like into the likes table
+	stmt, err := tx.Prepare("INSERT INTO likes (user_id, comment_id) VALUES (?, ?)")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(userID, commentID)
+	if err != nil {
+		return err
+	}
+
+	// Update the comment's like count
+	_, err = tx.Exec("UPDATE comments SET like_count=like_count+1 WHERE id=?", commentID)
+	if err != nil {
+		return err
+	}
+
+	// Update the comment creator's like count
+	_, err = tx.Exec("UPDATE users SET like_count=like_count+1 WHERE id=(SELECT user_id FROM comments WHERE id=?)", commentID)
+	if err != nil {
+		return err
+	}
+
+	// Commit the transaction
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DislikeComment adds a dislike to a comment and updates the dislike count for the OP
+func DislikeComment(db *sql.DB, userID int, commentID int) error {
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+	// Check if the user has already disliked the comment
+	var count int
+	err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		// User has already disliked the comment, so do nothing
+		return nil
+	}
+
+	// Insert a new dislike into the dislikes table
+	stmt, err := tx.Prepare("INSERT INTO dislikes (user_id, comment_id) VALUES (?, ?)")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(userID, commentID)
+	if err != nil {
+		return err
+	}
+
+	// Update the comment's dislike count
+	_, err = tx.Exec("UPDATE comments SET dislike_count=dislike_count+1 WHERE id=?", commentID)
+	if err != nil {
+		return err
+	}
+
+	// Update the comment creator's dislike count
+	_, err = tx.Exec("UPDATE users SET dislike_count=dislike_count+1 WHERE id=(SELECT user_id FROM comments WHERE id=?)", commentID)
+	if err != nil {
+		return err
+	}
+
+	// Commit the transaction
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// RemoveLikeComment removes a like from a comment and updates the like count for the OP
+func RemoveLikeComment(db *sql.DB, userID int, commentID int) error {
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	// Check if the user has already liked the comment
+	var count int
+	err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
+	if err != nil {
+		return err
+	}
+	if count == 0 {
+		// User has not liked the comment, so do nothing
+		return nil
+	}
+
+	// Remove the like from the likes table
+	stmt, err := tx.Prepare("DELETE FROM likes WHERE user_id=? AND comment_id=?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(userID, commentID)
+	if err != nil {
+		return err
+	}
+
+	// Update the comment's like count
+	_, err = tx.Exec("UPDATE comments SET like_count=like_count-1 WHERE id=?", commentID)
+	if err != nil {
+		return err
+	}
+
+	// Update the comment creator's like count
+	_, err = tx.Exec("UPDATE users SET like_count=like_count-1 WHERE id=(SELECT user_id FROM comments WHERE id=?)", commentID)
+	if err != nil {
+		return err
+	}
+
+	// Commit the transaction
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// RemoveDislikeComment removes a dislike from a comment and updates the dislike count for the OP
+func RemoveDislikeComment(db *sql.DB, userID int, commentID int) error {
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	// Check if the user has already disliked the comment
+	var count int
+	err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
+	if err != nil {
+		return err
+	}
+	if count == 0 {
+		// User has not disliked the comment, so do nothing
+		return nil
+	}
+
+	// Remove the dislike from the dislikes table
+	stmt, err := tx.Prepare("DELETE FROM dislikes WHERE user_id=? AND comment_id=?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(userID, commentID)
+	if err != nil {
+		return err
+	}
+
+	// Update the comment's dislike count
+	_, err = tx.Exec("UPDATE comments SET dislike_count=dislike_count-1 WHERE id=?", commentID)
+	if err != nil {
+		return err
+	}
+
+	// Update the comment creator's dislike count
+	_, err = tx.Exec("UPDATE users SET dislike_count=dislike_count-1 WHERE id=(SELECT user_id FROM comments WHERE id=?)", commentID)
+	if err != nil {
+		return err
+	}
+
+	// Commit the transaction
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
