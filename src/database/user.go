@@ -18,6 +18,8 @@ type User struct {
 	Joined         string
 }
 
+// Working functions
+
 // CreateUser creates a new user in the database, if the profile picture is empty, a default image will be used
 func CreateUser(db *sql.DB, u *User) error {
 
