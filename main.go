@@ -24,34 +24,13 @@ func main() {
 
 	InitDatabase(db)
 
-	// CreatePost(db, &Post{UserID: 1, Title: "Hello, world!", Content: "This is my first post!", Category: "General"})
+	nice, err := GetAllPostsByCategory(db, "General")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// CreateComment(db, &Comment{PostID: 1, UserID: 1, Content: "Hello, world!"})
-
-	// post, err := GetUserPosts(db, 1)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// for _, p := range post {
-	// 	log.Println(p)
-	// }
-
-	// nice, err := GetUserComments(db, 1)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// for _, p := range nice {
-	// 	log.Println(p)
-	// }
-
-	// nice, err := GetUserLikes(db, 1)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(nice)
-
-	// RemovePost(db, 1)
+	for _, post := range nice {
+		log.Println(post)
+	}
 
 }
