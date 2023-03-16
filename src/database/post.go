@@ -48,6 +48,28 @@ func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 	return posts, nil
 }
 
+// GetPost gets a post by its ID
+func GetPost(db *sql.DB, postId int) (*Post, error) {
+	query := `SELECT id, user_id, title, content, category, created
+			  FROM posts
+			  WHERE id = ?`
+
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+
+	p := &Post{}
+	err = stmt.QueryRow(postId).Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Category, &p.Created)
+	if err != nil {
+		return nil, err
+	}
+
+	return p, nil
+}
+
 // CreatePost creates a post and updates the post count for the user who created the post
 func CreatePost(db *sql.DB, post *Post) error {
 	// Prepare the SQL statement
