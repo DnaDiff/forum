@@ -20,6 +20,14 @@ function appendNewPost(category, title, content, author, date, avatarUrl) {
   categoryElement.appendChild(postElement);
 }
 
+// Make posts expandable
+document.querySelectorAll(".post__header").forEach((header) => {
+  header.addEventListener("click", () => {
+    const body = header.nextElementSibling;
+    body.classList.toggle("post__body--expanded");
+  });
+});
+
 // for (let i = 0; i < 10; i++) {
 //   appendNewPost(
 //     "post-container",
