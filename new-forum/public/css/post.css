@@ -49,6 +49,8 @@
 .post__username {
   grid-column: 1 / 2;
   text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
   font-weight: bold;
 }
 
