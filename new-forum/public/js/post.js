@@ -23,8 +23,8 @@ function appendNewPost(category, title, content, author, date, avatarUrl) {
 // Make posts expandable
 document.querySelectorAll(".post__header").forEach((header) => {
   header.addEventListener("click", () => {
-    const body = header.nextElementSibling;
-    body.classList.toggle("post__body--expanded");
+    const POST = header.parentElement;
+    POST.classList.toggle("post--expanded");
   });
 });
 

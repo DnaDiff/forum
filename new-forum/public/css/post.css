@@ -41,6 +41,16 @@
   padding-left: 0.5rem;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  transition: border-bottom-left-radius 0.15s, border-bottom-right-radius 0.15s;
+  transition-delay: 0.3s;
+}
+
+.post--expanded .post__header {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  transition: border-bottom-left-radius 0.15s, border-bottom-right-radius 0.15s;
 }
 
 .post__body {
@@ -53,11 +63,17 @@
   padding-left: 0.5rem;
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
+
+  /* Collapse to prepare for dropdown functionality */
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s;
 }
 
-.post__body--expanded {
-  animation: growDown 300ms ease-in-out forwards;
-  transform-origin: top center;
+.post--expanded .post__body {
+  transform: scaleY(1);
+  transition: transform 0.3s;
+  transition-delay: 0.15s;
 }
 
 .post__username {
@@ -116,17 +132,4 @@
 
 .post__interactions {
   grid-column: 3 / 4;
-}
-
-/* Dropdown animation */
-@keyframes growDown {
-  0% {
-    transform: scaleY(0);
-  }
-  80% {
-    transform: scaleY(1.1);
-  }
-  100% {
-    transform: scaleY(1);
-  }
 }
