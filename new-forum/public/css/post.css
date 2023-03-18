@@ -23,6 +23,8 @@
   grid-template-columns: 1fr;
   grid-template-rows: 0.2fr 0.6fr;
   text-align: center;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .post__header {
@@ -62,6 +64,7 @@
   grid-column: 1 / 2;
   text-transform: uppercase;
   text-decoration: none;
+  pointer-events: none;
   color: #fff;
   font-weight: bold;
 }
@@ -73,7 +76,6 @@
   left: 0.5rem;
   top: -0.15rem;
   text-align: left;
-  user-select: none;
   color: #707070;
 }
 
@@ -104,6 +106,7 @@
   /* padding: 1rem; */
   width: 7rem;
   height: 7rem;
+  pointer-events: none;
   border-radius: 24px;
 }
 
