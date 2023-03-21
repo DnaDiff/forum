@@ -14,9 +14,8 @@
   margin: 0 auto;
   max-width: 70rem;
   width: 80vw;
-  height: 30vh;
   grid-template-columns: 1fr;
-  grid-template-rows: 0.2fr 0.6fr;
+  grid-template-rows: 3.5rem auto;
   text-align: center;
   -webkit-user-select: none;
   user-select: none;
