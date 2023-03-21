@@ -9,11 +9,6 @@
   background: #3a3a3a;
 }
 
-/* .post__header:hover {
-  animation: growDown 300ms ease-in-out forwards;
-  transform-origin: top center;
-} */
-
 .post {
   display: grid;
   margin: 0 auto;
@@ -118,7 +113,6 @@
 }
 
 .post__avatar {
-  /* padding: 1rem; */
   width: 7rem;
   height: 7rem;
   pointer-events: none;
