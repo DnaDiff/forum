@@ -80,7 +80,6 @@
   grid-column: 1 / 2;
   text-transform: uppercase;
   text-decoration: none;
-  pointer-events: none;
   color: #fff;
   font-weight: bold;
 }
