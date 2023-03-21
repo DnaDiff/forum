@@ -120,6 +120,15 @@
 
 .post__content {
   grid-column: 2 / 3;
+  text-align: left;
+  font-size: 1.1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  user-select: text;
+  padding-top: 0.9rem;
+  padding-left: 1rem;
+  padding-bottom: 3rem;
 }
 
 .post__interactions {
