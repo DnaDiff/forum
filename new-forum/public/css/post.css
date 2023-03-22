@@ -125,6 +125,7 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
+  -webkit-user-select: text;
   user-select: text;
   padding-top: 0.9rem;
   padding-left: 1rem;
