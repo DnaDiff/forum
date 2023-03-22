@@ -130,6 +130,7 @@
   font-size: 1.1rem;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  -webkit-hyphens: auto;
   hyphens: auto;
   -webkit-user-select: text;
   user-select: text;
