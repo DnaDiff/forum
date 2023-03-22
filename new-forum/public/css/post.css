@@ -19,6 +19,7 @@
   text-align: center;
   -webkit-user-select: none;
   user-select: none;
+  padding-bottom: 0.25rem;
 }
 
 .post__header {
