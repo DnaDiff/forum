@@ -38,7 +38,7 @@
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
   transition: border-bottom-left-radius 0.15s, border-bottom-right-radius 0.15s;
-  transition-delay: 0.3s;
+  transition-delay: 0.5s;
 }
 
 .post--expanded .post__header {
@@ -59,14 +59,19 @@
   border-bottom-right-radius: 24px;
 
   /* Collapse to prepare for dropdown functionality */
+  max-height: 0;
+  overflow: hidden;
   transform: scaleY(0);
   transform-origin: top;
-  transition: transform 0.3s;
+
+  transition: max-height 0.8s, transform 0.5s;
 }
 
 .post--expanded .post__body {
+  max-height: 100vh;
   transform: scaleY(1);
-  transition: transform 0.3s;
+  transform: none; /* Prevent overlapping */
+  transition: max-height 1s, transform 0.5s;
   transition-delay: 0.15s;
 }
 
