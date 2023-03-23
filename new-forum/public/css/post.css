@@ -141,4 +141,15 @@
 
 .post__interactions {
   grid-column: 3 / 4;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  margin: 0 auto;
+  margin-top: 0.75rem;
+  width: 4rem;
+  height: 8rem;
+
+  background: #4e4e4e;
+  border-radius: 42px;
+}
 }
