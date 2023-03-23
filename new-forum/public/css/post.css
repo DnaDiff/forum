@@ -152,4 +152,11 @@
   background: #4e4e4e;
   border-radius: 42px;
 }
+
+.post__interaction {
+  width: 1rem;
+  height: 1rem;
+  align-self: center;
+  justify-self: center;
+  cursor: pointer;
 }
