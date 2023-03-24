@@ -214,6 +214,7 @@
   align-self: center;
   justify-self: center;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
 .post__interaction:hover {
