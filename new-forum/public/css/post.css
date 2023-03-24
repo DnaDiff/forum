@@ -160,6 +160,10 @@
 .post__score--icon:active {
   transform: scale(0.9);
 }
+
+.post__score--count {
+  display: inline-block;
+  font-size: 1.25rem;
 }
 
 .post__profile {
