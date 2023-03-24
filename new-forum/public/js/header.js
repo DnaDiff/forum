@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   loadButtons();
-  console.log("DOM loaded");
 });
 
 function loadButtons() {
