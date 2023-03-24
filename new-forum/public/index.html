@@ -216,8 +216,24 @@
               <span class="post__separator">|</span>
               <div class="post__title">EXAMPLE POST TITLE</div>
               <time class="post__date">12/03/2023 16:03</time>
-              <div class="post__comments">Comments</div>
-              <div class="post__score">Score</div>
+              <div class="post__comments">
+                <img
+                  class="post__comments--icon"
+                  src="images/comment.svg"
+                  draggable="false"
+                  alt="Comments"
+                />
+                <b class="post__comments--count">0</b>
+              </div>
+              <div class="post__score">
+                <img
+                  class="post__score--icon"
+                  src="images/face-smile.svg"
+                  draggable="false"
+                  alt="Comments"
+                />
+                <b class="post__score--count">0</b>
+              </div>
             </header>
             <section class="post__body">
               <div class="post__profile">
@@ -257,7 +273,26 @@
                 nulla pariatur. Excepteur sint occaecat cupidatat non proident,
                 sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
-              <div class="post__interactions">Interactions</div>
+              <div class="post__interactions">
+                <img
+                  class="post__interaction post__interaction--upvote"
+                  src="images/arrow-up.svg"
+                  alt="Upvote"
+                  draggable="false"
+                />
+                <img
+                  class="post__interaction post__interaction--downvote"
+                  src="images/arrow-down.svg"
+                  alt="Downvote"
+                  draggable="false"
+                />
+                <img
+                  class="post__interaction post__interaction--comment"
+                  src="images/comment.svg"
+                  alt="Comment"
+                  draggable="false"
+                />
+              </div>
             </section>
           </article>
         </div>
