@@ -25,7 +25,7 @@
 .post__header {
   grid-column: 1 / 2;
   display: grid;
-  grid-template-columns: 0.3fr 0.2fr 1fr 0.3fr 0.1fr 0.1fr;
+  grid-template-columns: 0.3fr 0.2fr 0.95fr 0.35fr 0.1fr 0.1fr;
   grid-template-rows: 1fr;
   font-size: 1.25rem;
   align-items: center;
@@ -34,6 +34,7 @@
   cursor: pointer;
 
   padding-left: 0.5rem;
+  padding-right: 1.5rem;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
   border-bottom-left-radius: 24px;
