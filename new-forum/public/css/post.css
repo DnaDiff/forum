@@ -152,6 +152,14 @@
   margin-bottom: 0.15rem;
   transition: transform 0.2s;
 }
+
+.post__score--icon:hover {
+  transform: scale(1.1);
+}
+
+.post__score--icon:active {
+  transform: scale(0.9);
+}
 }
 
 .post__profile {
