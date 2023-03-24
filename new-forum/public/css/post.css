@@ -129,6 +129,10 @@
 .post__comments--icon:active {
   transform: scale(0.9);
 }
+
+.post__comments--count {
+  display: inline-block;
+  font-size: 1.25rem;
 }
 
 .post__score {
