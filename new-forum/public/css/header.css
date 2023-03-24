@@ -20,7 +20,6 @@ body {
   display: inline-block;
   justify-content: center;
   align-items: center;
-  flex: 0 0 10%;
 }
 
 #header h1 {
@@ -97,6 +96,10 @@ header nav ul button {
   border-bottom: 2px solid gray;
   outline: none;
   text-align: center;
+}
+
+#header .modal-btn {
+  cursor: pointer;
 }
 
 #header .form-input:focus {

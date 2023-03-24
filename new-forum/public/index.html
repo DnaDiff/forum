@@ -12,6 +12,7 @@
     </style>
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/post.css" />
     <link rel="icon" href="images/coc.png" />
     <title>DNA DIFF</title>
   </head>
@@ -27,11 +28,7 @@
       <nav>
         <ul>
           <li>
-            <a
-              id="login-btn"
-              class="modal-btn"
-              data-modal="login-form-modal"
-              style="cursor: pointer"
+            <a id="login-btn" class="modal-btn" data-modal="login-form-modal"
               >Login</a
             >
           </li>
@@ -40,7 +37,6 @@
               id="register-btn"
               class="modal-btn"
               data-modal="register-form-modal"
-              style="cursor: pointer"
               >Register</a
             >
           </li>
@@ -51,10 +47,10 @@
 
       <!-- Login section -->
       <div id="login-form-modal" class="modal">
-        <ul>
-          <form id="login-form">
-            <h3>Welcome back!</h3>
+        <form id="login-form">
+          <ul>
             <li>
+              <h3>Welcome back!</h3>
               <input
                 maxlength="12"
                 type="text"
@@ -75,17 +71,17 @@
             <li>
               <span type="button" class="close-btn">&times; </span>
             </li>
-          </form>
-        </ul>
+          </ul>
+        </form>
       </div>
       <!-- End of login section -->
 
       <!-- Register section -->
       <div id="register-form-modal" class="modal">
-        <ul>
-          <form id="register-form">
-            <h3>Create an account</h3>
+        <form id="register-form">
+          <ul>
             <li>
+              <h3>Create an account</h3>
               <input
                 maxlength="12"
                 type="text"
@@ -117,8 +113,8 @@
             <li>
               <span type="button" class="close-btn">&times; </span>
             </li>
-          </form>
-        </ul>
+          </ul>
+        </form>
       </div>
       <!-- End of register section -->
     </header>
@@ -127,13 +123,179 @@
     <!-- Main section -->
     <main id="main">
       <div class="container">
-        <h1>WELCOME, [username]!</h1>
-        <p>
-          This is a forum where you can discuss your DNA and share your
-          experiences with other people.
-        </p>
-        <!-- Post section (rows) -->
-
+        <!-- Posts section -->
+        <div class="post-container">
+          <article class="post">
+            <header class="post__header">
+              <a class="post__username" href="#/profile/id">JOHN_DOE</a>
+              <span class="post__separator">|</span>
+              <div class="post__title">HOW DO I FIND A GOOD DIET?</div>
+              <time class="post__date">12/03/2023 16:03</time>
+              <div class="post__comments">
+                <img
+                  class="post__comments--icon"
+                  src="images/comment.svg"
+                  draggable="false"
+                  alt="Comments"
+                />
+                <b class="post__comments--count">0</b>
+              </div>
+              <div class="post__score">
+                <img
+                  class="post__score--icon"
+                  src="images/face-smile.svg"
+                  draggable="false"
+                  alt="Comments"
+                />
+                <b class="post__score--count">0</b>
+              </div>
+            </header>
+            <section class="post__body">
+              <div class="post__profile">
+                <img
+                  class="post__avatar"
+                  src="https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+                  alt="Avatar"
+                />
+              </div>
+              <div class="post__content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </div>
+              <div class="post__interactions">
+                <img
+                  class="post__interaction post__interaction--upvote"
+                  src="images/arrow-up.svg"
+                  alt="Upvote"
+                  draggable="false"
+                />
+                <img
+                  class="post__interaction post__interaction--downvote"
+                  src="images/arrow-down.svg"
+                  alt="Downvote"
+                  draggable="false"
+                />
+                <img
+                  class="post__interaction post__interaction--comment"
+                  src="images/comment.svg"
+                  alt="Comment"
+                  draggable="false"
+                />
+              </div>
+            </section>
+          </article>
+          <article class="post">
+            <header class="post__header">
+              <a class="post__username" href="#/profile/id">JOHN_DOE</a>
+              <span class="post__separator">|</span>
+              <div class="post__title">EXAMPLE POST TITLE</div>
+              <time class="post__date">12/03/2023 16:03</time>
+              <div class="post__comments">
+                <img
+                  class="post__comments--icon"
+                  src="images/comment.svg"
+                  draggable="false"
+                  alt="Comments"
+                />
+                <b class="post__comments--count">0</b>
+              </div>
+              <div class="post__score">
+                <img
+                  class="post__score--icon"
+                  src="images/face-smile.svg"
+                  draggable="false"
+                  alt="Comments"
+                />
+                <b class="post__score--count">0</b>
+              </div>
+            </header>
+            <section class="post__body">
+              <div class="post__profile">
+                <img
+                  class="post__avatar"
+                  src="https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+                  alt="Avatar"
+                />
+              </div>
+              <div class="post__content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </div>
+              <div class="post__interactions">
+                <img
+                  class="post__interaction post__interaction--upvote"
+                  src="images/arrow-up.svg"
+                  alt="Upvote"
+                  draggable="false"
+                />
+                <img
+                  class="post__interaction post__interaction--downvote"
+                  src="images/arrow-down.svg"
+                  alt="Downvote"
+                  draggable="false"
+                />
+                <img
+                  class="post__interaction post__interaction--comment"
+                  src="images/comment.svg"
+                  alt="Comment"
+                  draggable="false"
+                />
+              </div>
+            </section>
+          </article>
+        </div>
         <!-- End of post section -->
       </div>
     </main>
@@ -141,9 +303,13 @@
     <!-- End of main section -->
 
     <!-- Footer section -->
+    <footer>
+      <span>&copy; 2023 DNADiff</span>
+    </footer>
     <!-- End of footer section -->
 
     <!-- Scripts -->
     <script src="js/header.js" defer></script>
+    <script src="js/post.js" defer></script>
   </body>
 </html>
