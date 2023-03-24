@@ -161,3 +161,11 @@
   justify-self: center;
   cursor: pointer;
 }
+
+.post__interaction:hover {
+  transform: scale(1.1);
+}
+
+.post__interaction:active {
+  transform: scale(0.9);
+}
