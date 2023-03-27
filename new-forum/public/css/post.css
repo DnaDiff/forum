@@ -136,7 +136,7 @@
   font-size: 1.25rem;
 }
 
-.post__score {
+.post__rating {
   grid-column: 6 / 7;
   display: flex;
   flex-direction: row;
@@ -144,7 +144,7 @@
   align-items: center;
 }
 
-.post__score--icon {
+.post__rating--icon {
   filter: invert(44%) sepia(15%) saturate(9%) hue-rotate(328deg) brightness(95%)
     contrast(91%); /* #707070 */
   width: 1.25rem;
@@ -154,15 +154,15 @@
   transition: transform 0.2s;
 }
 
-.post__score--icon:hover {
+.post__rating--icon:hover {
   transform: scale(1.1);
 }
 
-.post__score--icon:active {
+.post__rating--icon:active {
   transform: scale(0.9);
 }
 
-.post__score--count {
+.post__rating--count {
   display: inline-block;
   font-size: 1.25rem;
 }
