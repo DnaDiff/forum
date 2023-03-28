@@ -1,8 +1,8 @@
 function HeaderFunctions() {
-    loadRegister();
-    loadLogin();
-    loadPost();
-    loadComment();
+  loadRegister();
+  loadLogin();
+  loadPost();
+  loadComment();
 }
 
 function loadRegister() {
