@@ -124,6 +124,19 @@ class Post extends HTMLElement {
       }
     );
   }
+
+  disconnectedCallback() {
+    console.log("Post removed");
+
+    // Remove event listeners
+    this.querySelector(".post__header").removeEventListener();
+    this.querySelector(".post__interaction--upvote").removeEventListener();
+    this.querySelector(".post__interaction--downvote").removeEventListener();
+    this.querySelector(".post__interaction--comment").removeEventListener();
+
+    // Remove post
+    this.remove();
+  }
 }
 customElements.define("post-element", Post);
 
