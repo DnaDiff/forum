@@ -9,8 +9,9 @@ var mux *http.ServeMux
 
 func RouteHandler(db *sql.DB) *http.ServeMux {
 	mux = http.NewServeMux()
-	mux.HandleFunc("/", createHandlerFunc(HandleIndex, db))
-	mux.HandleFunc("/api/posts", createHandlerFunc(RetrievePosts, db))
+	mux.HandleFunc("/", createHandlerFunc(HandleIndex, db))          // Main page
+	mux.HandleFunc("/api/posts", createHandlerFunc(HandlePost, db))  // Returns all posts
+	mux.HandleFunc("/api/posts/", createHandlerFunc(HandlePost, db)) // Post specific requests, e.g. data, upvote, downvote, comment, etc.
 	// mux.HandleFunc("/login", createHandlerFunc(HandleLogin, db))
 	// mux.HandleFunc("/logout", createHandlerFunc(HandleLogout, db))
 	// mux.HandleFunc("/register", createHandlerFunc(HandleRegister, db))
