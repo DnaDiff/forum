@@ -134,7 +134,7 @@ function populatePosts() {
       data.forEach((post) => {
         let postElement = new Post(
           post.ID,
-          post.category,
+          post.parentID,
           post.title,
           post.content,
           post.date,
@@ -149,6 +149,7 @@ function populatePosts() {
         post.comments.forEach((comment) => {
           let commentElement = new Post(
             comment.ID,
+            comment.parentID,
             comment.content,
             comment.date,
             comment.rating,
