@@ -13,6 +13,7 @@ class Post extends HTMLElement {
   ) {
     super();
 
+    this.ID = ID;
     this.parentID = parentID;
     this.title = title;
     this.content = content;
@@ -24,7 +25,7 @@ class Post extends HTMLElement {
     this.userAvatar = userAvatar;
 
     // Create HTML elements and set values
-    this.dataset.id = ID;
+    this.dataset.id = this.ID;
     this.classList.add("post");
     this.innerHTML = `
     <header class="post__header">
