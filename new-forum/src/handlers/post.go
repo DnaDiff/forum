@@ -8,7 +8,7 @@ import (
 
 type Post struct {
 	ID         int    `json:"ID"`
-	Category   string `json:"category"`
+	ParentID   string `json:"parentID"`
 	Title      string `json:"title"`
 	Content    string `json:"content"`
 	Date       string `json:"date"`
@@ -27,9 +27,9 @@ func RetrievePosts(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 		// Placeholder
 		posts := []Post{
-			{ID: 123456789, Category: "None", Title: "Help me make lasagna", Content: "This is post 123456789", Date: "2020-01-01", Comments: []Post{}, Rating: 0, UserID: 123456789, Username: "John_Doe", UserAvatar: DEFAULT_AVATAR},
-			{ID: 234567890, Category: "None", Title: "Meditation advice", Content: "This is post 234567890", Date: "2020-01-01", Comments: []Post{}, Rating: 0, UserID: 123456789, Username: "John_Doe", UserAvatar: DEFAULT_AVATAR},
-			{ID: 345678901, Category: "None", Title: "Party tonight in my discord", Content: "This is post 345678901", Date: "2020-01-01", Comments: []Post{}, Rating: 0, UserID: 345678901, Username: "PARTYBOI", UserAvatar: DEFAULT_AVATAR},
+		{ID: 123456789, ParentID: "None", Title: "Help me make lasagna", Content: "This is post 123456789", Date: "2020-01-01", Comments: []Post{}, Rating: 0, UserID: 123456789, Username: "John_Doe", UserAvatar: DEFAULT_AVATAR},
+		{ID: 234567890, ParentID: "None", Title: "Meditation advice", Content: "This is post 234567890", Date: "2020-01-01", Comments: []Post{}, Rating: 0, UserID: 123456789, Username: "John_Doe", UserAvatar: DEFAULT_AVATAR},
+		{ID: 345678901, ParentID: "None", Title: "Party tonight in my discord", Content: "This is post 345678901", Date: "2020-01-01", Comments: []Post{}, Rating: 0, UserID: 345678901, Username: "PARTYBOI", UserAvatar: DEFAULT_AVATAR},
 		}
 
 		postsJSON, err := json.Marshal(posts)
