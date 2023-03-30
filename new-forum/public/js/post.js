@@ -111,24 +111,6 @@ function populatePosts() {
           post.username,
           post.userAvatar
         );
-        // Make post expandable
-        postElement
-          .querySelector(".post__header")
-          .addEventListener("click", (event) => {
-            if (!event.target.classList.contains("post__username")) {
-              postElement.classList.toggle("post--expanded");
-            }
-          });
-        // Add event listeners to post interactions
-        postElement
-          .querySelector(".post__interaction--upvote")
-          .addEventListener("click", () => this.rating++);
-        postElement
-          .querySelector(".post__interaction--downvote")
-          .addEventListener("click", () => this.rating--);
-        postElement
-          .querySelector(".post__interaction--comment")
-          .addEventListener("click", () => this.comments++);
 
         // Add comments to post
         post.comments.forEach((comment) => {
@@ -148,6 +130,19 @@ function populatePosts() {
       });
     })
     .catch((error) => console.error(error));
+}
+
+function addInteractionListener(element, endpoint, method, callback) {
+  element.addEventListener("click", () => {
+    fetch(endpoint, {
+      method: method,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        callback(data);
+      })
+      .catch((error) => console.error("Interaction failed:", error));
+  });
 }
 
 // DOM loaded
