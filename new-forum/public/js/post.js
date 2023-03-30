@@ -24,6 +24,11 @@ class Post extends HTMLElement {
     this.username = username;
     this.userAvatar = userAvatar;
 
+    // Append post to container
+    document.querySelector(".post-container").appendChild(this); // Replace with category once implemented
+  }
+
+  connectedCallback() {
     // Create HTML elements and set values
     this.dataset.id = this.ID;
     this.classList.add("post");
@@ -86,12 +91,7 @@ class Post extends HTMLElement {
   </section>
   <section class="post__comments"></section>`;
 
-    // Append post to container
-    const CONTAINER = document.querySelector(".post-container");
-    CONTAINER.appendChild(this);
-
     // Make post expandable
-
     this.querySelector(".post__header").addEventListener("click", (event) => {
       if (!event.target.classList.contains("post__username")) {
         this.classList.toggle("post--expanded");
