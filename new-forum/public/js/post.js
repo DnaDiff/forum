@@ -1,7 +1,7 @@
 class Post extends HTMLElement {
   constructor(
     ID,
-    category,
+    parentID,
     title,
     content,
     date,
@@ -13,19 +13,18 @@ class Post extends HTMLElement {
   ) {
     super();
 
-    this.ID = ID;
-    this.category = category;
+    this.parentID = parentID;
     this.title = title;
     this.content = content;
     this.date = date;
-    this.comments = comments;
+    this.comments = comments.length;
     this.rating = rating;
     this.userID = userID;
     this.username = username;
     this.userAvatar = userAvatar;
 
     // Create HTML elements and set values
-    this.dataset.id = this.ID;
+    this.dataset.id = ID;
     this.classList.add("post");
     this.innerHTML = `
     <header class="post__header">
@@ -40,7 +39,7 @@ class Post extends HTMLElement {
         draggable="false"
         alt="Comments"
       />
-      <b class="post__comments--count">${this.comments.length}</b>
+      <b class="post__comments--count">${this.comments}</b>
     </div>
     <div class="post__rating">
       <img
@@ -87,8 +86,42 @@ class Post extends HTMLElement {
   <section class="post__comments"></section>`;
 
     // Append post to container
-    const container = document.querySelector(".post-container");
-    container.appendChild(this);
+    const CONTAINER = document.querySelector(".post-container");
+    CONTAINER.appendChild(this);
+
+    // Make post expandable
+
+    this.querySelector(".post__header").addEventListener("click", (event) => {
+      if (!event.target.classList.contains("post__username")) {
+        this.classList.toggle("post--expanded");
+      }
+    });
+    // Add event listeners to post interactions
+    addInteractionListener(
+      this.querySelector(".post__interaction--upvote"),
+      `/api/posts/${ID}/upvote`,
+      "POST",
+      (data) => {
+        this.querySelector(".post__rating--count").textContent = data.rating;
+      }
+    );
+    addInteractionListener(
+      this.querySelector(".post__interaction--downvote"),
+      `/api/posts/${ID}/downvote`,
+      "PUT",
+      (data) => {
+        this.querySelector(".post__rating--count").textContent = data.rating;
+      }
+    );
+    addInteractionListener(
+      this.querySelector(".post__interaction--comment"),
+      `/api/posts/${ID}/comment`,
+      "POST",
+      (data) => {
+        console.log("Comment");
+        // this.querySelector(".post__comments--count").textContent = data.comments.length;
+      }
+    );
   }
 }
 customElements.define("post-element", Post);
