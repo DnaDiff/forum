@@ -13,16 +13,16 @@ class Post extends HTMLElement {
   ) {
     super();
 
-    this.ID = ID;
-    this.parentID = parentID;
-    this.title = title;
-    this.content = content;
-    this.date = date;
-    this.comments = comments.length;
-    this.rating = rating;
-    this.userID = userID;
-    this.username = username;
-    this.userAvatar = userAvatar;
+    this._ID = ID;
+    this._parentID = parentID;
+    this._title = title;
+    this._content = content;
+    this._date = date;
+    this._comments = comments.length;
+    this._rating = rating;
+    this._userID = userID;
+    this._username = username;
+    this._userAvatar = userAvatar;
 
     // Append post to container
     document.querySelector(".post-container").appendChild(this); // Replace with category once implemented
@@ -30,14 +30,14 @@ class Post extends HTMLElement {
 
   connectedCallback() {
     // Create HTML elements and set values
-    this.dataset.id = this.ID;
+    this.dataset.id = this._ID;
     this.classList.add("post");
     this.innerHTML = `
     <header class="post__header">
-    <a class="post__username" href="#/profile/${this.userID}">${this.username}</a>
+    <a class="post__username" href="#/profile/${this._userID}">${this._username}</a>
     <span class="post__separator">|</span>
-    <div class="post__title">${this.title}</div>
-    <time class="post__date">${this.date}</time>
+    <div class="post__title">${this._title}</div>
+    <time class="post__date">${this._date}</time>
     <div class="post__comments">
       <img
         class="post__comments--icon"
@@ -45,7 +45,7 @@ class Post extends HTMLElement {
         draggable="false"
         alt="Comments"
       />
-      <b class="post__comments--count">${this.comments}</b>
+      <b class="post__comments--count">${this._comments}</b>
     </div>
     <div class="post__rating">
       <img
@@ -54,19 +54,19 @@ class Post extends HTMLElement {
         draggable="false"
         alt="Comments"
       />
-      <b class="post__rating--count">${this.rating}</b>
+      <b class="post__rating--count">${this._rating}</b>
     </div>
   </header>
   <section class="post__body">
     <div class="post__profile">
       <img
         class="post__avatar"
-        src="${this.userAvatar}"
-        alt="${this.username}'s avatar"
+        src="${this._userAvatar}"
+        alt="${this._username}'s avatar"
       />
     </div>
     <div class="post__content">
-      ${this.content}
+      ${this._content}
     </div>
     <div class="post__interactions">
       <img
@@ -100,7 +100,7 @@ class Post extends HTMLElement {
     // Add event listeners to post interactions
     addInteractionListener(
       this.querySelector(".post__interaction--upvote"),
-      `/api/posts/${this.ID}/upvote`,
+      `/api/posts/${this._ID}/upvote`,
       "POST",
       (data) => {
         this.querySelector(".post__rating--count").textContent = data.rating;
@@ -108,7 +108,7 @@ class Post extends HTMLElement {
     );
     addInteractionListener(
       this.querySelector(".post__interaction--downvote"),
-      `/api/posts/${this.ID}/downvote`,
+      `/api/posts/${this._ID}/downvote`,
       "PUT",
       (data) => {
         this.querySelector(".post__rating--count").textContent = data.rating;
@@ -116,7 +116,7 @@ class Post extends HTMLElement {
     );
     addInteractionListener(
       this.querySelector(".post__interaction--comment"),
-      `/api/posts/${this.ID}/comment`,
+      `/api/posts/${this._ID}/comment`,
       "POST",
       (data) => {
         console.log("Comment");
