@@ -100,7 +100,7 @@ class Post extends HTMLElement {
     // Add event listeners to post interactions
     addInteractionListener(
       this.querySelector(".post__interaction--upvote"),
-      `/api/posts/${ID}/upvote`,
+      `/api/posts/${this.ID}/upvote`,
       "POST",
       (data) => {
         this.querySelector(".post__rating--count").textContent = data.rating;
@@ -108,7 +108,7 @@ class Post extends HTMLElement {
     );
     addInteractionListener(
       this.querySelector(".post__interaction--downvote"),
-      `/api/posts/${ID}/downvote`,
+      `/api/posts/${this.ID}/downvote`,
       "PUT",
       (data) => {
         this.querySelector(".post__rating--count").textContent = data.rating;
@@ -116,7 +116,7 @@ class Post extends HTMLElement {
     );
     addInteractionListener(
       this.querySelector(".post__interaction--comment"),
-      `/api/posts/${ID}/comment`,
+      `/api/posts/${this.ID}/comment`,
       "POST",
       (data) => {
         console.log("Comment");
