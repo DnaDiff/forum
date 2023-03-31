@@ -39,7 +39,7 @@ func HandlePost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	case "GET":
 		if postID != "" {
 			fmt.Println("GET request to /api/posts/" + postID)
-			RetrievePost(w, r, db)
+			RetrievePost(w, r, db, postID)
 		} else {
 			fmt.Println("GET request to /api/posts")
 			RetrievePosts(w, r, db)
@@ -50,20 +50,20 @@ func HandlePost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			CreatePost(w, r, db)
 		} else if postAction == "comment" {
 			fmt.Printf("POST request to /api/posts/%s/%s\n", postID, postAction)
-			CommentPost(w, r, db)
+			CommentPost(w, r, db, postID)
 		} else if postAction == "upvote" {
 			fmt.Printf("POST request to /api/posts/%s/%s\n", postID, postAction)
-			UpvotePost(w, r, db)
+			UpvotePost(w, r, db, postID)
 		}
 	case "PUT":
 		if postAction == "downvote" {
 			fmt.Printf("PUT request to /api/posts/%s/%s\n", postID, postAction)
-			DownvotePost(w, r, db)
+			DownvotePost(w, r, db, postID)
 		}
 	case "DELETE":
 		if postAction == "delete" {
 			fmt.Printf("DELETE request to /api/posts/%s/%s\n", postID, postAction)
-			DeletePost(w, r, db)
+			DeletePost(w, r, db, postID)
 		}
 	}
 }
@@ -89,7 +89,7 @@ func RetrievePosts(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 }
 
 // Retrieve a specific post and its data from database
-func RetrievePost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func RetrievePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {
 	// Fetch post from database
 	// fmt.Println("GET request to /api/posts/{id}")
 
@@ -117,7 +117,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func CommentPost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func CommentPost(w http.ResponseWriter, r *http.Request, db *sql.DB, parentID string) {
 	// Add new post to database with parentID and add ID to parent post's comments
 	// fmt.Println("POST request to /api/posts/{id}/comment")
 
@@ -125,15 +125,16 @@ func CommentPost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func UpvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func UpvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {
 	// Add upvote from user to database
 	// fmt.Println("POST request to /api/posts/{id}/upvote")
 
 	// Placeholder
 	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"rating": 5}`))
 }
 
-func DownvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func DownvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {
 	// Remove upvote from user in database
 	// fmt.Println("PUT request to /api/posts/{id}/downvote")
 
@@ -141,7 +142,7 @@ func DownvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func DeletePost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func DeletePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {
 	// Delete post from database
 	// fmt.Println("DELETE request to /api/posts/{id}/delete")
 
