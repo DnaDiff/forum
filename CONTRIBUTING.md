@@ -21,6 +21,7 @@ Before submitting your contributions, please make sure to follow these good prac
 - Use camelCase for Golang and JavaScript variable and function names.
 - Use PascalCase for Golang and JavaScript struct, interface, class, and constructor names.
 - Use UPPER_CASE for Golang and JavaScript constants.
+- Use an underscore prefix (e.g., `_myPrivateProperty`) when declaring private properties in JavaScript.
 
 ## **Code organization**
 
