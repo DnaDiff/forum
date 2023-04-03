@@ -35,7 +35,7 @@ class Post extends HTMLElement {
 
   connectedCallback() {
     // Create HTML elements and set values
-    this.dataset.id = this._ID;
+    this.id = this._ID;
     this.classList.add("post");
     this.innerHTML = `
     <header class="post__header">
