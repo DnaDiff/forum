@@ -91,31 +91,45 @@ class Post extends HTMLElement {
   </section>
   <section class="post__comments"></section>`;
 
+    const POST_HEADER = this.querySelector(".post__header");
+    const POST_RATING = this.querySelector(".post__rating--count");
+    const POST_UPVOTE = this.querySelector(".post__interaction--upvote");
+    const POST_DOWNVOTE = this.querySelector(".post__interaction--downvote");
+    const POST_COMMENT = this.querySelector(".post__interaction--comment");
+
     // Make post expandable
-    this.querySelector(".post__header").addEventListener("click", (event) => {
+    POST_HEADER.addEventListener("click", (event) => {
       if (!event.target.classList.contains("post__username")) {
         this.classList.toggle("post--expanded");
       }
     });
     // Add event listeners to post interactions
     addInteractionListener(
-      this.querySelector(".post__interaction--upvote"),
+      POST_UPVOTE,
       `/api/posts/${this._ID}/upvote`,
       "POST",
       (data) => {
-        this.querySelector(".post__rating--count").textContent = data.rating;
+        if (POST_DOWNVOTE.classList.contains("post__interaction--selected")) {
+          POST_DOWNVOTE.classList.toggle("post__interaction--selected");
+        }
+        POST_UPVOTE.classList.toggle("post__interaction--selected");
+        POST_RATING.textContent = data.rating;
       }
     );
     addInteractionListener(
-      this.querySelector(".post__interaction--downvote"),
+      POST_DOWNVOTE,
       `/api/posts/${this._ID}/downvote`,
       "PUT",
       (data) => {
-        this.querySelector(".post__rating--count").textContent = data.rating;
+        if (POST_UPVOTE.classList.contains("post__interaction--selected")) {
+          POST_UPVOTE.classList.toggle("post__interaction--selected");
+        }
+        POST_DOWNVOTE.classList.toggle("post__interaction--selected");
+        POST_RATING.textContent = data.rating;
       }
     );
     addInteractionListener(
-      this.querySelector(".post__interaction--comment"),
+      POST_COMMENT,
       `/api/posts/${this._ID}/comment`,
       "POST",
       (data) => {
