@@ -24,8 +24,13 @@ class Post extends HTMLElement {
     this._username = username;
     this._userAvatar = userAvatar;
 
-    // Append post to container
-    document.querySelector(".post-container").appendChild(this); // Replace with category once implemented
+    // Append post to category
+    if (this._parentID === null) {
+      throw new Error("Post must have a parentID");
+    }
+    document
+      .querySelector(`.post-category[id="${this._parentID}"]`)
+      .appendChild(this);
   }
 
   connectedCallback() {
