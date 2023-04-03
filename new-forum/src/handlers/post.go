@@ -131,7 +131,7 @@ func UpvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID strin
 
 	// Placeholder
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`{"rating": 5}`))
+	w.Write([]byte(`{"rating": 1}`))
 }
 
 func DownvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {
@@ -140,6 +140,7 @@ func DownvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID str
 
 	// Placeholder
 	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"rating": -1}`))
 }
 
 func DeletePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {
