@@ -13,8 +13,13 @@ const PORT = "8080"
 
 func main() {
 	// Establish connection to the database
-	// var db = database.ConnectDB()
 	var db *sql.DB
+	// db, err := sql.Open("sqlite3", "./database/database.db")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer db.Close()
+	// database.InitDatabase(db)
 
 	// Create the mux to handle the routes
 	mux := handlers.RouteHandler(db)

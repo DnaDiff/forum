@@ -154,6 +154,19 @@ class Post extends HTMLElement {
 }
 customElements.define("post-element", Post);
 
+function addInteractionListener(element, endpoint, method, callback) {
+  element.addEventListener("click", () => {
+    fetch(endpoint, {
+      method: method,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        callback(data);
+      })
+      .catch((error) => console.error("Interaction failed:", error));
+  });
+}
+
 // Fetch all posts from database endpoint and append to page
 function populatePosts() {
   fetch("/api/posts")
@@ -192,19 +205,6 @@ function populatePosts() {
       });
     })
     .catch((error) => console.error(error));
-}
-
-function addInteractionListener(element, endpoint, method, callback) {
-  element.addEventListener("click", () => {
-    fetch(endpoint, {
-      method: method,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        callback(data);
-      })
-      .catch((error) => console.error("Interaction failed:", error));
-  });
 }
 
 // DOM loaded
