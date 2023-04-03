@@ -3,23 +3,25 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
+	database "github.com/DnaDiff/forum/new-forum/dbfunctions"
 	"github.com/DnaDiff/forum/new-forum/src/handlers"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 const PORT = "8080"
 
 func main() {
 	// Establish connection to the database
-	var db *sql.DB
-	// db, err := sql.Open("sqlite3", "./database/database.db")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer db.Close()
-	// database.InitDatabase(db)
+	db, err := sql.Open("sqlite3", "./database/database.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	database.InitDatabase(db)
 
 	// Create the mux to handle the routes
 	mux := handlers.RouteHandler(db)
