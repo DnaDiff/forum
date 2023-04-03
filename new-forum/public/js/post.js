@@ -41,7 +41,7 @@ class Post extends HTMLElement {
     <header class="post__header">
     <a class="post__username" href="#/profile/${this._userID}">${this._username}</a>
     <span class="post__separator">|</span>
-    <div class="post__title">${this._title}</div>
+    <span class="post__title">${this._title}</span>
     <time class="post__date">${this._date}</time>
     <div class="post__comments">
       <img
