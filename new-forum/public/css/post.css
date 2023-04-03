@@ -225,3 +225,8 @@
 .post__interaction:active {
   transform: scale(0.9);
 }
+
+.post__interaction--selected {
+  filter: invert(77%) sepia(77%) saturate(1885%) hue-rotate(358deg)
+    brightness(104%) contrast(105%);
+}
