@@ -16,6 +16,39 @@ type Post struct {
 
 // Working functions
 
+// GetAllPosts gets all the posts in the database
+func GetAllPosts(db *sql.DB) ([]*Post, error) {
+	query := `SELECT id, user_id, title, content, category, created
+			  FROM posts`
+
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+
+	rows, err := stmt.Query()
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	posts := []*Post{}
+	for rows.Next() {
+		p := &Post{}
+		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Category, &p.Created)
+		if err != nil {
+			return nil, err
+		}
+
+		posts = append(posts, p)
+	}
+
+	return posts, nil
+}
+
 // GetAllPostsByCategory gets all the posts in a category
 func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 	query := `SELECT id, user_id, title, content, category, created
