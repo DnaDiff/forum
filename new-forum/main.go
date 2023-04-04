@@ -23,19 +23,6 @@ func main() {
 	defer db.Close()
 	database.InitDatabase(db)
 
-	// database.CreateUser(db,
-
-	// user := database.User{
-	// 	Username:  "Vermin Supreme",
-	// 	Age:       56,
-	// 	Gender:    "male",
-	// 	FirstName: "Vermin",
-	// 	LastName:  "Supreme",
-	// 	Email:     "VerminForPresident2024@gmail.com",
-	// }
-
-	// database.CreateUser(db, &user)
-
 	// Create the mux to handle the routes
 	mux := handlers.RouteHandler(db)
 
