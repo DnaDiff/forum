@@ -40,6 +40,9 @@
               >Register</a
             >
           </li>
+          <li>
+            <a id="logout-btn" style="display: none">Logout</a>
+          </li>
         </ul>
       </nav>
 
@@ -52,6 +55,7 @@
             <li>
               <h3>Welcome back!</h3>
               <input
+                id="login-username"
                 maxlength="12"
                 type="text"
                 placeholder="Username"
@@ -60,13 +64,16 @@
             </li>
             <li>
               <input
+                id="login-password"
                 type="password"
                 placeholder="Password"
                 class="form-input"
               />
             </li>
             <li>
-              <button type="submit" class="submit-btn">Login</button>
+              <button id="login-submit-btn" type="submit" class="submit-btn">
+                Login
+              </button>
             </li>
             <li>
               <span type="button" class="close-btn">&times; </span>
@@ -83,6 +90,7 @@
             <li>
               <h3>Create an account</h3>
               <input
+                id="register-username"
                 maxlength="12"
                 type="text"
                 placeholder="Username"
@@ -90,10 +98,16 @@
               />
             </li>
             <li>
-              <input type="email" placeholder="Email" class="form-input" />
+              <input
+                id="register-email"
+                type="email"
+                placeholder="Email"
+                class="form-input"
+              />
             </li>
             <li>
               <input
+                id="register-password"
                 type="password"
                 placeholder="Password"
                 class="form-input"
@@ -101,6 +115,7 @@
             </li>
             <li>
               <input
+                id="register-confirm-password"
                 type="password"
                 placeholder="Confirm Password"
                 class="form-input"
@@ -146,5 +161,6 @@
     <!-- Scripts -->
     <script src="js/header.js" defer></script>
     <script src="js/post.js" defer></script>
+    <script src="js/login-register.js" defer></script>
   </body>
 </html>
