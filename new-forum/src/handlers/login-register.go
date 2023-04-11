@@ -40,7 +40,7 @@ func HandleRegister(w http.ResponseWriter, r *http.Request , db *sql.DB) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
+		log.Printf("User created: %+v\n", user)
 		w.WriteHeader(http.StatusCreated)
 	} else {
 		fmt.Println("mitä vittua")

@@ -6,16 +6,16 @@ import (
 )
 
 type User struct {
-	ID             int
-	ProfilePicture string
-	Username       string
-	Age            int
-	Gender         string
-	FirstName      string
-	LastName       string
-	Password       string
-	Email          string
-	Joined         string
+    ID             int    `json:"id"`
+    ProfilePicture string `json:"profile_picture"`
+    Username       string `json:"username"`
+    Age            int    `json:"age"`
+    Gender         string `json:"gender"`
+    FirstName      string `json:"first_name"`
+    LastName       string `json:"last_name"`
+    Passwrd        string `json:"passwrd"`
+    Email          string `json:"email"`
+    Joined         string `json:"joined"`
 }
 
 // Working functions
@@ -43,7 +43,7 @@ func CreateUser(db *sql.DB, u *User) error {
 	}
 	defer stmt.Close()
 
-	args := []interface{}{u.Username, u.Age, u.Gender, u.FirstName, u.LastName, u.Password, u.Email}
+	args := []interface{}{u.Username, u.Age, u.Gender, u.FirstName, u.LastName, u.Passwrd, u.Email}
 	if u.ProfilePicture != "" {
 		args = append(args, u.ProfilePicture)
 	}
@@ -148,7 +148,7 @@ func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 	row := stmt.QueryRow(username)
 
 	u := &User{}
-	err = row.Scan(&u.ID, &u.ProfilePicture, &u.Username, &u.Age, &u.Gender, &u.FirstName, &u.LastName, &u.Password, &u.Email, &u.Joined)
+	err = row.Scan(&u.ID, &u.ProfilePicture, &u.Username, &u.Age, &u.Gender, &u.FirstName, &u.LastName, &u.Passwrd, &u.Email, &u.Joined)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, fmt.Errorf("user: " + "\"" + username + "\"" + " not found")
