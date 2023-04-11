@@ -59,6 +59,7 @@ async function registerUser() {
     alert("Passwords do not match.");
     return;
   }
+
   fetch("/register", {
     method: "POST",
     headers: {
@@ -67,11 +68,12 @@ async function registerUser() {
     body: JSON.stringify({ username, email, password }),
   })
     .then(async (response) => {
+      // Add 'async' here
       if (response.status === 201) {
         console.log(username, password, email);
         alert("Registration successful.");
         window.location.href = "/";
-        await updateButtonVisibility();
+        await updateButtonVisibility(); // 'await' is now allowed here
       } else {
         alert("Registration failed. Please try again.");
       }
@@ -147,7 +149,7 @@ async function updateButtonVisibility() {
   const registerBtn = document.getElementById("register-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  const loggedIn = await isLoggedIn();
+  const loggedIn = await isLoggedIn(); // Add 'await' here
 
   if (loggedIn) {
     loginBtn.style.display = "none";

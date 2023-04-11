@@ -12,11 +12,14 @@ func RouteHandler(db *sql.DB) *http.ServeMux {
 	mux.HandleFunc("/", createHandlerFunc(HandleIndex, db))          // Main page
 	mux.HandleFunc("/api/posts", createHandlerFunc(HandlePost, db))  // Returns all posts
 	mux.HandleFunc("/api/posts/", createHandlerFunc(HandlePost, db)) // Post specific requests, e.g. data, upvote, downvote, comment, etc.
-	// mux.HandleFunc("/login", createHandlerFunc(HandleLogin, db))
-	// mux.HandleFunc("/logout", createHandlerFunc(HandleLogout, db))
-	// mux.HandleFunc("/register", createHandlerFunc(HandleRegister, db))
+	mux.HandleFunc("/login", createHandlerFunc(HandleLogin, db))
+	mux.HandleFunc("/logout", createHandlerFunc(HandleLogout, db))
+	mux.HandleFunc("/register", createHandlerFunc(HandleRegister, db))
+	mux.HandleFunc("/api/verify-session", createHandlerFunc(HandleVerifySession, db))
+
 	return mux
 }
+
 
 func createHandlerFunc(fn func(http.ResponseWriter, *http.Request, *sql.DB), db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
