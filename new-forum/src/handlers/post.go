@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/gofrs/uuid"
 )
 
 type Post struct {
@@ -113,16 +115,43 @@ func CreatePost(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	// Add post to database
 	// fmt.Println("POST request to /api/posts/create")
 
+
 	// Placeholder
 	w.WriteHeader(http.StatusOK)
 }
 
 func CommentPost(w http.ResponseWriter, r *http.Request, db *sql.DB, parentID string) {
-	// Add new post to database with parentID and add ID to parent post's comments
-	// fmt.Println("POST request to /api/posts/{id}/comment")
+	var newComment Post
 
-	// Placeholder
-	w.WriteHeader(http.StatusOK)
+	err := json.NewDecoder(r.Body).Decode(&newComment)
+	if err != nil{
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	newCommentUUID, err := uuid.NewV4()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	newComment.ID = newCommentUUID.String()
+	newComment.ParentID = parentID
+	
+	_ , err = db.Exec(`INSERT INTO posts (id, parent_id, title, content,date,rating, user_id,username, user_avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+	newComment.ID, newComment.ParentID, newComment.Title, newComment.Content, newComment.Date, newComment.Rating, newComment.UserID, newComment.Username, newComment.UserAvatar)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	_, err = db.Exec(`UPDATE posts SET comments = JSON_ARRAY_APPEND(comments, '$', ?) WHERE id = ?`, newComment.ID, parentID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(newComment)
 }
 
 func UpvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {

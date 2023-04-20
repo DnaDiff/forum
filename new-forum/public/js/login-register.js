@@ -32,11 +32,10 @@ async function logingUser() {
     body: JSON.stringify({ username, password }),
   })
     .then(async (response) => {
-      // Add 'async' here
       if (response.status === 200) {
         alert("Login successful.");
         window.location.href = "/";
-        await updateButtonVisibility(); // 'await' is now allowed here
+        await updateButtonVisibility();
       } else {
         alert("Login failed. Please try again.");
       }
@@ -55,8 +54,16 @@ async function registerUser() {
     "register-confirm-password"
   ).value;
 
-  if (password !== confirmPassword) {
-    alert("Passwords do not match.");
+  if (!validateUsername(username)) {
+    alert("Invalid username.");
+    return;
+  }
+  if (!validateEmail(email)) {
+    alert("Invalid email.");
+    return;
+  }
+  if (!validatePassword(password) || password !== confirmPassword) {
+    alert("Invalid password.");
     return;
   }
 
@@ -68,12 +75,11 @@ async function registerUser() {
     body: JSON.stringify({ username, email, password }),
   })
     .then(async (response) => {
-      // Add 'async' here
       if (response.status === 201) {
         console.log(username, password, email);
         alert("Registration successful.");
         window.location.href = "/";
-        await updateButtonVisibility(); // 'await' is now allowed here
+        await updateButtonVisibility();
       } else {
         alert("Registration failed. Please try again.");
       }
@@ -149,7 +155,7 @@ async function updateButtonVisibility() {
   const registerBtn = document.getElementById("register-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  const loggedIn = await isLoggedIn(); // Add 'await' here
+  const loggedIn = await isLoggedIn();
 
   if (loggedIn) {
     loginBtn.style.display = "none";
@@ -160,4 +166,26 @@ async function updateButtonVisibility() {
     registerBtn.style.display = "inline";
     logoutBtn.style.display = "none";
   }
+}
+
+function validateUsername(username) {
+  const minLength = 3;
+  const maxLength = 20;
+  const usernameRegex = /^[a-zA-Z0-9-_]+$/;
+  return (
+    username.length >= minLength &&
+    username.length <= maxLength &&
+    usernameRegex.test(username)
+  );
+}
+
+function validateEmail(email) {
+  const emailRegex = /^[\w-]+([\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+  return emailRegex.test(email);
+}
+
+function validatePassword(password) {
+  const minLength = 6;
+  const maxLength = 20;
+  return password.length >= minLength && password.length <= maxLength;
 }

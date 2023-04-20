@@ -140,6 +140,19 @@ class Post extends HTMLElement {
       (data) => {
         console.log("Comment");
         // this.querySelector(".post__comments--count").textContent = data.comments.length;
+        let commentElement = new Post(
+          data.ID,
+          data.parentID,
+          null,
+          data.content,
+          data.date,
+          [],
+          data.rating,
+          data.userID,
+          data.username,
+          data.userAvatar
+        );
+        this.querySelector(".post__comments").appendChild(commentElement);
       }
     );
   }
@@ -161,14 +174,35 @@ customElements.define("post-element", Post);
 
 function addInteractionListener(element, endpoint, method, callback) {
   element.addEventListener("click", () => {
-    fetch(endpoint, {
-      method: method,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        callback(data);
+    if (method === "POST" && endpoint.includes("comment")) {
+      const commentContent = prompt("Enter your comment:");
+
+      if (!commentContent) {
+        return;
+      }
+
+      fetch(endpoint, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: commentContent }),
       })
-      .catch((error) => console.error("Interaction failed:", error));
+        .then((response) => response.json())
+        .then((data) => {
+          callback(data);
+        })
+        .catch((error) => console.error("Interaction failed:", error));
+    } else {
+      fetch(endpoint, {
+        method: method,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          callback(data);
+        })
+        .catch((error) => console.error("Interaction failed:", error));
+    }
   });
 }
 
