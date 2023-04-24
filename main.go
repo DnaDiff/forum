@@ -1,19 +1,27 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
-	"github.com/DnaDiff/forum/old-forum/src/database"
-	"github.com/DnaDiff/forum/old-forum/src/handlers"
+	database "github.com/DnaDiff/forum/new-forum/dbfunctions"
+	"github.com/DnaDiff/forum/new-forum/src/handlers"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 const PORT = "8080"
 
 func main() {
 	// Establish connection to the database
-	var db = database.ConnectDB()
+	db, err := sql.Open("sqlite3", "./database/database.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	database.InitDatabase(db)
 
 	// Create the mux to handle the routes
 	mux := handlers.RouteHandler(db)
@@ -28,6 +36,6 @@ func main() {
 	}
 
 	handlers.ServeFiles(mux)
-	fmt.Println("Listening on port :" + PORT)
+	fmt.Println("Listening on port :" + PORT + " Go to:" + " http://localhost:" + PORT)
 	fmt.Println(server.ListenAndServe())
 }

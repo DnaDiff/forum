@@ -1,6 +1,0 @@
-
-//   closeBtn.addEventListener("click", function () {
-//     postFormModal.style.display = "none";
-//     dimmer.style.display = "none";
-//   });
-// }
