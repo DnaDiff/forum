@@ -43,8 +43,6 @@ func createNewSession(db *sql.DB, userId int) (string, error) {
 	}
 	return sessionToken, nil
 }
-
-
 func HandleRegister(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -76,11 +74,56 @@ func HandleRegister(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-		setSession(user.Username, w)
+
+	// Create a new session for the registered user
+	sessionToken, err := createNewSession(db, user.ID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	setSession(sessionToken, user.Username, w)
+	w.WriteHeader(http.StatusCreated)
+}
+
+
+
+/* func HandleRegister(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	if r.Method != "POST" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	if r.Body == nil {
+		http.Error(w, "Request body is empty", http.StatusBadRequest)
+		return
+	}
+	defer r.Body.Close()
+
+	var user database.User
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		http.Error(w, "Error decoding request body", http.StatusBadRequest)
+		return
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Passwrd), bcrypt.DefaultCost)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	user.Passwrd = string(hashedPassword)
+
+	err = database.CreateUser(db, &user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+		setSession(user.Username, user.Username, w)
 		w.WriteHeader(http.StatusCreated)
 	
 }
-
+ */
 func HandleLogin(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -126,18 +169,22 @@ func HandleLogin(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		log.Println("Password comparison failed:", err)
 		response := map[string]string{"Error": "Invalid password"}
 		w.WriteHeader(http.StatusUnauthorized)
+		//----
+
 		json.NewEncoder(w).Encode(response)
-	return
+		return
 	}
+	fmt.Println("IAMHEREEEEE")
 	sessionToken, err := createNewSession(db, dbUser.ID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	log.Println("Password comparison successful")
-	setSession(sessionToken, w)
-	w.WriteHeader(http.StatusOK)
+	log.Println("Setting up the session!")
+		setSession(sessionToken, dbUser.Username, w)
+		w.WriteHeader(http.StatusOK)
+		response := map[string]string{"Success": "Logged in"}
+		json.NewEncoder(w).Encode(response)
 
 }
 
@@ -215,9 +262,10 @@ func getUsernameFromCookie(r *http.Request) (string, error) {
 	return value["username"], nil
 }
 
-func setSession(token string, w http.ResponseWriter) {
-	value := map[string]string {
-		"token": token,
+func setSession(token, username string, w http.ResponseWriter) {
+	value := map[string]string{
+		"token":    token,
+		"username": username,
 	}
 	encoded, err := cookieHandler.Encode("Session", value)
 	if err != nil {
@@ -225,15 +273,16 @@ func setSession(token string, w http.ResponseWriter) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	cookie := &http.Cookie {
-		Name: "Session",
-		Value: encoded,
-		Path: "/",
-		MaxAge: sessionExpiration,
+	cookie := &http.Cookie{
+		Name:     "Session",
+		Value:    encoded,
+		Path:     "/",
+		MaxAge:   sessionExpiration,
 		HttpOnly: true,
 	}
 	http.SetCookie(w, cookie)
 }
+
 
 func getSessionTokenFromCookie(r *http.Request) (string,error) {
 	cookie, err := r.Cookie("Session")

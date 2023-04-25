@@ -32,12 +32,8 @@ class Post extends HTMLElement {
       .querySelector(`.post-category[id="${this._parentID}"]`)
       .appendChild(this);
   }
-
-  connectedCallback() {
-    // Create HTML elements and set values
-    this.id = this._ID;
-    this.classList.add("post");
-    this.innerHTML = `
+  generateTemplate() {
+    return `
     <header class="post__header">
     <a class="post__username" href="#/profile/${this._userID}">${this._username}</a>
     <span class="post__separator">|</span>
@@ -95,6 +91,13 @@ class Post extends HTMLElement {
     </div>
   </section>
   <section class="post__comments"></section>`;
+  }
+
+  connectedCallback() {
+    // Create HTML elements and set values
+    this.id = this._ID;
+    this.classList.add("post");
+    this.innerHTML = this.generateTemplate();
 
     const POST_HEADER = this.querySelector(".post__header");
     const POST_RATING = this.querySelector(".post__rating--count");
@@ -173,8 +176,15 @@ class Post extends HTMLElement {
 customElements.define("post-element", Post);
 
 function addInteractionListener(element, endpoint, method, callback) {
-  element.addEventListener("click", () => {
+  element.addEventListener("click", async () => {
+    // Make this callback async
     if (method === "POST" && endpoint.includes("comment")) {
+      const loggedIn = await isLoggedIn();
+      if (!loggedIn) {
+        alert("You must be logged in to comment.");
+        return;
+      }
+
       const commentContent = prompt("Enter your comment:");
 
       if (!commentContent) {
@@ -250,3 +260,31 @@ function populatePosts() {
 document.addEventListener("DOMContentLoaded", () => {
   populatePosts();
 });
+
+async function isLoggedIn() {
+  const sessionToken = getCookie("sessionToken");
+
+  if (!sessionToken) {
+    return false;
+  }
+
+  try {
+    const response = await fetch("/api/auth/check", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: sessionToken }),
+    });
+
+    const data = await response.json();
+    if (data.valid) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error("Error checking session validity:", error);
+    return false;
+  }
+}

@@ -16,6 +16,8 @@ func RouteHandler(db *sql.DB) *http.ServeMux {
 	mux.HandleFunc("/logout", createHandlerFunc(HandleLogout, db))
 	mux.HandleFunc("/register", createHandlerFunc(HandleRegister, db))
 	mux.HandleFunc("/api/verify-session", createHandlerFunc(HandleVerifySession, db))
+	mux.HandleFunc("/api/auth/check", createHandlerFunc(HandleCheckSession, db))
+
 
 	return mux
 }

@@ -46,3 +46,10 @@ CREATE TABLE IF NOT EXISTS dislikes (
     FOREIGN KEY (post_id) REFERENCES posts(id),
     FOREIGN KEY (comment_id) REFERENCES comments(id)
 );
+
+CREATE TABLE IF NOT EXISTS sessions (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		user_id INTEGER NOT NULL,
+		token TEXT NOT NULL,
+		expires_at TIMESATMP NOT NULL
+);

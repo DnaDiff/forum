@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"log"
 	"time"
 )
 
@@ -12,7 +13,7 @@ type Session struct {
 	ExpiresAt time.Time
 }
 
-func (s *Session) CreateSessionTable(db *sql.DB) error {
+/* func (s *Session) CreateSessionTable(db *sql.DB) error {
 	_, err := db.Exec(`CREATE TABLE IF NOT EXISTS sessions (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		user_id INTEGER NOT NULL,
@@ -20,28 +21,32 @@ func (s *Session) CreateSessionTable(db *sql.DB) error {
 		expires_at TIMESATMP NOT NULL
 	)`)
 	return err
-}
+} */
 
 func CreateSession(db *sql.DB, session *Session) error {
-	result, err := db.Exec("INSERT INTO sessions (user_id, token, expires_at) (VALUES ? ? ?)",session.UserID, session.Token,session.ExpiresAt)
-	if err != nil {
-		return err
-	}
-	id, err := result.LastInsertId()
-	if err != nil {
-		return err
-	}
-	session.ID = int(id)
-	return nil
+    result, err := db.Exec("INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, ?)", session.UserID, session.Token, session.ExpiresAt)
+    if err != nil {
+        log.Println("Error inserting session:", err)
+        return err
+    }
+    id, err := result.LastInsertId()
+    if err != nil {
+        log.Println("Error getting last insert ID:", err)
+        return err
+    }
+    session.ID = int(id)
+    log.Printf("Session inserted: %+v\n", session)
+    return nil
 }
 
 
 
 func GetSessionByToken(db *sql.DB, token string) (Session, error) {
 	var session Session
-	err := db.QueryRow("SELECT id, user_id, token, expires_at FROM sessions WHERE token = ?", token).Scan(&session.Token, &session.ExpiresAt)
+	err := db.QueryRow("SELECT id, user_id, token, expires_at FROM sessions WHERE token = ?", token).Scan(&session.ID, &session.UserID, &session.Token, &session.ExpiresAt)
 	return session, err
 }
+
 
 func ExpireOldSessions(db *sql.DB, userID int) error {
 	_, err := db.Exec("DELETE FROM sessions WHERE user_id = ? AND expires_at < ?", userID, time.Now())
