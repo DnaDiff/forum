@@ -102,6 +102,10 @@ header nav ul button {
   cursor: pointer;
 }
 
+#header .modal--visible {
+  display: block;
+}
+
 #header .form-input:focus {
   border-bottom: 2px solid #000000;
 }

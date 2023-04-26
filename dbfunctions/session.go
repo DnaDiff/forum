@@ -13,15 +13,6 @@ type Session struct {
 	ExpiresAt time.Time
 }
 
-/* func (s *Session) CreateSessionTable(db *sql.DB) error {
-	_, err := db.Exec(`CREATE TABLE IF NOT EXISTS sessions (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		user_id INTEGER NOT NULL,
-		token TEXT NOT NULL,
-		expires_at TIMESATMP NOT NULL
-	)`)
-	return err
-} */
 
 func CreateSession(db *sql.DB, session *Session) error {
     result, err := db.Exec("INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, ?)", session.UserID, session.Token, session.ExpiresAt)

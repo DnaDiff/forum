@@ -184,12 +184,50 @@ function addInteractionListener(element, endpoint, method, callback) {
         alert("You must be logged in to comment.");
         return;
       }
+      const commentFormModal = document.getElementById("comment-form-modal");
+      const dim = document.getElementById("dim");
+      commentFormModal.style.display = "block";
+      dim.style.display = "block";
 
-      const commentContent = prompt("Enter your comment:");
+      const closeBtn = commentFormModal.querySelector(".close-btn");
+      closeBtn.addEventListener("click", () => {
+        commentFormModal.style.display = "none";
+        dim.style.display = "none";
+      });
 
-      if (!commentContent) {
-        return;
-      }
+      dim.addEventListener("click", () => {
+        commentFormModal.style.display = "none";
+        dim.style.display = "none";
+      });
+
+      const commentForm = document.getElementById("comment-form");
+      commentForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const commentContent = document.getElementById("comment-content").value;
+
+        if (!commentContent) {
+          return;
+        }
+
+        try {
+          const response = await fetch(endpoint, {
+            method: method,
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify({ content: commentContent }),
+          });
+          const data = await response.json();
+          callback(data);
+
+          document.getElementById("comment-content").value = "";
+          commentFormModal.style.display = "none";
+          dim.style.display = "none";
+        } catch (error) {
+          console.error("Comment submission failed:", error);
+        }
+      });
 
       fetch(endpoint, {
         method: method,
@@ -259,6 +297,76 @@ function populatePosts() {
 // DOM loaded
 document.addEventListener("DOMContentLoaded", () => {
   populatePosts();
+
+  // Add event listeners for opening and closing modals
+  const modalButtons = document.querySelectorAll(".modal-btn");
+  modalButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const modalId = event.target.dataset.modal;
+      document.getElementById(modalId).classList.add("modal--visible");
+      document.getElementById("dim").classList.add("dim--visible");
+    });
+  });
+
+  // Add event listeners for closing modals
+  const closeButtons = document.querySelectorAll(".close-btn");
+  closeButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const modal = event.target.closest(".modal");
+      modal.classList.remove("modal--visible");
+      document.getElementById("dim").classList.remove("dim--visible");
+    });
+  });
+
+  // Add event listener for comment form submission
+  const commentForm = document.getElementById("comment-form");
+  commentForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const postId = commentForm.dataset.postId;
+    const commentContent = document.getElementById("comment-content").value;
+
+    if (!commentContent) {
+      return;
+    }
+
+    fetch(`/api/posts/${postId}/comment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ content: commentContent }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        let postElement = document.querySelector(
+          `post-element[id="${postId}"]`
+        );
+        let commentElement = new Post(
+          data.ID,
+          data.parentID,
+          null,
+          data.content,
+          data.date,
+          [],
+          data.rating,
+          data.userID,
+          data.username,
+          data.userAvatar
+        );
+        postElement
+          .querySelector(".post__comments")
+          .appendChild(commentElement);
+      })
+      .catch((error) => console.error("Interaction failed:", error));
+
+    // Close the comment modal and clear the input
+    document
+      .getElementById("comment-form-modal")
+      .classList.remove("modal--visible");
+    document.getElementById("dim").classList.remove("dim--visible");
+    document.getElementById("comment-content").value = "";
+  });
 });
 
 async function isLoggedIn() {
