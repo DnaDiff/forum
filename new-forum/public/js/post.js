@@ -29,7 +29,8 @@ class Post extends HTMLElement {
       throw new Error("Post must have a parentID");
     }
     document
-      .querySelector(`.post-category[id="${this._parentID}"]`)
+      .querySelector(`.category[id="${this._parentID}"]`)
+      .querySelector(".category__posts")
       .appendChild(this);
   }
 
@@ -175,7 +176,13 @@ function addInteractionListener(element, endpoint, method, callback) {
 // Fetch all posts from database endpoint and append to page
 function populatePosts() {
   fetch("/api/posts")
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Could not get posts");
+      }
+    })
     .then((data) => {
       data.forEach((post) => {
         let postElement = new Post(
@@ -214,5 +221,5 @@ function populatePosts() {
 
 // DOM loaded
 document.addEventListener("DOMContentLoaded", () => {
-  populatePosts();
+  // populatePosts();
 });
