@@ -15,9 +15,10 @@ CREATE TABLE IF NOT EXISTS posts (
     user_id INTEGER NOT NULL,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    category VARCHAR(255) NOT NULL,
+    category_id INTEGER NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 CREATE TABLE IF NOT EXISTS comments (
     id INTEGER NOT NULL PRIMARY KEY,
@@ -45,4 +46,8 @@ CREATE TABLE IF NOT EXISTS dislikes (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (post_id) REFERENCES posts(id),
     FOREIGN KEY (comment_id) REFERENCES comments(id)
+);
+CREATE TABLE IF NOT EXISTS categories (
+    id INTEGER NOT NULL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL
 );
