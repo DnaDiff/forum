@@ -6,19 +6,19 @@ import (
 )
 
 type Post struct {
-	ID       int
-	UserID   int
-	Title    string
-	Content  string
-	Category string
-	Created  time.Time
+	ID         int
+	UserID     int
+	Title      string
+	Content    string
+	CategoryID int
+	Created    time.Time
 }
 
 // Working functions
 
 // GetAllPosts gets all the posts in the database
 func GetAllPosts(db *sql.DB) ([]*Post, error) {
-	query := `SELECT id, user_id, title, content, category, created
+	query := `SELECT id, user_id, title, content, category_id, created
 			  FROM posts`
 
 	stmt, err := db.Prepare(query)
@@ -38,7 +38,7 @@ func GetAllPosts(db *sql.DB) ([]*Post, error) {
 	posts := []*Post{}
 	for rows.Next() {
 		p := &Post{}
-		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Category, &p.Created)
+		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CategoryID, &p.Created)
 		if err != nil {
 			return nil, err
 		}
@@ -49,11 +49,11 @@ func GetAllPosts(db *sql.DB) ([]*Post, error) {
 	return posts, nil
 }
 
-// GetAllPostsByCategory gets all the posts in a category
-func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
-	query := `SELECT id, user_id, title, content, category, created
-			  FROM posts	
-			  WHERE category = ?`
+// GetAllPostsByCategoryID gets all the posts in a category
+func GetAllPostsByCategoryID(db *sql.DB, categoryID int) ([]*Post, error) {
+	query := `SELECT id, user_id, title, content, category_id, created
+			  FROM posts
+			  WHERE category_id = ?`
 
 	stmt, err := db.Prepare(query)
 	if err != nil {
@@ -62,7 +62,7 @@ func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 
 	defer stmt.Close()
 
-	rows, err := stmt.Query(category)
+	rows, err := stmt.Query(categoryID)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 	posts := []*Post{}
 	for rows.Next() {
 		p := &Post{}
-		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Category, &p.Created)
+		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CategoryID, &p.Created)
 		if err != nil {
 			return nil, err
 		}
@@ -85,7 +85,7 @@ func GetAllPostsByCategory(db *sql.DB, category string) ([]*Post, error) {
 
 // GetPost gets a post by its ID
 func GetPost(db *sql.DB, postId int) (*Post, error) {
-	query := `SELECT id, user_id, title, content, category, created
+	query := `SELECT id, user_id, title, content, category_id, created
 			  FROM posts
 			  WHERE id = ?`
 
@@ -97,7 +97,7 @@ func GetPost(db *sql.DB, postId int) (*Post, error) {
 	defer stmt.Close()
 
 	p := &Post{}
-	err = stmt.QueryRow(postId).Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Category, &p.Created)
+	err = stmt.QueryRow(postId).Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CategoryID, &p.Created)
 	if err != nil {
 		return nil, err
 	}
@@ -186,14 +186,14 @@ func GetPostDislikes(db *sql.DB, postId int) (int, error) {
 // CreatePost creates a post and updates the post count for the user who created the post
 func CreatePost(db *sql.DB, post *Post) error {
 	// Prepare the SQL statement
-	stmt, err := db.Prepare("INSERT INTO posts(user_id, title, content, category) VALUES (?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO posts(user_id, title, content, category_id) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
 	// Execute the SQL statement
-	result, err := stmt.Exec(post.UserID, post.Title, post.Content, post.Category)
+	result, err := stmt.Exec(post.UserID, post.Title, post.Content, post.CategoryID)
 	if err != nil {
 		return err
 	}
