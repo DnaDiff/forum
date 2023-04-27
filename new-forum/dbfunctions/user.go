@@ -161,7 +161,7 @@ func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 
 // GetUserPosts gets all the posts the user has created
 func GetUserPosts(db *sql.DB, userID int) ([]*Post, error) {
-	query := `SELECT id, user_id, title, content, category, created
+	query := `SELECT id, user_id, title, content, _id, created
 			  FROM posts	
 			  WHERE user_id = ?`
 
@@ -180,7 +180,7 @@ func GetUserPosts(db *sql.DB, userID int) ([]*Post, error) {
 	posts := []*Post{}
 	for rows.Next() {
 		p := &Post{}
-		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Category, &p.Created)
+		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CategoryID, &p.Created)
 		if err != nil {
 			return nil, fmt.Errorf("scan error: %w", err)
 		}
