@@ -5,13 +5,11 @@ class Category extends HTMLElement {
     this._ID = ID;
     this._title = title;
     this._posts = posts;
-    this._postIndex = 0; // Last post index fetched
 
     // Append post to category
     if (this._ID === null) {
       throw new Error("Category must have an ID");
     }
-    document.querySelector(`.post-container`).appendChild(this);
   }
 
   connectedCallback() {
@@ -22,44 +20,26 @@ class Category extends HTMLElement {
     <header class="category__header">
       <span class="category__title">${this._title}</span>
     </header>
-    <section class="category__posts"></section>
-    <footer class="category__footer"></footer>
+    <section class="category__posts">
+      <footer class="category__footer"></footer>
+    </section>
     `;
 
-    this.addEventListener("click", () => {
+    this.querySelector(".category__header").addEventListener("click", () => {
+      if (this.querySelector(".category__posts").children.length === 1) {
+        this.fetchPosts();
+      }
       this.classList.toggle("category--expanded");
-      this.togglePosts();
     });
-  }
-
-  togglePosts() {
-    const POSTS = this.querySelector(".category__posts");
-    if (POSTS.innerHTML === "") {
-      this.fetchPosts();
-    } else {
-      POSTS.innerHTML = "";
-    }
   }
 
   fetchPosts() {
     // Get posts from server
-    console.log(this._ID);
-    const QUEUED_POST_IDS = this._posts.slice(
-      this._postIndex,
-      this._postIndex + 5
-    );
     fetch(`/api/categories/${this._ID}/posts`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        postIDs: QUEUED_POST_IDS,
-      }),
     })
       .then((response) => {
         if (response.ok) {
-          postIndex += QUEUED_POST_IDS.length;
           return response.json();
         } else {
           throw new Error("Could not get posts");
@@ -70,7 +50,7 @@ class Category extends HTMLElement {
         posts.forEach((post) => {
           const postElement = new Post(
             post.ID,
-            post.parentID,
+            post.categoryID,
             post.title,
             post.content,
             post.date,
@@ -80,7 +60,10 @@ class Category extends HTMLElement {
             post.username,
             post.userAvatar
           );
-          this.querySelector(".category__posts").appendChild(postElement);
+          this.querySelector(".category__posts").insertBefore(
+            postElement,
+            this.querySelector(".category__footer")
+          );
         });
       })
       .catch((error) => {
@@ -107,10 +90,8 @@ function fetchCategories() {
       }
     })
     .then((categories) => {
-      console.log(categories);
       // Create category elements
       Object.values(categories).forEach((category) => {
-        console.log(category);
         const categoryElement = new Category(
           category.ID,
           category.title,

@@ -1,7 +1,7 @@
 class Post extends HTMLElement {
   constructor(
     ID,
-    parentID,
+    categoryID,
     title,
     content,
     date,
@@ -14,7 +14,7 @@ class Post extends HTMLElement {
     super();
 
     this._ID = ID;
-    this._parentID = parentID;
+    this._categoryID = categoryID;
     this._title = title;
     this._content = content;
     this._date = date;
@@ -24,14 +24,9 @@ class Post extends HTMLElement {
     this._username = username;
     this._userAvatar = userAvatar;
 
-    // Append post to category
-    if (this._parentID === null) {
-      throw new Error("Post must have a parentID");
+    if (this._categoryID === null) {
+      throw new Error("Post must have a categoryID");
     }
-    document
-      .querySelector(`.category[id="${this._parentID}"]`)
-      .querySelector(".category__posts")
-      .appendChild(this);
   }
 
   connectedCallback() {
@@ -112,7 +107,7 @@ class Post extends HTMLElement {
     // Add event listeners to post interactions
     addInteractionListener(
       POST_UPVOTE,
-      `/api/posts/${this._ID}/upvote`,
+      `/api/categories/${this._categoryID}/posts/${this._ID}`,
       "POST",
       (data) => {
         if (POST_DOWNVOTE.classList.contains("post__interaction--selected")) {
@@ -120,11 +115,12 @@ class Post extends HTMLElement {
         }
         POST_UPVOTE.classList.toggle("post__interaction--selected");
         POST_RATING.textContent = data.rating;
-      }
+      },
+      { action: "upvote" }
     );
     addInteractionListener(
       POST_DOWNVOTE,
-      `/api/posts/${this._ID}/downvote`,
+      `/api/categories/${this._categoryID}/posts/${this._ID}`,
       "PUT",
       (data) => {
         if (POST_UPVOTE.classList.contains("post__interaction--selected")) {
@@ -132,16 +128,18 @@ class Post extends HTMLElement {
         }
         POST_DOWNVOTE.classList.toggle("post__interaction--selected");
         POST_RATING.textContent = data.rating;
-      }
+      },
+      { action: "downvote" }
     );
     addInteractionListener(
       POST_COMMENT,
-      `/api/posts/${this._ID}/comment`,
+      `/api/categories/${this._categoryID}/posts/${this._ID}`,
       "POST",
       (data) => {
         console.log("Comment");
         // this.querySelector(".post__comments--count").textContent = data.comments.length;
-      }
+      },
+      { action: "comment" }
     );
   }
 
@@ -160,10 +158,17 @@ class Post extends HTMLElement {
 }
 customElements.define("post-element", Post);
 
-function addInteractionListener(element, endpoint, method, callback) {
+function addInteractionListener(
+  element,
+  endpoint,
+  method,
+  callback,
+  data = {}
+) {
   element.addEventListener("click", () => {
     fetch(endpoint, {
       method: method,
+      body: JSON.stringify(data),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -171,52 +176,6 @@ function addInteractionListener(element, endpoint, method, callback) {
       })
       .catch((error) => console.error("Interaction failed:", error));
   });
-}
-
-// Fetch all posts from database endpoint and append to page
-function populatePosts() {
-  fetch("/api/posts")
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Could not get posts");
-      }
-    })
-    .then((data) => {
-      data.forEach((post) => {
-        let postElement = new Post(
-          post.ID,
-          post.parentID,
-          post.title,
-          post.content,
-          post.date,
-          post.comments,
-          post.rating,
-          post.userID,
-          post.username,
-          post.userAvatar
-        );
-
-        // Add comments to post
-        post.comments.forEach((comment) => {
-          let commentElement = new Post(
-            comment.ID,
-            comment.parentID,
-            comment.content,
-            comment.date,
-            comment.rating,
-            comment.userID,
-            comment.username,
-            comment.userAvatar
-          );
-          postElement
-            .querySelector(".post__comments")
-            .appendChild(commentElement);
-        });
-      });
-    })
-    .catch((error) => console.error(error));
 }
 
 // DOM loaded
