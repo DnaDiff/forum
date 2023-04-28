@@ -161,7 +161,7 @@ func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 
 // GetUserPosts gets all the posts the user has created
 func GetUserPosts(db *sql.DB, userID int) ([]*Post, error) {
-	query := `SELECT id, user_id, title, content, _id, created
+	query := `SELECT id, user_id, title, content, category_id, created
 			  FROM posts	
 			  WHERE user_id = ?`
 
