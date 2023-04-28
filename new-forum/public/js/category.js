@@ -26,9 +26,19 @@ class Category extends HTMLElement {
     `;
 
     this.querySelector(".category__header").addEventListener("click", () => {
+      // Fetch posts if category is expanding for the first time
       if (this.querySelector(".category__posts").children.length === 1) {
         this.fetchPosts();
       }
+
+      // Collapse any expanded posts inside category if category remained collapsed for 500ms
+      setTimeout(() => {
+        if (!this.classList.contains("category--expanded")) {
+          this.querySelectorAll(".post--expanded").forEach((post) => {
+            post.classList.remove("post--expanded");
+          });
+        }
+      }, 500);
       this.classList.toggle("category--expanded");
     });
   }
