@@ -7,22 +7,23 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	database "github.com/DnaDiff/forum/new-forum/src/dbfunctions"
 )
 
 type Category struct {
-	ID    string   `json:"ID"`
-	Title string   `json:"title"`
-	Posts []string `json:"posts"`
+	ID    string `json:"ID"`
+	Title string `json:"title"`
 }
 
 // Placeholder data
-var placeholderCategories = map[string]Category{
-	"1": {ID: "1", Title: "Lifestyle", Posts: []string{"123456789", "234567890", "345678901"}},
-	"2": {ID: "2", Title: "Entertainment", Posts: []string{"123456789", "234567890", "345678901"}},
-	"3": {ID: "3", Title: "Health & Wellness", Posts: []string{"123456789", "234567890", "345678901"}},
-	"4": {ID: "4", Title: "Education", Posts: []string{"123456789", "234567890", "345678901"}},
-	"5": {ID: "5", Title: "DIY & Crafts", Posts: []string{"123456789", "234567890", "345678901"}},
-}
+// var placeholderCategories = map[string]Category{
+// 	"1": {ID: "1", Title: "Lifestyle", Posts: []string{"123456789", "234567890", "345678901"}},
+// 	"2": {ID: "2", Title: "Entertainment", Posts: []string{"123456789", "234567890", "345678901"}},
+// 	"3": {ID: "3", Title: "Health & Wellness", Posts: []string{"123456789", "234567890", "345678901"}},
+// 	"4": {ID: "4", Title: "Education", Posts: []string{"123456789", "234567890", "345678901"}},
+// 	"5": {ID: "5", Title: "DIY & Crafts", Posts: []string{"123456789", "234567890", "345678901"}},
+// }
 
 /*
 POST /api/categories - Create a category
@@ -55,24 +56,31 @@ func handleCategories(w http.ResponseWriter, r *http.Request, db *sql.DB, parts 
 	}
 }
 
-func getCategories(db *sql.DB) map[string]Category {
+func getCategories(db *sql.DB) []Category {
 	// Fetch all categories from database below
+	categoriesDB, err := database.GetCategories(db)
+	if err != nil {
+		fmt.Printf("Error getting categories from database: %v\n", err)
+		return nil
+	}
 
-	// Placeholder
-	return placeholderCategories
+	// Convert categoriesDB to categories
+	categories := []Category{}
+	for _, categoryDB := range categoriesDB {
+		categories = append(categories, Category{ID: strconv.Itoa(categoryDB.ID), Title: categoryDB.Title})
+	}
+
+	return categories
 }
 
 // Get all category postIDs from database
 func getCategoriesJSON(w http.ResponseWriter, r *http.Request, db *sql.DB) {
-	// categories := []Category{}
-	// // Convert map to slice (to not get an object)
-	// for _, category := range getCategories(db) {
-	// 	categories = append(categories, category)
-	// }
 	// Convert categories to JSON
 	categoriesJSON, err := json.Marshal(getCategories(db))
 	if err != nil {
-		panic(err)
+		fmt.Printf("Error marshalling categories to JSON: %v\n", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -84,7 +92,7 @@ func getCategoriesJSON(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 func createCategory(w http.ResponseWriter, r *http.Request, db *sql.DB, requestData map[string]interface{}) {
 	// Expect requestData to contain title
 	if len(requestData) == 0 {
-		fmt.Println("No data in request body")
+		fmt.Printf("No data in request body\n")
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
 	}
@@ -92,37 +100,38 @@ func createCategory(w http.ResponseWriter, r *http.Request, db *sql.DB, requestD
 	// Get title from requestData
 	title, ok := requestData["title"].(string)
 	if !ok {
+		fmt.Printf("Error getting title from request body\n")
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
 	}
-	// Add post to database below
 
-	// Placeholder
-	categoryID := strconv.Itoa(len(placeholderCategories) + 1)
-	placeholderCategories[categoryID] = Category{ID: categoryID, Title: strings.ToUpper(title), Posts: []string{}}
+	// Add category to database
+	err := database.AddCategory(db, strings.ToUpper(title))
+	if err != nil {
+		fmt.Printf("Error adding category to database: %v\n", err)
+		http.Error(w, "Error adding category to database", http.StatusInternalServerError)
+		return
+	}
 
 	w.WriteHeader(http.StatusCreated)
 }
 
 // Delete a category from database
 func deleteCategory(w http.ResponseWriter, r *http.Request, db *sql.DB, categoryID string) {
-	// Delete category from database below
+	categoryIDInt, err := strconv.Atoi(categoryID)
+	if err != nil {
+		fmt.Printf("Error converting categoryID to int: %v\n", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
 
-	// Placeholder
-	delete(placeholderCategories, categoryID)
+	// Delete category from database below
+	err = database.RemoveCategory(db, categoryIDInt)
+	if err != nil {
+		fmt.Printf("Error removing category from database: %v\n", err)
+		http.Error(w, "Failed to delete category", http.StatusInternalServerError)
+		return
+	}
 
 	w.WriteHeader(http.StatusNoContent)
-}
-
-func deletePostFromCategory(db *sql.DB, postID string) {
-	// Delete post from category in database below
-
-	// Placeholder
-	for _, category := range placeholderCategories {
-		for i, post := range category.Posts {
-			if post == postID {
-				category.Posts = append(category.Posts[:i], category.Posts[i+1:]...)
-			}
-		}
-	}
 }

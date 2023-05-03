@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type Comment struct {
+type CommentDB struct {
 	ID      int
 	UserID  int
 	PostID  int
@@ -14,7 +14,7 @@ type Comment struct {
 }
 
 // GetComment gets a comment by its ID
-func GetComment(db *sql.DB, commentId int) (*Comment, error) {
+func GetComment(db *sql.DB, commentId int) (*CommentDB, error) {
 	query := `SELECT id, user_id, post_id, content, created
 			  FROM comments
 			  WHERE id = ?`
@@ -26,7 +26,7 @@ func GetComment(db *sql.DB, commentId int) (*Comment, error) {
 
 	defer stmt.Close()
 
-	c := &Comment{}
+	c := &CommentDB{}
 	err = stmt.QueryRow(commentId).Scan(&c.ID, &c.UserID, &c.PostID, &c.Content, &c.Created)
 	if err != nil {
 		return nil, err
@@ -36,7 +36,7 @@ func GetComment(db *sql.DB, commentId int) (*Comment, error) {
 }
 
 // CreateComment creates a comment and associates it with a post
-func CreateComment(db *sql.DB, comment *Comment) error {
+func CreateComment(db *sql.DB, comment *CommentDB) error {
 	stmt, err := db.Prepare("INSERT INTO comments(user_id, post_id, content) VALUES (?, ?, ?)")
 	if err != nil {
 		return err

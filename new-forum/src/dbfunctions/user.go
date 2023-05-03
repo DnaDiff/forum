@@ -160,7 +160,7 @@ func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 }
 
 // GetUserPosts gets all the posts the user has created
-func GetUserPosts(db *sql.DB, userID int) ([]*Post, error) {
+func GetUserPosts(db *sql.DB, userID int) ([]*PostDB, error) {
 	query := `SELECT id, user_id, title, content, category_id, created
 			  FROM posts	
 			  WHERE user_id = ?`
@@ -177,9 +177,9 @@ func GetUserPosts(db *sql.DB, userID int) ([]*Post, error) {
 	}
 	defer rows.Close()
 
-	posts := []*Post{}
+	posts := []*PostDB{}
 	for rows.Next() {
-		p := &Post{}
+		p := &PostDB{}
 		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CategoryID, &p.Created)
 		if err != nil {
 			return nil, fmt.Errorf("scan error: %w", err)
@@ -192,7 +192,7 @@ func GetUserPosts(db *sql.DB, userID int) ([]*Post, error) {
 }
 
 // GetUserComments gets all the comments the user has created
-func GetUserComments(db *sql.DB, userID int) ([]*Comment, error) {
+func GetUserComments(db *sql.DB, userID int) ([]*CommentDB, error) {
 	query := `SELECT id, user_id, post_id, content, created
 			  FROM comments
 			  WHERE user_id = ?`
@@ -209,9 +209,9 @@ func GetUserComments(db *sql.DB, userID int) ([]*Comment, error) {
 	}
 	defer rows.Close()
 
-	comments := []*Comment{}
+	comments := []*CommentDB{}
 	for rows.Next() {
-		c := &Comment{}
+		c := &CommentDB{}
 		err = rows.Scan(&c.ID, &c.UserID, &c.PostID, &c.Content, &c.Created)
 		if err != nil {
 			return nil, fmt.Errorf("scan error: %w", err)

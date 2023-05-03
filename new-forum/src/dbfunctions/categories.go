@@ -10,6 +10,26 @@ type Category struct {
 	Title string
 }
 
+func GetCategories(db *sql.DB) ([]Category, error) {
+	rows, err := db.Query("SELECT id, title FROM categories")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var categories []Category
+	for rows.Next() {
+		var category Category
+		err = rows.Scan(&category.ID, &category.Title)
+		if err != nil {
+			return nil, err
+		}
+		categories = append(categories, category)
+	}
+
+	return categories, nil
+}
+
 func AddCategory(db *sql.DB, title string) error {
 	tx, err := db.Begin()
 	if err != nil {
@@ -81,3 +101,4 @@ func RemoveCategory(db *sql.DB, categoryID int) error {
 	fmt.Printf("Removed category with ID %d and title '%s'\n", categoryID, existingTitle)
 	return nil
 }
+

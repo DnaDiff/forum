@@ -2,12 +2,79 @@ package database
 
 import (
 	"database/sql"
+	"strconv"
 )
+
+// ------------------------------------Get Like/Dislike Post Functions------------------------------------
+
+// Get like count for a post
+func GetLikeCount(db *sql.DB, postID int) (int, error) {
+	var count int
+	err := db.QueryRow("SELECT COUNT(*) FROM likes WHERE post_id=?", postID).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+// Get dislike count for a post
+func GetDislikeCount(db *sql.DB, postID int) (int, error) {
+	var count int
+	err := db.QueryRow("SELECT COUNT(*) FROM dislikes WHERE post_id=?", postID).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+// GetAllUsersLikedPost gets all the users that liked the post
+func GetAllUsersLikedPost(db *sql.DB, postID int) ([]string, error) {
+	rows, err := db.Query("SELECT user_id FROM likes WHERE post_id=?", postID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []string
+	for rows.Next() {
+		var userID int
+		err := rows.Scan(&userID)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, strconv.Itoa(userID))
+	}
+
+	return users, nil
+}
+
+// GetAllUsersDislikedPost gets all the users that disliked the post
+func GetAllUsersDislikedPost(db *sql.DB, postID int) ([]string, error) {
+	rows, err := db.Query("SELECT user_id FROM dislikes WHERE post_id=?", postID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []string
+	for rows.Next() {
+		var userID int
+		err := rows.Scan(&userID)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, strconv.Itoa(userID))
+	}
+
+	return users, nil
+}
 
 // ------------------------------------Like/Dislike Post Functions------------------------------------
 
 // LikePost adds a like to a post
 func LikePost(db *sql.DB, userID int, postID int) error {
+	// Remove dislike from post if user has disliked the post
+	RemoveDislikePost(db, userID, postID)
 	tx, err := db.Begin()
 	if err != nil {
 		return err
@@ -21,7 +88,8 @@ func LikePost(db *sql.DB, userID int, postID int) error {
 		return err
 	}
 	if count > 0 {
-		// User has already liked the post, so do nothing
+		// User has already liked the post, remove like and return
+		RemoveLikePost(db, userID, postID)
 		return nil
 	}
 
@@ -48,6 +116,8 @@ func LikePost(db *sql.DB, userID int, postID int) error {
 
 // DislikePost adds a dislike to a post and updates the dislike count for the OP
 func DislikePost(db *sql.DB, userID int, postID int) error {
+	// Remove like from post if user has liked the post
+	RemoveLikePost(db, userID, postID)
 	tx, err := db.Begin()
 	if err != nil {
 		return err
@@ -61,7 +131,8 @@ func DislikePost(db *sql.DB, userID int, postID int) error {
 		return err
 	}
 	if count > 0 {
-		// User has already disliked the post, so do nothing
+		// User has already disliked the post, remove dislike and return
+		RemoveDislikePost(db, userID, postID)
 		return nil
 	}
 

@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"strconv"
 	"time"
 )
 
@@ -83,6 +84,40 @@ func GetAllPostsByCategoryID(db *sql.DB, categoryID int) ([]*PostDB, error) {
 	return posts, nil
 }
 
+// GetAllPostIDsByCategoryID gets all the post IDs in a category
+func GetAllPostIDsByCategoryID(db *sql.DB, categoryID int) ([]string, error) {
+	query := `SELECT id
+			  FROM posts
+			  WHERE category_id = ?`
+
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+
+	rows, err := stmt.Query(categoryID)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	postIDs := []string{}
+	for rows.Next() {
+		var postID int
+		err = rows.Scan(&postID)
+		if err != nil {
+			return nil, err
+		}
+
+		postIDs = append(postIDs, strconv.Itoa(postID))
+	}
+
+	return postIDs, nil
+}
+
 // GetPost gets a post by its ID
 func GetPost(db *sql.DB, postId int) (*PostDB, error) {
 	query := `SELECT id, user_id, title, content, category_id, created
@@ -106,7 +141,7 @@ func GetPost(db *sql.DB, postId int) (*PostDB, error) {
 }
 
 // GetPostComments gets all the comments for a post
-func GetPostComments(db *sql.DB, postId int) ([]*Comment, error) {
+func GetPostComments(db *sql.DB, postId int) ([]*CommentDB, error) {
 	query := `SELECT id, user_id, post_id, content, created
 			  FROM comments
 			  WHERE post_id = ?`
@@ -125,9 +160,9 @@ func GetPostComments(db *sql.DB, postId int) ([]*Comment, error) {
 
 	defer rows.Close()
 
-	comments := []*Comment{}
+	comments := []*CommentDB{}
 	for rows.Next() {
-		c := &Comment{}
+		c := &CommentDB{}
 		err = rows.Scan(&c.ID, &c.UserID, &c.PostID, &c.Content, &c.Created)
 		if err != nil {
 			return nil, err
