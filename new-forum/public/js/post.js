@@ -5,7 +5,6 @@ class Post extends HTMLElement {
     title,
     content,
     date,
-    comments,
     rating,
     userID,
     username,
@@ -18,7 +17,6 @@ class Post extends HTMLElement {
     this._title = title;
     this._content = content;
     this._date = date;
-    this._comments = comments.length;
     this._rating = rating;
     this._userID = userID;
     this._username = username;
