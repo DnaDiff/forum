@@ -2,7 +2,11 @@ package handlers
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
+	"strconv"
+
+	database "github.com/DnaDiff/forum/new-forum/src/dbfunctions"
 )
 
 type User struct {
@@ -13,21 +17,24 @@ type User struct {
 	Email    string `json:"email"`
 }
 
-const DEFAULT_AVATAR = "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
-
-// Placeholder data
-var users = map[string]User{
-	"123456789": {ID: "123456789", Avatar: DEFAULT_AVATAR, Username: "John_Doe", Password: "password", Email: "john@doe.com"},
-	"234567890": {ID: "234567890", Avatar: DEFAULT_AVATAR, Username: "janedoe", Password: "password", Email: "jane@doe.com"},
-	"345678901": {ID: "345678901", Avatar: DEFAULT_AVATAR, Username: "partyboi", Password: "password", Email: "partyboi@forever.com"},
-}
-
 func getUser(w http.ResponseWriter, r *http.Request, db *sql.DB, userID string) User {
-	// Fetch user from database below
-
-	// Placeholder data
-	if user, ok := users[userID]; ok {
-		return user
+	userIDInt, err := strconv.Atoi(userID)
+	if err != nil {
+		fmt.Printf("Error converting userID to int: %v\n", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}
-	return User{}
+	// Fetch user from database below
+	userDB, err := database.GetUserByID(db, userIDInt)
+	if err != nil {
+		fmt.Printf("Error fetching user from database: %v\n", err)
+		http.Error(w, "Failed to fetch user", http.StatusInternalServerError)
+	}
+	user := User{
+		ID:       strconv.Itoa(userDB.ID),
+		Avatar:   userDB.ProfilePicture,
+		Username: userDB.Username,
+		Password: userDB.Password,
+		Email:    userDB.Email,
+	}
+	return user
 }
