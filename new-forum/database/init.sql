@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER NOT NULL PRIMARY KEY,
-    profile_picture VARCHAR(255) DEFAULT '../public/assets/img/defaultprofile.png',
+    profile_picture VARCHAR(255) DEFAULT 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg',
     username VARCHAR(12) NOT NULL,
     age INTEGER(3) NOT NULL,
     gender VARCHAR(6) NOT NULL,
