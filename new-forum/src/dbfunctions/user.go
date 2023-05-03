@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"strconv"
 )
 
 type User struct {
@@ -152,6 +153,29 @@ func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, fmt.Errorf("user: " + "\"" + username + "\"" + " not found")
+		}
+		return nil, fmt.Errorf("query error: %w", err)
+	}
+
+	return u, nil
+}
+
+// GetUserByID returns a user from the database by ID
+func GetUserByID(db *sql.DB, userID int) (*User, error) {
+	query := "SELECT id, profile_picture, username, age, gender, first_name, last_name, passwrd, email, joined, FROM users WHERE id = ?"
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return nil, fmt.Errorf("prepare statement error: %w", err)
+	}
+	defer stmt.Close()
+
+	row := stmt.QueryRow(userID)
+
+	u := &User{}
+	err = row.Scan(&u.ID, &u.ProfilePicture, &u.Username, &u.Age, &u.Gender, &u.FirstName, &u.LastName, &u.Password, &u.Email, &u.Joined)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("user: " + "\"" + strconv.Itoa(userID) + "\"" + " not found")
 		}
 		return nil, fmt.Errorf("query error: %w", err)
 	}
