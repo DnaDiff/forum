@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	database "github.com/DnaDiff/forum/new-forum/dbfunctions"
+	database "github.com/DnaDiff/forum/new-forum/src/dbfunctions"
 	"github.com/DnaDiff/forum/new-forum/src/handlers"
 	_ "github.com/mattn/go-sqlite3"
 )

@@ -2,13 +2,13 @@ package database
 
 import (
 	"database/sql"
-	"io/ioutil"
 	"log"
+	"os"
 )
 
+// InitDatabase initializes the database
 func InitDatabase(db *sql.DB) {
-	// Execute the contents of the init.sql file
-	sqlScript, err := ioutil.ReadFile("./database/init.sql")
+	sqlScript, err := os.ReadFile("./database/init.sql")
 	if err != nil {
 		log.Fatal(err)
 	}

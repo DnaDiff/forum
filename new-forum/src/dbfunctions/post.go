@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type Post struct {
+type PostDB struct {
 	ID         int
 	UserID     int
 	Title      string
@@ -17,7 +17,7 @@ type Post struct {
 // Working functions
 
 // GetAllPosts gets all the posts in the database
-func GetAllPosts(db *sql.DB) ([]*Post, error) {
+func GetAllPosts(db *sql.DB) ([]*PostDB, error) {
 	query := `SELECT id, user_id, title, content, category_id, created
 			  FROM posts`
 
@@ -35,9 +35,9 @@ func GetAllPosts(db *sql.DB) ([]*Post, error) {
 
 	defer rows.Close()
 
-	posts := []*Post{}
+	posts := []*PostDB{}
 	for rows.Next() {
-		p := &Post{}
+		p := &PostDB{}
 		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CategoryID, &p.Created)
 		if err != nil {
 			return nil, err
@@ -50,7 +50,7 @@ func GetAllPosts(db *sql.DB) ([]*Post, error) {
 }
 
 // GetAllPostsByCategoryID gets all the posts in a category
-func GetAllPostsByCategoryID(db *sql.DB, categoryID int) ([]*Post, error) {
+func GetAllPostsByCategoryID(db *sql.DB, categoryID int) ([]*PostDB, error) {
 	query := `SELECT id, user_id, title, content, category_id, created
 			  FROM posts
 			  WHERE category_id = ?`
@@ -69,9 +69,9 @@ func GetAllPostsByCategoryID(db *sql.DB, categoryID int) ([]*Post, error) {
 
 	defer rows.Close()
 
-	posts := []*Post{}
+	posts := []*PostDB{}
 	for rows.Next() {
-		p := &Post{}
+		p := &PostDB{}
 		err = rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CategoryID, &p.Created)
 		if err != nil {
 			return nil, err
@@ -84,7 +84,7 @@ func GetAllPostsByCategoryID(db *sql.DB, categoryID int) ([]*Post, error) {
 }
 
 // GetPost gets a post by its ID
-func GetPost(db *sql.DB, postId int) (*Post, error) {
+func GetPost(db *sql.DB, postId int) (*PostDB, error) {
 	query := `SELECT id, user_id, title, content, category_id, created
 			  FROM posts
 			  WHERE id = ?`
@@ -96,7 +96,7 @@ func GetPost(db *sql.DB, postId int) (*Post, error) {
 
 	defer stmt.Close()
 
-	p := &Post{}
+	p := &PostDB{}
 	err = stmt.QueryRow(postId).Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CategoryID, &p.Created)
 	if err != nil {
 		return nil, err
@@ -184,7 +184,7 @@ func GetPostDislikes(db *sql.DB, postId int) (int, error) {
 }
 
 // CreatePost creates a post and updates the post count for the user who created the post
-func CreatePost(db *sql.DB, post *Post) error {
+func CreatePost(db *sql.DB, post *PostDB) error {
 	// Prepare the SQL statement
 	stmt, err := db.Prepare("INSERT INTO posts(user_id, title, content, category_id) VALUES (?, ?, ?, ?)")
 	if err != nil {

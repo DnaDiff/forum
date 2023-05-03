@@ -73,6 +73,28 @@ func handlePosts(w http.ResponseWriter, r *http.Request, db *sql.DB, parts []str
 
 }
 
+// type Post struct {
+// 	ID         string   `json:"ID"`
+// 	CategoryID string   `json:"categoryID"`
+// 	Title      string   `json:"title"`
+// 	Content    string   `json:"content"`
+// 	Date       string   `json:"date"`
+// 	Comments   []string `json:"comments"`
+// 	Rating     int      `json:"rating"`
+// 	UserID     string   `json:"userID"`
+// 	Username   string   `json:"username"`
+// 	UserAvatar string   `json:"userAvatar"`
+// }
+
+// type PostDB struct {
+// 	ID         int
+// 	UserID     int
+// 	Title      string
+// 	Content    string
+// 	CategoryID int
+// 	Created    time.Time
+// }
+
 // Get requested posts and their data from database
 func getPostsJSON(w http.ResponseWriter, r *http.Request, db *sql.DB, categoryID string, requestData map[string]interface{}) {
 	var postIDs []interface{}
