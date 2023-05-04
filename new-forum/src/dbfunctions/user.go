@@ -139,7 +139,7 @@ func GetTotalUserPosts(db *sql.DB, userID int) (int, error) {
 
 // GetUserByUsername returns a user from the database by username
 func GetUserByUsername(db *sql.DB, username string) (*User, error) {
-	query := "SELECT id, profile_picture, username, age, gender, first_name, last_name, passwrd, email, joined, FROM users WHERE username = ?"
+	query := "SELECT id, profile_picture, username, age, gender, first_name, last_name, passwrd, email, joined FROM users WHERE username = ?"
 	stmt, err := db.Prepare(query)
 	if err != nil {
 		return nil, fmt.Errorf("prepare statement error: %w", err)
@@ -162,7 +162,7 @@ func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 
 // GetUserByID returns a user from the database by ID
 func GetUserByID(db *sql.DB, userID int) (*User, error) {
-	query := "SELECT id, profile_picture, username, age, gender, first_name, last_name, passwrd, email, joined, FROM users WHERE id = ?"
+	query := "SELECT id, profile_picture, username, age, gender, first_name, last_name, passwrd, email, joined FROM users WHERE id = ?"
 	stmt, err := db.Prepare(query)
 	if err != nil {
 		return nil, fmt.Errorf("prepare statement error: %w", err)
