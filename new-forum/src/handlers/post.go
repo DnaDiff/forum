@@ -25,12 +25,6 @@ type Post struct {
 	UserAvatar string   `json:"userAvatar"`
 }
 
-// var placeholderPosts = map[string]Post{
-// 	"123456789": {ID: "123456789", CategoryID: "1", Title: "Help me make lasagna", Content: "This is post 123456789", Created: "2020-01-01", Comments: []string{}, Rating: 0, UserID: "123456789", Username: "2", UserAvatar: ""},
-// 	"234567890": {ID: "234567890", CategoryID: "3", Title: "Meditation advice", Content: "This is post 234567890", Created: "2020-01-01", Comments: []string{}, Rating: 0, UserID: "123456789", Username: "4", UserAvatar: ""},
-// 	"345678901": {ID: "345678901", CategoryID: "5", Title: "Party tonight in my discord", Content: "This is post 345678901", Created: "2020-01-01", Comments: []string{}, Rating: 0, UserID: "345678901", Username: "", UserAvatar: ""},
-// }
-
 /*
 GET /api/categories/{categoryId}/posts - View posts from a specific category
 POST /api/categories/{categoryId}/posts - Create a post in a specific category
