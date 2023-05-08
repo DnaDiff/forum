@@ -30,9 +30,9 @@ func main() {
 	server := http.Server{
 		Addr:         ":" + PORT,
 		Handler:      mux,
-		ReadTimeout:  10 * time.Second,
+		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  120 * time.Second,
+		IdleTimeout:  20 * time.Second,
 	}
 
 	handlers.ServeFiles(mux)
