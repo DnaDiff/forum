@@ -22,12 +22,14 @@ func getUser(w http.ResponseWriter, r *http.Request, db *sql.DB, userID string) 
 	if err != nil {
 		fmt.Printf("Error converting userID to int: %v\n", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return User{}
 	}
 	// Fetch user from database below
 	userDB, err := database.GetUserByID(db, userIDInt)
 	if err != nil {
 		fmt.Printf("Error fetching user from database: %v\n", err)
 		http.Error(w, "Failed to fetch user", http.StatusInternalServerError)
+		return User{}
 	}
 	user := User{
 		ID:       strconv.Itoa(userDB.ID),
