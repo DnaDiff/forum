@@ -81,17 +81,17 @@ func LikePost(db *sql.DB, userID int, postID int) error {
 	}
 	defer tx.Rollback()
 
-	// Check if the user has already liked the post
-	var count int
-	err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND post_id=?", userID, postID).Scan(&count)
-	if err != nil {
-		return err
-	}
-	if count > 0 {
-		// User has already liked the post, remove like and return
-		RemoveLikePost(db, userID, postID)
-		return nil
-	}
+	// // Check if the user has already liked the post
+	// var count int
+	// err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND post_id=?", userID, postID).Scan(&count)
+	// if err != nil {
+	// 	return err
+	// }
+	// if count > 0 {
+	// 	// User has already liked the post, remove like and return
+	// 	RemoveLikePost(db, userID, postID)
+	// 	return nil
+	// }
 
 	// Insert a new like into the likes table
 	stmt, err := tx.Prepare("INSERT INTO likes (user_id, post_id) VALUES (?, ?)")
@@ -124,17 +124,17 @@ func DislikePost(db *sql.DB, userID int, postID int) error {
 	}
 	defer tx.Rollback()
 
-	// Check if the user has already disliked the post
-	var count int
-	err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND post_id=? AND comment_id IS NULL", userID, postID).Scan(&count)
-	if err != nil {
-		return err
-	}
-	if count > 0 {
-		// User has already disliked the post, remove dislike and return
-		RemoveDislikePost(db, userID, postID)
-		return nil
-	}
+	// // Check if the user has already disliked the post
+	// var count int
+	// err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND post_id=? AND comment_id IS NULL", userID, postID).Scan(&count)
+	// if err != nil {
+	// 	return err
+	// }
+	// if count > 0 {
+	// 	// User has already disliked the post, remove dislike and return
+	// 	RemoveDislikePost(db, userID, postID)
+	// 	return nil
+	// }
 
 	// Insert a new dislike into the likes table
 	stmt, err := tx.Prepare("INSERT INTO dislikes (user_id, post_id) VALUES (?, ?)")
@@ -165,16 +165,16 @@ func RemoveLikePost(db *sql.DB, userID int, postID int) error {
 	}
 	defer tx.Rollback()
 
-	// Check if the user has already liked the post
-	var count int
-	err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND post_id=?", userID, postID).Scan(&count)
-	if err != nil {
-		return err
-	}
-	if count == 0 {
-		// User has not liked the post, so do nothing
-		return nil
-	}
+	// // Check if the user has already liked the post
+	// var count int
+	// err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND post_id=?", userID, postID).Scan(&count)
+	// if err != nil {
+	// 	return err
+	// }
+	// if count == 0 {
+	// 	// User has not liked the post, so do nothing
+	// 	return nil
+	// }
 
 	// Remove the like from the likes table
 	stmt, err := tx.Prepare("DELETE FROM likes WHERE user_id=? AND post_id=?")
@@ -205,16 +205,16 @@ func RemoveDislikePost(db *sql.DB, userID int, postID int) error {
 	}
 	defer tx.Rollback()
 
-	// Check if the user has already disliked the post
-	var count int
-	err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND post_id=?", userID, postID).Scan(&count)
-	if err != nil {
-		return err
-	}
-	if count == 0 {
-		// User has not disliked the post, so do nothing
-		return nil
-	}
+	// // Check if the user has already disliked the post
+	// var count int
+	// err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND post_id=?", userID, postID).Scan(&count)
+	// if err != nil {
+	// 	return err
+	// }
+	// if count == 0 {
+	// 	// User has not disliked the post, so do nothing
+	// 	return nil
+	// }
 
 	// Remove the dislike from the dislikes table
 	stmt, err := tx.Prepare("DELETE FROM dislikes WHERE user_id=? AND post_id=?")
@@ -247,16 +247,16 @@ func LikeComment(db *sql.DB, userID int, commentID int) error {
 	}
 	defer tx.Rollback()
 
-	// Check if the user has already liked the comment
-	var count int
-	err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
-	if err != nil {
-		return err
-	}
-	if count > 0 {
-		// User has already liked the comment, so do nothing
-		return nil
-	}
+	// // Check if the user has already liked the comment
+	// var count int
+	// err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
+	// if err != nil {
+	// 	return err
+	// }
+	// if count > 0 {
+	// 	// User has already liked the comment, so do nothing
+	// 	return nil
+	// }
 
 	// Insert a new like into the likes table
 	stmt, err := tx.Prepare("INSERT INTO likes (user_id, comment_id) VALUES (?, ?)")
@@ -286,16 +286,16 @@ func DislikeComment(db *sql.DB, userID int, commentID int) error {
 		return err
 	}
 	defer tx.Rollback()
-	// Check if the user has already disliked the comment
-	var count int
-	err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
-	if err != nil {
-		return err
-	}
-	if count > 0 {
-		// User has already disliked the comment, so do nothing
-		return nil
-	}
+	// // Check if the user has already disliked the comment
+	// var count int
+	// err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
+	// if err != nil {
+	// 	return err
+	// }
+	// if count > 0 {
+	// 	// User has already disliked the comment, so do nothing
+	// 	return nil
+	// }
 
 	// Insert a new dislike into the dislikes table
 	stmt, err := tx.Prepare("INSERT INTO dislikes (user_id, comment_id) VALUES (?, ?)")
@@ -326,16 +326,16 @@ func RemoveLikeComment(db *sql.DB, userID int, commentID int) error {
 	}
 	defer tx.Rollback()
 
-	// Check if the user has already liked the comment
-	var count int
-	err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
-	if err != nil {
-		return err
-	}
-	if count == 0 {
-		// User has not liked the comment, so do nothing
-		return nil
-	}
+	// // Check if the user has already liked the comment
+	// var count int
+	// err = tx.QueryRow("SELECT COUNT(*) FROM likes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
+	// if err != nil {
+	// 	return err
+	// }
+	// if count == 0 {
+	// 	// User has not liked the comment, so do nothing
+	// 	return nil
+	// }
 
 	// Remove the like from the likes table
 	stmt, err := tx.Prepare("DELETE FROM likes WHERE user_id=? AND comment_id=?")
@@ -366,16 +366,16 @@ func RemoveDislikeComment(db *sql.DB, userID int, commentID int) error {
 	}
 	defer tx.Rollback()
 
-	// Check if the user has already disliked the comment
-	var count int
-	err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
-	if err != nil {
-		return err
-	}
-	if count == 0 {
-		// User has not disliked the comment, so do nothing
-		return nil
-	}
+	// // Check if the user has already disliked the comment
+	// var count int
+	// err = tx.QueryRow("SELECT COUNT(*) FROM dislikes WHERE user_id=? AND comment_id=?", userID, commentID).Scan(&count)
+	// if err != nil {
+	// 	return err
+	// }
+	// if count == 0 {
+	// 	// User has not disliked the comment, so do nothing
+	// 	return nil
+	// }
 
 	// Remove the dislike from the dislikes table
 	stmt, err := tx.Prepare("DELETE FROM dislikes WHERE user_id=? AND comment_id=?")
