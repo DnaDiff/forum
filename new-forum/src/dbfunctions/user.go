@@ -68,6 +68,27 @@ func CreateUser(db *sql.DB, u *User) error {
 	return nil
 }
 
+// checkUser looks up the username and password in the database and returns the user's ID if found and true, otherwise false
+func CheckUser(db *sql.DB, username string, password string) (int, bool) {
+	query := "SELECT id FROM users WHERE username = ? AND passwrd = ?"
+
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return 0, false
+	}
+	defer stmt.Close()
+
+	row := stmt.QueryRow(username, password)
+
+	var userID int
+	err = row.Scan(&userID)
+	if err != nil {
+		return 0, false
+	}
+
+	return userID, true
+}
+
 // GetUserLikes gets the total number of likes the user has received on their posts and comments
 func GetTotalUserLikes(db *sql.DB, userID int) (int, error) {
 	query := `SELECT COUNT(*) 
