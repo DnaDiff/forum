@@ -5,15 +5,39 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	database "github.com/DnaDiff/forum/new-forum/src/dbfunctions"
 )
+
+// CheckCookie checks if the user has a valid cookie
+func CheckCookie(w http.ResponseWriter, r *http.Request, db *sql.DB) (int, bool) {
+	cookie, err := r.Cookie("user")
+	if err != nil {
+		fmt.Println("No cookie found")
+		return 0, false
+	}
+
+	userID, err := strconv.Atoi(cookie.Value)
+	if err != nil {
+		fmt.Println("Invalid cookie")
+		return 0, false
+	}
+
+	// if !database.CheckUserID(db, userID) {
+	// 	fmt.Println("Invalid cookie")
+	// 	return 0, false
+	// }
+
+	return userID, true
+
+}
 
 // CreateCookie takes a username and password and creates a cookie for the user
 func CreateCookie(w http.ResponseWriter, r *http.Request, db *sql.DB, username string, password string) {
 
 	userID, ok := database.CheckUser(db, username, password)
-
+	fmt.Print(ok)
 	if !ok {
 		fmt.Fprint(w, "Invalid credentials")
 		return
@@ -29,6 +53,23 @@ func CreateCookie(w http.ResponseWriter, r *http.Request, db *sql.DB, username s
 	http.SetCookie(w, &cookie)
 
 	fmt.Fprint(w, "Cookie for user "+username+" created")
+}
+
+func HandleLogin(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	fmt.Println("Login request received")
+	var requestData map[string]interface{}
+
+	// Decode JSON request body into requestData
+	json.NewDecoder(r.Body).Decode(&requestData)
+
+	// Check if the request data contains the required fields
+
+	if requestData["username"] == nil || requestData["password"] == nil {
+		http.Error(w, "Invalid request data", http.StatusBadRequest)
+		return
+	}
+
+	CreateCookie(w, r, db, requestData["username"].(string), requestData["password"].(string))
 }
 
 func HandleRegister(w http.ResponseWriter, r *http.Request, db *sql.DB) {
