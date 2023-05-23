@@ -14,7 +14,7 @@ func RouteHandler(db *sql.DB) *http.ServeMux {
 	mux.HandleFunc("/api/categories/", createHandlerFunc(HandleContent, db)) // Category and post specific requests, e.g. data, upvote, downvote, comment, etc.
 	// mux.HandleFunc("/login", createHandlerFunc(HandleLogin, db))
 	// mux.HandleFunc("/logout", createHandlerFunc(HandleLogout, db))
-	// mux.HandleFunc("/register", createHandlerFunc(HandleRegister, db))
+	mux.HandleFunc("/api/register", createHandlerFunc(HandleRegister, db))
 	return mux
 }
 
