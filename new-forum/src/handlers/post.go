@@ -148,6 +148,12 @@ func getPost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) 
 
 // Create a new post under a specified category in database
 func createPost(w http.ResponseWriter, r *http.Request, db *sql.DB, categoryID string, requestData map[string]interface{}) {
+	//Check if user is logged in
+	userID, loggedIn := CheckCookie(w, r, db)
+	if !loggedIn {
+		http.Error(w, "You must be logged in to create a post", http.StatusUnauthorized)
+		return
+	}
 	// Expect requestData to contain data for post
 	if len(requestData) == 0 {
 		fmt.Println("No data in request body")
@@ -180,7 +186,7 @@ func createPost(w http.ResponseWriter, r *http.Request, db *sql.DB, categoryID s
 	}
 
 	// Add post to database
-	err = database.CreatePost(db, &database.PostDB{UserID: 0, Title: title, Content: content, CategoryID: categoryIDInt})
+	err = database.CreatePost(db, &database.PostDB{UserID: userID, Title: title, Content: content, CategoryID: categoryIDInt})
 	if err != nil {
 		fmt.Printf("Error creating post: %v\n", err)
 		http.Error(w, "Failed to create post", http.StatusInternalServerError)
@@ -192,6 +198,13 @@ func createPost(w http.ResponseWriter, r *http.Request, db *sql.DB, categoryID s
 
 // Delete a post from a specified category in database
 func deletePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {
+	//Check if user is logged in
+	_, loggedIn := CheckCookie(w, r, db)
+	if !loggedIn {
+		http.Error(w, "You must be logged in to delete a post", http.StatusUnauthorized)
+		return
+	}
+
 	// Remove post from database below [REQUIRE OWNER AUTHENTICATION THROUGH TOKEN FROM REQUEST HEADER]
 	postIDInt, err := strconv.Atoi(postID)
 	if err != nil {
@@ -211,6 +224,12 @@ func deletePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID strin
 }
 
 func commentPost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string, requestData map[string]interface{}) {
+	//Check if user is logged in
+	userID, loggedIn := CheckCookie(w, r, db)
+	if !loggedIn {
+		http.Error(w, "You must be logged in to comment on a post", http.StatusUnauthorized)
+		return
+	}
 	postIDInt, err := strconv.Atoi(postID)
 	if err != nil {
 		fmt.Printf("Error converting postID to int: %v\n", err)
@@ -226,7 +245,7 @@ func commentPost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID stri
 		return
 	}
 
-	err = database.CreateComment(db, &database.CommentDB{UserID: 0, PostID: postIDInt, Content: content})
+	err = database.CreateComment(db, &database.CommentDB{UserID: userID, PostID: postIDInt, Content: content})
 	if err != nil {
 		fmt.Printf("Error creating comment: %v\n", err)
 		http.Error(w, "Failed to create comment", http.StatusInternalServerError)
@@ -238,6 +257,12 @@ func commentPost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID stri
 }
 
 func upvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {
+	//Check if user is logged in
+	userID, loggedIn := CheckCookie(w, r, db)
+	if !loggedIn {
+		http.Error(w, "You must be logged in to upvote a post", http.StatusUnauthorized)
+		return
+	}
 	// Add upvote from user to database [REQUIRE AUTHENTICATION THROUGH TOKEN FROM REQUEST HEADER]
 	postIDInt, err := strconv.Atoi(postID)
 	if err != nil {
@@ -246,7 +271,7 @@ func upvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID strin
 		return
 	}
 
-	err = database.LikePost(db, 0, postIDInt) // userID = 0 until authentication is implemented
+	err = database.LikePost(db, userID, postIDInt) // userID = 0 until authentication is implemented
 	if err != nil {
 		fmt.Printf("Error upvoting post[%v]: %v\n", postID, err)
 		http.Error(w, "Failed to upvote post", http.StatusInternalServerError)
@@ -257,6 +282,12 @@ func upvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID strin
 }
 
 func downvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {
+	//Check if user is logged in
+	userID, loggedIn := CheckCookie(w, r, db)
+	if !loggedIn {
+		http.Error(w, "You must be logged in to downvote a post", http.StatusUnauthorized)
+		return
+	}
 	// Remove upvote from user in database [REQUIRE AUTHENTICATION THROUGH TOKEN FROM REQUEST HEADER]
 	postIDInt, err := strconv.Atoi(postID)
 	if err != nil {
@@ -265,7 +296,7 @@ func downvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID str
 		return
 	}
 
-	err = database.DislikePost(db, 0, postIDInt) // userID = 0 until authentication is implemented
+	err = database.DislikePost(db, userID, postIDInt) // userID = 0 until authentication is implemented
 	if err != nil {
 		fmt.Printf("Error downvoting post[%v]: %v\n", postID, err)
 		http.Error(w, "Failed to downvote post", http.StatusInternalServerError)

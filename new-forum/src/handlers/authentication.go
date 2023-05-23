@@ -44,10 +44,11 @@ func CreateCookie(w http.ResponseWriter, r *http.Request, db *sql.DB, username s
 	}
 
 	cookie := http.Cookie{
-		Name:   "user",
-		Value:  fmt.Sprint(userID),
-		Path:   "/",
-		MaxAge: 86400, // This cookie will expire after 24 hours
+		Name:     "user",
+		Value:    fmt.Sprint(userID),
+		Path:     "/",
+		MaxAge:   86400, // This cookie will expire after 24 hours
+		HttpOnly: true,
 	}
 
 	http.SetCookie(w, &cookie)
