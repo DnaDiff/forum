@@ -1,37 +1,43 @@
 let registerForm = document.getElementById("register-form");
 
+let elements = document.getElementsByClassName("form-input");
+
+async function submitForm(user) {
+  console.log(user);
+  // send POST request to /register endpoint
+  try {
+    let response = await fetch("http://localhost:8080/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    let data = await response.text();
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+function getUserData() {
+  // get form data
+  return {
+    username: registerForm.querySelector('input[name="username"]').value,
+    email: registerForm.querySelector('input[name="email"]').value,
+    firstname: registerForm.querySelector('input[name="firstname"]').value,
+    lastname: registerForm.querySelector('input[name="lastname"]').value,
+    gender: registerForm.querySelector('select[name="gender"]').value,
+    age: registerForm.querySelector('input[name="age"]').value,
+    password: registerForm.querySelector('input[name="password"]').value,
+    confirmPassword: registerForm.querySelector('input[name="confirmpassword"]')
+      .value,
+  };
+}
+
 registerForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  // get form data
-  let username = registerForm.querySelector('input[type="text"]').value;
-  let email = registerForm.querySelector('input[type="email"]').value;
-  let password = registerForm.querySelector(
-    'input[type="password"]:nth-child(1)'
-  ).value;
-  //   let confirmPassword = registerForm.querySelector(
-  //     'input[type="password"]:nth-child(2)'
-  //   ).value;
-
-  // create user object
-  let user = {
-    username: username,
-    email: email,
-    password: password,
-    // confirmPassword: confirmPassword,
-  };
-
-  console.log(user);
-
-  // send POST request to /register endpoint
-  fetch("http://localhost:8080/api/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
+  let user = getUserData();
+  submitForm(user);
 });
