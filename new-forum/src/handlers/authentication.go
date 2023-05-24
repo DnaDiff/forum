@@ -102,17 +102,32 @@ func HandleRegister(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 	// Create the user
 
+	age, _ := strconv.Atoi(requestData["age"].(string))
+
 	var User database.User
 
 	User.Username = requestData["username"].(string)
 	User.Password = requestData["password"].(string)
 	User.Email = requestData["email"].(string)
+	User.Age = age
+	User.FirstName = requestData["firstname"].(string)
+	User.LastName = requestData["lastname"].(string)
+	User.Gender = requestData["gender"].(string)
+	// fmt.Println(requestData["age"].(float64))
+
+	// fmt.Println(requestData)
 
 	err := database.CreateUser(db, &User)
 	if err != nil {
 		http.Error(w, "Error creating user", http.StatusInternalServerError)
 		return
 	}
-
 	fmt.Fprint(w, "User created successfully")
+}
+
+// function getUser gets all the user data from the request body
+func getUserData(r *http.Request) (User, error) {
+	var user User
+	err := json.NewDecoder(r.Body).Decode(&user)
+	return user, err
 }
