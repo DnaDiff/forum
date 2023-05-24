@@ -83,36 +83,90 @@
           <ul>
             <li>
               <h3>Create an account</h3>
+            </li>
+            <li>
               <input
                 maxlength="12"
                 type="text"
                 placeholder="Username"
                 class="form-input"
+                name="username"
+                required
               />
             </li>
             <li>
-              <input type="email" placeholder="Email" class="form-input" />
+              <input
+                type="number"
+                id="age"
+                name="age"
+                min="1"
+                max="120"
+                placeholder="Age"
+                class="form-input"
+                required
+              />
+            </li>
+            <li>
+              <select id="gender" name="gender" class="form-input" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </li>
+            <li>
+              <input
+                type="text"
+                placeholder="First Name"
+                class="form-input"
+                name="firstname"
+                required
+              />
+            </li>
+            <li>
+              <input
+                type="text"
+                placeholder="Last Name"
+                class="form-input"
+                name="lastname"
+                required
+              />
+            </li>
+            <li>
+              <input
+                type="email"
+                placeholder="Email"
+                class="form-input"
+                name="email"
+                required
+              />
             </li>
             <li>
               <input
                 type="password"
                 placeholder="Password"
                 class="form-input"
+                name="password"
+                required
               />
+            </li>
+            <li>
+              <p id="password-error" class="error-message"></p>
             </li>
             <li>
               <input
                 type="password"
                 placeholder="Confirm Password"
                 class="form-input"
+                name="confirmpassword"
+                required
               />
             </li>
-
             <li>
               <button type="submit" class="submit-btn">Sign Up</button>
             </li>
             <li>
-              <span type="button" class="close-btn">&times; </span>
+              <span class="close-btn">&times; </span>
             </li>
           </ul>
         </form>
