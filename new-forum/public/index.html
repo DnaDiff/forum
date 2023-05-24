@@ -46,6 +46,42 @@
 
       <div class="dim" id="dim"></div>
 
+      <div id="create-post-modal" class="modal">
+        <form id="post-form">
+          <ul>
+            <li>
+              <h3>Create a post</h3>
+            </li>
+            <li>
+              <input
+                type="text"
+                placeholder="Title"
+                class="form-input"
+                name="title"
+                required
+              />
+            </li>
+            <li>
+              <textarea
+                name="content"
+                id="content"
+                cols="30"
+                rows="10"
+                placeholder="Content"
+                class="form-input"
+                required
+              ></textarea>
+            </li>
+            <li>
+              <button type="submit" class="submit-btn">Post</button>
+            </li>
+            <li>
+              <span class="close-btn">&times; </span>
+            </li>
+          </ul>
+        </form>
+      </div>
+
       <!-- Login section -->
       <div id="login-form-modal" class="modal">
         <form id="login-form">
