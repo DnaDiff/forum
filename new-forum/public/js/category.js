@@ -19,6 +19,7 @@ class Category extends HTMLElement {
     this.innerHTML = `
     <header class="category__header">
       <span class="category__title">${this._title}</span>
+      <button id="create-post-btn" class="category__button">Click Me</button>
     </header>
     <section class="category__posts">
       <footer class="category__footer"></footer>
@@ -40,6 +41,20 @@ class Category extends HTMLElement {
         }
       }, 500);
       this.classList.toggle("category--expanded");
+    });
+
+    this.querySelector(".category__button").addEventListener("click", () => {
+      // Button click event
+      console.log("Button clicked!");
+      let dimmer = document.getElementById("dim");
+      let createPostModal = document.getElementById("create-post-modal");
+      dimmer.style.display = "block";
+      createPostModal.style.display = "block";
+      let closeBtn = document.querySelector(".close-btn");
+      closeBtn.addEventListener("click", function () {
+        createPostModal.style.display = "none";
+        dimmer.style.display = "none";
+      });
     });
   }
 
