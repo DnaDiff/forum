@@ -89,69 +89,68 @@ class Post extends HTMLElement {
     </div>
   </section>
   <section class="post__comments"></section>`;
+  const POST_HEADER = this.querySelector(".post__header");
+  const POST_RATING = this.querySelector(".post__rating--count");
+  const POST_UPVOTE = this.querySelector(".post__interaction--upvote");
+  const POST_DOWNVOTE = this.querySelector(".post__interaction--downvote");
+  const POST_COMMENT = this.querySelector(".post__interaction--comment");
 
-    const POST_HEADER = this.querySelector(".post__header");
-    const POST_RATING = this.querySelector(".post__rating--count");
-    const POST_UPVOTE = this.querySelector(".post__interaction--upvote");
-    const POST_DOWNVOTE = this.querySelector(".post__interaction--downvote");
-    const POST_COMMENT = this.querySelector(".post__interaction--comment");
-
-    // Make post expandable
-    POST_HEADER.addEventListener("click", (event) => {
-      if (!event.target.classList.contains("post__username")) {
-        this.classList.toggle("post--expanded");
-      }
-    });
-    // Add event listeners to post interactions
-    addInteractionListener(
-      POST_UPVOTE,
-      `/api/categories/${this._categoryID}/posts/${this._ID}`,
-      "POST",
-      (data) => {
-        if (POST_DOWNVOTE.classList.contains("post__interaction--selected")) {
-          POST_DOWNVOTE.classList.toggle("post__interaction--selected");
-        }
-        POST_UPVOTE.classList.toggle("post__interaction--selected");
-        POST_RATING.textContent = data.rating;
-      },
-      { action: "upvote" }
-    );
-    addInteractionListener(
-      POST_DOWNVOTE,
-      `/api/categories/${this._categoryID}/posts/${this._ID}`,
-      "PUT",
-      (data) => {
-        if (POST_UPVOTE.classList.contains("post__interaction--selected")) {
-          POST_UPVOTE.classList.toggle("post__interaction--selected");
-        }
+  // Make post expandable
+  POST_HEADER.addEventListener("click", (event) => {
+    if (!event.target.classList.contains("post__username")) {
+      this.classList.toggle("post--expanded");
+    }
+  });
+  // Add event listeners to post interactions
+  addInteractionListener(
+    POST_UPVOTE,
+    `/api/categories/${this._categoryID}/posts/${this._ID}`,
+    "POST",
+    (data) => {
+      if (POST_DOWNVOTE.classList.contains("post__interaction--selected")) {
         POST_DOWNVOTE.classList.toggle("post__interaction--selected");
-        POST_RATING.textContent = data.rating;
-      },
-      { action: "downvote" }
-    );
-    addInteractionListener(
-      POST_COMMENT,
-      `/api/categories/${this._categoryID}/posts/${this._ID}`,
-      "POST",
-      (data) => {
-        console.log("Comment");
-        // this.querySelector(".post__comments--count").textContent = data.comments.length;
-      },
-      { action: "comment" }
-    );
+      }
+      POST_UPVOTE.classList.toggle("post__interaction--selected");
+      POST_RATING.textContent = data.rating;
+    },
+    { action: "upvote" }
+  );
+  addInteractionListener(
+    POST_DOWNVOTE,
+    `/api/categories/${this._categoryID}/posts/${this._ID}`,
+    "PUT",
+    (data) => {
+      if (POST_UPVOTE.classList.contains("post__interaction--selected")) {
+        POST_UPVOTE.classList.toggle("post__interaction--selected");
+      }
+      POST_DOWNVOTE.classList.toggle("post__interaction--selected");
+      POST_RATING.textContent = data.rating;
+    },
+    { action: "downvote" }
+  );
+  
+  
+    // Add event listener to comment icon
+    POST_COMMENT.addEventListener("click", () => {
+      // Open the comment form modal
+      const commentFormModal = document.getElementById("comment-form-modal");
+      const commentForm = commentFormModal.querySelector('#comment-form');
+      commentForm.setAttribute('data-category-id', this._categoryID);
+      commentForm.setAttribute('data-post-id', this._ID);
+      commentFormModal.style.display = "block";
+
+     // Close the comment form modal when the close button is clicked
+      const closeBtn = commentFormModal.querySelector(".close-btn");
+      closeBtn.addEventListener("click", () => {
+      commentFormModal.style.display = "none";
+      });
+    });
   }
+
 
   disconnectedCallback() {
     console.log("Post removed");
-
-    // Remove event listeners
-    this.querySelector(".post__header").removeEventListener();
-    this.querySelector(".post__interaction--upvote").removeEventListener();
-    this.querySelector(".post__interaction--downvote").removeEventListener();
-    this.querySelector(".post__interaction--comment").removeEventListener();
-
     // Remove post
-    this.remove();
   }
 }
 customElements.define("post-element", Post);
@@ -168,7 +167,12 @@ function addInteractionListener(
       method: method,
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
         callback(data);
       })
@@ -176,7 +180,67 @@ function addInteractionListener(
   });
 }
 
+
 // DOM loaded
 document.addEventListener("DOMContentLoaded", () => {
   // populatePosts();
+  document.getElementById('submit-comment-button').addEventListener('click', (event) => {
+    event.preventDefault();
+    const comment = document.getElementById('comment-input').value;
+    const commentForm = document.getElementById('comment-form');
+    const categoryID = commentForm.getAttribute('data-category-id');
+    const postID = commentForm.getAttribute('data-post-id');
+  
+    fetch(`/api/categories/${categoryID}/posts/${postID}/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({content: comment}),
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      console.log(response);
+      return response.json();
+    })
+    .then(data => {
+      console.log("i dont come here")
+      // Handle the response data
+      alert(data.message);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  });  
+  document.getElementById('post-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const categoryID = document.getElementById('category-select').value;
+  
+    fetch(`/api/categories/${categoryID}/posts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title: title, content: content }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Handle the response data
+      alert(data.message);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  });  
 });

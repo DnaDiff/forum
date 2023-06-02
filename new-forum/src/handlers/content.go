@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -12,7 +13,7 @@ import (
 func HandleContent(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	parts := strings.Split(strings.TrimSuffix(strings.TrimPrefix(r.URL.Path, "/"), "/"), "/") // Minimize by trimming empty parts
 
-	fmt.Println("Content request:", r.URL.Path, parts)
+	log.Println("Content request:", r.URL.Path, parts)
 
 	if len(parts) >= 2 && len(parts) <= 3 && parts[1] == "categories" {
 		// If the path is /api/categories +{categoryID}, handle with the category handler

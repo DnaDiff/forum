@@ -80,6 +80,7 @@ header nav ul button {
   background-color: white;
   padding: 20px;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
+  z-index: 1000;
   display: none;
 }
 #header .modal ul {
@@ -87,6 +88,7 @@ header nav ul button {
   list-style: none;
   margin: 0px;
   padding: 0px;
+  z-index: 1000;
 }
 #header .form-input {
   padding-top: 8px;
@@ -96,6 +98,7 @@ header nav ul button {
   border-bottom: 2px solid gray;
   outline: none;
   text-align: center;
+  z-index: 1000;
 }
 
 #header .modal-btn {
@@ -146,6 +149,7 @@ header nav ul button {
   background-color: #f8f8f8;
   font-size: 16px;
   resize: none;
+  
 }
 
 #header .submit-btn {

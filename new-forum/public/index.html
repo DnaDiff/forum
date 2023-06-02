@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="css/header.css" />
     <link rel="stylesheet" href="css/category.css" />
     <link rel="stylesheet" href="css/post.css" />
+    <link rel="stylesheet" href="css/utils.css" />
+    <link rel="stylesheet" href="css/comment.css" />
     <link rel="icon" href="images/coc.png" />
     <title>DNA DIFF</title>
   </head>
@@ -48,12 +50,25 @@
 
       <div id="create-post-modal" class="modal">
         <form id="post-form">
+          <li>
+            <select id="category-select" name="category" class="form-input" required>
+              <option value="">Select Category</option>
+              <option value="1">Category 1</option>
+              <option value="2">Category 2</option>
+              <option value="3">Category 3</option>
+              <option value="4">Category 4</option>
+            </select>
+
+          </li>
+
           <ul>
             <li>
               <h3>Create a post</h3>
             </li>
+
             <li>
               <input
+                id="title"
                 type="text"
                 placeholder="Title"
                 class="form-input"
@@ -84,11 +99,12 @@
 
       <!-- Login section -->
       <div id="login-form-modal" class="modal">
-        <form id="login-form">
+        <form id="login-form" autocomplete="off">
           <ul>
             <li>
               <h3>Welcome back!</h3>
               <input
+                id="username-input"
                 maxlength="12"
                 type="text"
                 placeholder="Username"
@@ -97,6 +113,7 @@
             </li>
             <li>
               <input
+                id="password-input"
                 type="password"
                 placeholder="Password"
                 class="form-input"
@@ -115,13 +132,14 @@
 
       <!-- Register section -->
       <div id="register-form-modal" class="modal">
-        <form id="register-form">
+        <form id="register-form" autocomplete="off">
           <ul>
             <li>
               <h3>Create an account</h3>
             </li>
             <li>
               <input
+                id="username"
                 maxlength="12"
                 type="text"
                 placeholder="Username"
@@ -152,6 +170,7 @@
             </li>
             <li>
               <input
+                id="firstname"
                 type="text"
                 placeholder="First Name"
                 class="form-input"
@@ -161,6 +180,7 @@
             </li>
             <li>
               <input
+                id="lastname"
                 type="text"
                 placeholder="Last Name"
                 class="form-input"
@@ -170,6 +190,7 @@
             </li>
             <li>
               <input
+                id="email"
                 type="email"
                 placeholder="Email"
                 class="form-input"
@@ -179,6 +200,7 @@
             </li>
             <li>
               <input
+                id="password"
                 type="password"
                 placeholder="Password"
                 class="form-input"
@@ -191,6 +213,7 @@
             </li>
             <li>
               <input
+                id="confirmpassword"
                 type="password"
                 placeholder="Confirm Password"
                 class="form-input"
@@ -208,6 +231,32 @@
         </form>
       </div>
       <!-- End of register section -->
+    <!-- Comment section -->
+  <div id="comment-form-modal" class="modal">
+    <form id="comment-form" data-category-id="" data-post-id="" autocomplete="off">
+      <ul>
+        <li>
+          <h3>Comment</h3>
+          <textarea
+          id="comment-input"
+          maxlength="100"
+          placeholder="Write your comment here..."
+          class="form-input"
+        ></textarea>
+        
+        </li>
+        <li>
+          <button id="submit-comment-button" type="submit" class="submit-btn">Comment</button>
+        </li>
+        <li>
+          <span class="close-btn">&times; </span>
+        </li>
+      </ul>
+    </form>
+  </div>
+  <!-- End of comment section -->
+
+
     </header>
     <!-- End of header section -->
 

@@ -3,8 +3,12 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
+	"strconv"
+	"time"
+
+	database "github.com/DnaDiff/forum/new-forum/src/dbfunctions"
 )
 
 /*
@@ -15,7 +19,14 @@ Possible parts are [{categoryId}, "posts", {postId}, "comments", {commentId}]
 */
 
 func handleComments(w http.ResponseWriter, r *http.Request, db *sql.DB, parts []string) {
-	var requestData map[string]interface{}
+
+	var requestData map[string]any
+
+	userID, loggedIn := CheckCookie(w, r, db)
+	if !loggedIn {
+		http.Error(w, "You must be logged in to create a post", http.StatusUnauthorized)
+		return
+	}
 
 	// Decode JSON request body into requestData
 	err := json.NewDecoder(r.Body).Decode(&requestData)
@@ -24,15 +35,38 @@ func handleComments(w http.ResponseWriter, r *http.Request, db *sql.DB, parts []
 		return
 	}
 
+	postID, _ := strconv.Atoi(parts[2])
+
+	insertComment := database.CommentInsertDB{
+		UserID:  userID,
+		PostID:  postID,
+		Content: requestData["content"].(string),
+	}
+
+	responseSuccessComment := database.CommentDB{
+		ID:      -1,
+		UserID:  userID,
+		PostID:  postID,
+		Content: requestData["content"].(string),
+		Created: time.Now(),
+	}
+
 	switch r.Method {
 	case "GET":
-		fmt.Println("GET request to /api/categories/" + parts[0] + "/posts/" + parts[2] + "/comments")
+		log.Println("GET request to /api/categories/" + parts[0] + "/posts/" + parts[2] + "/comments")
 		// getComments(w, r, db, parts[0], parts[2])
 	case "POST":
-		fmt.Println("POST request to /api/categories/" + parts[0] + "/posts/" + parts[2] + "/comments")
-		// createComment(w, r, db, requestData, parts[0], parts[2])
+		log.Println("POST request to /api/categories/" + parts[0] + "/posts/" + parts[2] + "/comments")
+		responseSuccessComment.ID, err = database.CreateComment(db, &insertComment)
+		if err != nil {
+			http.Error(w, err.Error()+"Comment could not be created", http.StatusInternalServerError)
+			return
+		}
+		// respond with json and status created
+		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(responseSuccessComment)
 	case "DELETE":
-		fmt.Println("DELETE request to /api/categories/" + parts[0] + "/posts/" + parts[2] + "/comments/" + parts[4])
+		log.Println("DELETE request to /api/categories/" + parts[0] + "/posts/" + parts[2] + "/comments/" + parts[4])
 		// deleteComment(w, r, db, parts[4])
 	}
 }

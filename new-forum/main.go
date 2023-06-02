@@ -15,6 +15,8 @@ import (
 const PORT = "8080"
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.SetFlags(log.Flags() &^ (log.Ldate | log.Ltime))
 	// Establish connection to the database
 	db, err := sql.Open("sqlite3", "./database/database.db")
 	if err != nil {

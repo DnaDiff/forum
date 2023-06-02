@@ -4,9 +4,11 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	database "github.com/DnaDiff/forum/new-forum/src/dbfunctions"
 )
@@ -25,16 +27,6 @@ type Post struct {
 	UserAvatar string   `json:"userAvatar"`
 }
 
-/*
-GET /api/categories/{categoryId}/posts - View posts from a specific category
-POST /api/categories/{categoryId}/posts - Create a post in a specific category
-DELETE /api/categories/{categoryId}/posts/{postId} - Delete a post from a specific category
-POST /api/categories/{categoryId}/posts/{postId} [requestData "action": "upvote"] - Upvote a specific post from a specific category
-PUT /api/categories/{categoryId}/posts/{postId} [requestData "action": "downvote"] - Downvote a specific post from a specific category
-
-Possible parts are [{categoryId}, "posts", {postId}]
-*/
-
 func handlePosts(w http.ResponseWriter, r *http.Request, db *sql.DB, parts []string) {
 	var requestData map[string]interface{}
 
@@ -44,29 +36,31 @@ func handlePosts(w http.ResponseWriter, r *http.Request, db *sql.DB, parts []str
 	switch r.Method {
 	case "GET":
 		if len(parts) == 2 {
-			fmt.Println("GET request to /api/categories/" + parts[0] + "/posts")
+			log.Println("GET request to /api/categories/" + parts[0] + "/posts")
 			getPostsJSON(w, r, db, parts[0])
 		}
 	case "POST":
 		if len(parts) == 2 {
-			fmt.Println("POST request to /api/categories/" + parts[0] + "/posts")
+			log.Println("POST request to /api/categories/" + parts[0] + "/posts")
 			createPost(w, r, db, parts[0], requestData)
 		} else if len(parts) == 3 {
-			fmt.Println("POST request to /api/categories/" + parts[0] + "/posts/" + parts[2])
+			log.Println("POST request to /api/categories/" + parts[0] + "/posts/" + parts[2])
 			upvotePost(w, r, db, parts[2])
+		} else if len(parts) == 4 && parts[3] == "comments" {
+			log.Println("POST request to /api/categories/" + parts[0] + "/posts/" + parts[2] + "/comments")
+			commentPost(w, r, db, parts[2], requestData)
 		}
 	case "DELETE":
 		if len(parts) == 3 {
-			fmt.Println("DELETE request to /api/categories/" + parts[0] + "/posts/" + parts[2])
+			log.Println("DELETE request to /api/categories/" + parts[0] + "/posts/" + parts[2])
 			deletePost(w, r, db, parts[2])
 		}
 	case "PUT":
 		if len(parts) == 3 {
-			fmt.Println("PUT request to /api/categories/" + parts[0] + "/posts/" + parts[2])
+			log.Println("PUT request to /api/categories/" + parts[0] + "/posts/" + parts[2])
 			downvotePost(w, r, db, parts[2])
 		}
 	}
-
 }
 
 // Get requested posts and their data from database
@@ -84,7 +78,6 @@ func getPostsJSON(w http.ResponseWriter, r *http.Request, db *sql.DB, categoryID
 		http.Error(w, "Error getting post IDs", http.StatusInternalServerError)
 		return
 	}
-
 	// Fetch all posts from database
 
 	var posts []Post
@@ -95,14 +88,12 @@ func getPostsJSON(w http.ResponseWriter, r *http.Request, db *sql.DB, categoryID
 		}
 		posts = append(posts, getPost(w, r, db, postID))
 	}
-
 	postsJSON, err := json.Marshal(posts)
 	if err != nil {
 		fmt.Printf("Error marshalling posts: %v\n", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
-
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(postsJSON)
@@ -171,7 +162,7 @@ func createPost(w http.ResponseWriter, r *http.Request, db *sql.DB, categoryID s
 
 	content, ok := requestData["content"].(string)
 	if !ok {
-		fmt.Println("No content found in request body")
+		log.Println("No content found in request body")
 		http.Error(w, "No content found", http.StatusBadRequest)
 		return
 	}
@@ -194,6 +185,8 @@ func createPost(w http.ResponseWriter, r *http.Request, db *sql.DB, categoryID s
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(`{"message": "Post created"}`))
 }
 
 // Delete a post from a specified category in database
@@ -224,6 +217,7 @@ func deletePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID strin
 }
 
 func commentPost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string, requestData map[string]interface{}) {
+	log.Println("I was here like a good boy")
 	//Check if user is logged in
 	userID, loggedIn := CheckCookie(w, r, db)
 	if !loggedIn {
@@ -245,15 +239,31 @@ func commentPost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID stri
 		return
 	}
 
-	err = database.CreateComment(db, &database.CommentDB{UserID: userID, PostID: postIDInt, Content: content})
+	commentID, err := database.CreateComment(db, &database.CommentInsertDB{UserID: userID, PostID: postIDInt, Content: content})
 	if err != nil {
 		fmt.Printf("Error creating comment: %v\n", err)
 		http.Error(w, "Failed to create comment", http.StatusInternalServerError)
 		return
 	}
 
-	// Placeholder
+	comment := database.CommentDB{
+		ID:      commentID,
+		UserID:  userID,
+		PostID:  postIDInt,
+		Content: content,
+		Created: time.Now(),
+	}
+
+	response, err := json.Marshal(comment)
+	if err != nil {
+		fmt.Printf("Error marshalling comment: %v\n", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+	log.Println(response)
 	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(response)
 }
 
 func upvotePost(w http.ResponseWriter, r *http.Request, db *sql.DB, postID string) {

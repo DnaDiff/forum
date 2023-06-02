@@ -130,15 +130,16 @@
   padding-right: 0.5rem;
   margin-bottom: 0.15rem;
   transition: transform 0.2s;
+  z-index: 0;
 }
 
 .post__comments--icon:hover {
   transform: scale(1.1);
 }
 
-.post__comments--icon:active {
+/* .post__comments--icon:active {
   transform: scale(0.9);
-}
+} */
 
 .post__comments--count {
   display: inline-block;

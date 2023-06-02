@@ -28,7 +28,7 @@ class Category extends HTMLElement {
 
     this.querySelector(".category__header").addEventListener("click", () => {
       // Fetch posts if category is expanding for the first time
-      if (this.querySelector(".category__posts").children.length === 1) {
+      if (this.querySelector(".category__posts").children.length === 1 ) {
         this.fetchPosts();
       }
 

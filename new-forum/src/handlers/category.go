@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -41,17 +42,17 @@ func handleCategories(w http.ResponseWriter, r *http.Request, db *sql.DB, parts 
 	switch r.Method {
 	case "GET":
 		if len(parts) == 1 && parts[0] == "categories" {
-			fmt.Println("GET request to /api/categories")
+			log.Println("GET request to /api/categories", r.URL)
 			getCategoriesJSON(w, r, db)
 		} else {
-			fmt.Println("Invalid GET request to " + r.URL.Path)
+			log.Println("Invalid GET request to " + r.URL.Path)
 			http.Error(w, "Bad request", http.StatusBadRequest)
 		}
 	case "POST":
-		fmt.Println("POST request to /api/categories")
+		log.Println("POST request to /api/categories")
 		createCategory(w, r, db, requestData)
 	case "DELETE":
-		fmt.Println("DELETE request to /api/categories/" + parts[1])
+		log.Println("DELETE request to /api/categories/" + parts[1])
 		deleteCategory(w, r, db, parts[1])
 	}
 }

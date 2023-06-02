@@ -101,4 +101,3 @@ func RemoveCategory(db *sql.DB, categoryID int) error {
 	fmt.Printf("Removed category with ID %d and title '%s'\n", categoryID, existingTitle)
 	return nil
 }
-
